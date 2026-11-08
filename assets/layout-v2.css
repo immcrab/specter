@@ -662,3 +662,91 @@ body.build-open { overflow: hidden; }
     .build-tab { flex: 0 0 auto; }
 }
 
+
+/* ── 10. Sponsored partner card (TextNexus) ─────────────────────────── */
+.promo-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 20px;
+    max-width: 620px;
+    margin-top: 26px;
+    padding: 16px 20px;
+    border: 1px solid rgba(166, 120, 255, 0.30);
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg, rgba(166, 120, 255, 0.16), rgba(255, 92, 200, 0.07) 70%),
+        var(--card-bg);
+    backdrop-filter: blur(12px);
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.promo-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 0 26px var(--accent-glow);
+}
+
+.promo-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.promo-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    flex: 1 1 280px;
+}
+
+.promo-badge {
+    align-self: flex-start;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(166, 120, 255, 0.35);
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+.promo-title {
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.4px;
+    color: var(--text-primary);
+}
+
+.promo-ver {
+    color: var(--accent);
+    font-size: 0.85em;
+    margin-left: 2px;
+}
+
+.promo-desc {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+}
+
+.promo-cta {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.18s ease;
+}
+
+.promo-card:hover .promo-cta { border-bottom-color: var(--accent); }
+
+@media (max-width: 900px) {
+    .promo-card { max-width: 100%; }
+    .promo-cta { width: 100%; }
+}
