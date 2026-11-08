@@ -360,3 +360,305 @@ body::after {
     .view-section { max-width: 1520px; }
     #games-content { max-width: 1520px; }
 }
+
+/* ── 9. "Create your own" entry points ─────────────────────────────── */
+.create-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 16px;
+    margin-left: auto;
+    border: 1px solid rgba(166, 120, 255, 0.35);
+    border-radius: 12px;
+    background: rgba(166, 120, 255, 0.14);
+    color: var(--text-primary);
+    font-family: var(--font);
+    font-size: 0.7rem;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.create-cta:hover {
+    background: rgba(166, 120, 255, 0.24);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.create-cta svg { stroke: var(--accent); flex-shrink: 0; }
+
+/* The CTA now takes the auto margin, so the gear/user cluster sits next to it. */
+.sidebar-bottom { margin-left: 14px; }
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.hero-actions .btn-start { margin-top: 0; }
+
+.btn-ghost {
+    padding: 14px 26px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 0.8rem;
+    letter-spacing: 1.4px;
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-ghost:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 18px var(--accent-glow);
+}
+
+/* ── 10. Make-your-own guide overlay ──────────────────────────────── */
+.build-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(6, 4, 12, 0.88);
+    backdrop-filter: blur(14px);
+}
+
+.build-overlay.open { display: flex; animation: fadeIn 0.18s ease; }
+
+.build-panel {
+    width: min(1060px, 100%);
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(166, 120, 255, 0.3);
+    border-radius: 22px;
+    background: linear-gradient(168deg, rgba(32, 23, 54, 0.98), rgba(10, 7, 18, 0.99));
+    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.65);
+}
+
+.build-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-shrink: 0;
+    padding: 26px clamp(20px, 3vw, 40px) 20px;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(700px 200px at 0% 0%, rgba(166, 120, 255, 0.18), transparent 70%);
+}
+
+.build-kicker {
+    font-size: 0.61rem;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.build-head h2 {
+    margin: 0 0 8px;
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+.build-head p { margin: 0; font-size: 0.84rem; line-height: 1.6; color: var(--text-dim); }
+
+.build-close {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.build-close:hover { color: var(--accent); border-color: var(--accent); }
+
+.build-body { overflow-y: auto; padding: 6px clamp(20px, 3vw, 40px) 34px; }
+
+.build-block { padding: 30px 0; border-bottom: 1px solid var(--border); }
+.build-block:last-child { border-bottom: 0; }
+
+.build-block-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+
+.build-num {
+    padding: 3px 8px;
+    border: 1px solid rgba(166, 120, 255, 0.4);
+    border-radius: 8px;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+}
+
+.build-block h3 {
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+.build-copy { margin: 0 0 18px; font-size: 0.84rem; line-height: 1.75; color: var(--text-dim); }
+
+.build-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+
+.build-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.035);
+    color: var(--text-primary);
+    font-family: var(--font);
+    font-size: 0.72rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.build-action:hover { border-color: var(--accent); color: var(--accent); }
+
+.build-action.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #100a1e;
+    font-weight: bold;
+}
+
+.build-action.primary:hover { background: #b892ff; color: #100a1e; }
+
+.build-figures { display: grid; gap: 16px; }
+.build-figures.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.build-figures figure { margin: 0; }
+
+.build-figures img,
+.build-host figure img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.build-figures figcaption,
+.build-host figcaption {
+    margin-top: 9px;
+    font-size: 0.71rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+}
+
+.build-host figure { margin: 18px 0 0; }
+
+.build-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 22px;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.build-tab {
+    flex: 1 1 auto;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 0.71rem;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.16s ease;
+}
+
+.build-tab:hover { color: var(--text-primary); }
+
+.build-tab.active {
+    background: var(--accent);
+    color: #100a1e;
+    font-weight: bold;
+}
+
+.build-host { display: none; }
+.build-host.active { display: block; animation: fadeIn 0.2s ease; }
+
+.build-steps { margin: 0 0 6px; padding-left: 22px; font-size: 0.85rem; line-height: 1.9; color: var(--text-dim); }
+.build-steps li { margin-bottom: 6px; }
+.build-steps strong, .build-steps em { color: var(--text-primary); font-style: normal; }
+
+.build-host code,
+.build-block code {
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: rgba(166, 120, 255, 0.16);
+    color: #ddccff;
+    font-size: 0.92em;
+}
+
+.build-note {
+    margin: 18px 0 0;
+    padding: 10px 0 10px 14px;
+    border-left: 2px solid var(--accent);
+    font-size: 0.79rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+}
+
+.build-list { margin: 0; padding-left: 20px; font-size: 0.84rem; line-height: 1.9; color: var(--text-dim); }
+.build-list strong { color: var(--text-primary); }
+
+.build-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+    padding: 16px clamp(20px, 3vw, 40px);
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+}
+
+body.build-open { overflow: hidden; }
+
+@media (max-width: 900px) {
+    .create-cta { padding: 0 12px; height: 38px; }
+    .create-cta span { display: none; }
+    .hero-actions { width: 100%; }
+    .hero-actions .btn-start, .btn-ghost { flex: 1 1 auto; padding-inline: 18px; }
+    .build-overlay { padding: 0; }
+    .build-panel { width: 100%; max-height: 100vh; border-radius: 0; border: 0; }
+    .build-figures.two { grid-template-columns: 1fr; }
+    .build-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .build-tabs::-webkit-scrollbar { display: none; }
+    .build-tab { flex: 0 0 auto; }
+}
+

@@ -2332,13 +2332,17 @@
         /* --- END PROXY CSS --- */
 
     </style>
-        <link rel="stylesheet" href="assets/layout-v2.css?v=2">
+        <link rel="stylesheet" href="assets/layout-v2.css?v=3">
 </head>
 <body>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="openReadmeModal()" title="View README" style="cursor:pointer;">◈</div>
         <div class="nav-group" id="sidebar-nav-top"></div>
+        <button class="create-cta" onclick="openBuildModal()" title="Fork the source and host your own copy">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M6 9v2a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4V9"/><path d="M12 15v-3"/></svg>
+            <span>CREATE YOUR OWN</span>
+        </button>
         <div class="sidebar-bottom" id="sidebar-nav-bottom"></div>
     </aside>
 
@@ -2371,7 +2375,10 @@
                     <p class="subtitle" style="color: var(--text-dim); margin-top: 10px;">
                         Aether Network // <span class="total-visits-display" id="total-visits" style="font-size:1em; opacity:1; margin-left:0;">...</span>
                     </p>
-                    <button class="btn-start" onclick="glInitSystems()">INITIALIZE SYSTEMS</button>
+                    <div class="hero-actions">
+                        <button class="btn-start" onclick="glInitSystems()">INITIALIZE SYSTEMS</button>
+                        <button class="btn-ghost" onclick="openBuildModal()">CREATE YOUR OWN</button>
+                    </div>
                 </div>
                 <div class="clock-container">
                     <div id="home-clock">00:00:00</div>
@@ -2782,6 +2789,155 @@
                 <div id="yhs-file-list" style="overflow-y:auto; padding:16px; display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:10px; flex:1;">
                     <div style="color:var(--text-dim); font-size:0.82rem; grid-column:1/-1; text-align:center; padding:40px;">Loading YHS files...</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- CREATE YOUR OWN / MAKE YOUR OWN AETHER -->
+        <div id="build-overlay" class="build-overlay" onclick="if(event.target===this)closeBuildModal()">
+            <div class="build-panel" role="dialog" aria-modal="true" aria-labelledby="build-title">
+                <header class="build-head">
+                    <div>
+                        <div class="build-kicker">Open source · plain HTML/CSS/JS · no build step</div>
+                        <h2 id="build-title">Make your own Aether</h2>
+                        <p>Fork it, download it, rename it and put it online free in about five minutes.</p>
+                    </div>
+                    <button class="build-close" onclick="closeBuildModal()" aria-label="Close">✕</button>
+                </header>
+
+                <div class="build-body">
+                    <section class="build-block">
+                        <div class="build-block-head"><span class="build-num">01</span><h3>Get the source</h3></div>
+                        <p class="build-copy">Everything is plain files — no bundler, no <code>npm install</code>, nothing to compile. Fork it if you want to push your own edits, or grab the ZIP if you just want to host a copy.</p>
+                        <div class="build-actions">
+                            <a class="build-action primary" href="https://github.com/immcrab/specter/fork" target="_blank" rel="noopener">Fork repository</a>
+                            <a class="build-action" href="https://github.com/immcrab/specter/archive/refs/heads/main.zip">Download ZIP</a>
+                            <a class="build-action" href="https://github.com/immcrab/specter" target="_blank" rel="noopener">Open on GitHub</a>
+                        </div>
+                        <div class="build-figures two">
+                            <figure>
+                                <img src="assets/guide/repo-header.png" alt="The Aether repository page on GitHub with the Fork button and the Code menu" loading="lazy">
+                                <figcaption>Fork lives in the top-right of the repository header. Code holds the download.</figcaption>
+                            </figure>
+                            <figure>
+                                <img src="assets/guide/code-menu.png" alt="GitHub Code menu open, showing Download ZIP" loading="lazy">
+                                <figcaption>Green <strong>Code</strong> button → <strong>Download ZIP</strong> gets the whole site in one file.</figcaption>
+                            </figure>
+                        </div>
+                    </section>
+
+                    <section class="build-block">
+                        <div class="build-block-head"><span class="build-num">02</span><h3>Pick where it will live</h3></div>
+                        <div class="build-tabs" role="tablist">
+                            <button class="build-tab active" data-host="ghpages" onclick="switchBuildHost('ghpages')">GitHub Pages</button>
+                            <button class="build-tab" data-host="cloudflare" onclick="switchBuildHost('cloudflare')">Cloudflare Pages</button>
+                            <button class="build-tab" data-host="netlify" onclick="switchBuildHost('netlify')">Netlify</button>
+                            <button class="build-tab" data-host="vercel" onclick="switchBuildHost('vercel')">Vercel</button>
+                            <button class="build-tab" data-host="other" onclick="switchBuildHost('other')">Anywhere else</button>
+                        </div>
+
+                        <!-- GITHUB PAGES -->
+                        <div class="build-host active" data-host-panel="ghpages">
+                            <ol class="build-steps">
+                                <li><strong>Fork</strong> the repository with the button above.</li>
+                                <li>In <em>your fork</em>, open <strong>Settings → Pages</strong>.</li>
+                                <li>Under <em>Build and deployment</em>, set <strong>Source: Deploy from a branch</strong>, then <strong>Branch: main</strong> and folder <strong>/ (root)</strong>. Press <strong>Save</strong>.</li>
+                                <li>Give it about a minute. Your copy is at <code>https://YOUR-NAME.github.io/specter/</code>.</li>
+                                <li><strong>Delete the <code>CNAME</code> file</strong> in your fork — it points at the original custom domain — or replace its contents with your own domain.</li>
+                            </ol>
+                            <div class="build-figures">
+                                <figure>
+                                    <img src="assets/guide/gh-pages-source.png" alt="GitHub Pages settings with the publishing source drop-down" loading="lazy">
+                                    <figcaption>Under <em>Build and deployment</em>, open the <strong>Branch</strong> dropdown and pick <strong>main</strong>.</figcaption>
+                                </figure>
+                                <figure>
+                                    <img src="assets/guide/gh-pages-folder.png" alt="GitHub Pages branch and folder selectors" loading="lazy">
+                                    <figcaption>Branch <strong>main</strong>, folder <strong>/ (root)</strong>, then Save.</figcaption>
+                                </figure>
+                            </div>
+                        </div>
+
+                        <!-- CLOUDFLARE PAGES -->
+                        <div class="build-host" data-host-panel="cloudflare">
+                            <ol class="build-steps">
+                                <li>Sign in at <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">dash.cloudflare.com</a> → <strong>Workers &amp; Pages</strong> → <strong>Create</strong> → <strong>Pages</strong> → <strong>Connect to Git</strong>.</li>
+                                <li>Authorise GitHub and pick <em>your fork</em>.</li>
+                                <li><strong>Framework preset: None</strong>. Leave <strong>Build command</strong> empty and set <strong>Build output directory</strong> to <code>/</code> — the site is already finished files at the repo root.</li>
+                                <li>Press <strong>Save and Deploy</strong>. The first build takes roughly a minute and gives you <code>https://your-project.pages.dev</code>.</li>
+                                <li>Add your own domain later under <strong>Custom domains</strong>.</li>
+                            </ol>
+                            <div class="build-figures">
+                                <figure>
+                                    <img src="assets/guide/cf-create-project.png" alt="Cloudflare Pages set up builds and deployments screen with project name and production branch" loading="lazy">
+                                    <figcaption>Project name and production branch (<strong>main</strong>).</figcaption>
+                                </figure>
+                                <figure>
+                                    <img src="assets/guide/cf-build-settings.png" alt="Cloudflare Pages build settings fields" loading="lazy">
+                                    <figcaption>Framework <em>None</em>, build command empty, output directory <code>/</code>.</figcaption>
+                                </figure>
+                                <figure>
+                                    <img src="assets/guide/cf-dashboard.png" alt="Cloudflare Pages site dashboard showing environments and deployments" loading="lazy">
+                                    <figcaption>Every push to <strong>main</strong> redeploys automatically.</figcaption>
+                                </figure>
+                            </div>
+                        </div>
+
+                        <!-- NETLIFY -->
+                        <div class="build-host" data-host-panel="netlify">
+                            <ol class="build-steps">
+                                <li>Open <a href="https://app.netlify.com/start" target="_blank" rel="noopener">app.netlify.com/start</a> → <strong>Import an existing project</strong> → <strong>GitHub</strong> → your fork.</li>
+                                <li>Or skip Git entirely: unzip the download and drag the folder onto <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">app.netlify.com/drop</a>.</li>
+                                <li><strong>Build command:</strong> empty · <strong>Publish directory:</strong> <code>.</code></li>
+                                <li><strong>Deploy site</strong>, then rename it under <em>Site configuration → Site name</em> — you end up with <code>https://your-name.netlify.app</code>.</li>
+                            </ol>
+                            <figure>
+                                <img src="assets/guide/netlify-drop.png" alt="Netlify Drop after dragging a folder in, showing the deployed preview link" loading="lazy">
+                                <figcaption>Netlify Drop: drag the unzipped folder onto the page and it hands you a live link.</figcaption>
+                            </figure>
+                            <p class="build-note">The Git import screens sit behind a login, so the drag-and-drop route is shown above — both end up as the same static site.</p>
+                        </div>
+
+                        <!-- VERCEL -->
+                        <div class="build-host" data-host-panel="vercel">
+                            <ol class="build-steps">
+                                <li>Open <a href="https://vercel.com/new" target="_blank" rel="noopener">vercel.com/new</a> → <strong>Import Git Repository</strong> → your fork.</li>
+                                <li><strong>Framework preset: Other</strong>. Turn the build command off, and set <strong>Output Directory</strong> to <code>.</code></li>
+                                <li><strong>Deploy</strong> → <code>https://your-project.vercel.app</code>.</li>
+                            </ol>
+                            <figure>
+                                <img src="assets/guide/vercel-import.png" alt="Vercel import screen listing Git repositories" loading="lazy">
+                                <figcaption>The repository list at <strong>vercel.com/new</strong>.</figcaption>
+                            </figure>
+                        </div>
+
+                        <!-- ANYWHERE ELSE -->
+                        <div class="build-host" data-host-panel="other">
+                            <p class="build-copy">Any static host will do — the site is plain files. Upload the <em>contents</em> of the ZIP, not the parent folder.</p>
+                            <ol class="build-steps">
+                                <li>Keep this structure intact: <code>index.html</code>, <code>assets/</code>, <code>data/</code>, <code>games/</code>, <code>covers/</code>, <code>vendor/</code>, <code>sw.js</code>.</li>
+                                <li>Serve it over <strong>HTTPS</strong> (or localhost) — the service worker and the proxy tab need a secure origin.</li>
+                                <li>Testing locally? Unzip, <code>cd</code> into the folder and run <code>npx serve .</code>, then open the printed URL.</li>
+                                <li>Works on Cloudflare Pages, GitHub Pages, Netlify, Vercel, Firebase Hosting, S3 + CloudFront, nginx, Apache, or a spare PC on your LAN.</li>
+                            </ol>
+                        </div>
+                    </section>
+
+                    <section class="build-block">
+                        <div class="build-block-head"><span class="build-num">03</span><h3>Make it yours</h3></div>
+                        <ul class="build-list">
+                            <li><strong>Name &amp; meta</strong> — the <code>&lt;title&gt;</code>, description, OG/Twitter tags and hero subtitle at the top of <code>index.html</code>.</li>
+                            <li><strong>Colours</strong> — the <code>:root</code> block in <code>index.html</code> and the pinned palette at the top of <code>assets/layout-v2.css</code>.</li>
+                            <li><strong>Ads</strong> — every slot lives in <code>data/ads.json</code>. Add your own Adsterra zone keys, or set <code>"enabled": false</code> to switch them all off; the ad-block padlock disables itself when nothing is enabled.</li>
+                            <li><strong>Games</strong> — <code>games/</code>, <code>covers/</code> and <code>data/zones.json</code> are the library. Swap in your own catalogue.</li>
+                            <li><strong>Domain</strong> — edit or delete <code>CNAME</code>, then point your host at the same domain.</li>
+                        </ul>
+                        <p class="build-note">Use your own Adsterra zones and your own Supabase project before making the site public — the originals are tied to the author's accounts and will not pay you.</p>
+                    </section>
+                </div>
+
+                <footer class="build-foot">
+                    <span>Fork it, rename it, ship it. Original project: <a href="https://github.com/immcrab/specter" target="_blank" rel="noopener" style="color:var(--accent);">github.com/immcrab/specter</a></span>
+                    <button class="build-action" onclick="closeBuildModal()">Close</button>
+                </footer>
             </div>
         </div>
 
@@ -4513,6 +4669,30 @@
         window.saveCloakPage = function(id) {
             localStorage.setItem('gl_cloak_page', id);
         };
+
+        // --- CREATE YOUR OWN MODAL ---
+        function openBuildModal() {
+            const o = document.getElementById('build-overlay');
+            if (!o) return;
+            o.classList.add('open');
+            document.body.classList.add('build-open');
+        }
+
+        function closeBuildModal() {
+            const o = document.getElementById('build-overlay');
+            if (!o) return;
+            o.classList.remove('open');
+            document.body.classList.remove('build-open');
+        }
+
+        function switchBuildHost(host) {
+            document.querySelectorAll('.build-tab').forEach(t => t.classList.toggle('active', t.dataset.host === host));
+            document.querySelectorAll('[data-host-panel]').forEach(p => p.classList.toggle('active', p.dataset.hostPanel === host));
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeBuildModal();
+        });
 
         // --- README MODAL ---
         let readmeLoaded = false;
