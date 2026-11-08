@@ -1,20 +1,91 @@
 {
-  "_instructions": "Paste your Adsterra invocation snippets into the html fields below, set enabled to true, then reload the site. Slots render inside an isolated frame; site formats (Social Bar / Popunder) run once per page.",
+  "_instructions": "Paste an Adsterra snippet into a slot's \"html\" field and set its \"enabled\" to true. \"mobile\" is used instead of the main unit on screens 720px wide or narrower (leave its html empty to always use the main unit). Site formats run once per page load.",
+  "_wiring": "Banner: paste the atOptions line AND the invoke.js script tag. Native Banner: paste the container div AND the invoke.js script tag. Social Bar / Popunder: paste the single pl...js script tag into \"site\".",
   "enabled": true,
   "slots": {
+    "home-top": {
+      "enabled": false,
+      "width": 728,
+      "height": 90,
+      "label": "Home page, above the hero",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
+    },
     "home-banner": {
       "enabled": false,
       "width": 728,
       "height": 90,
-      "label": "Home page banner (Adsterra Banner / Native Banner)",
-      "html": ""
+      "label": "Home page, under the clock",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
+    },
+    "home-bottom": {
+      "enabled": false,
+      "width": 728,
+      "height": 90,
+      "label": "Home page, bottom",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
     },
     "games-banner": {
       "enabled": false,
       "width": 728,
       "height": 90,
-      "label": "Games page banner (Adsterra Banner / Native Banner)",
-      "html": ""
+      "label": "Games page, above the search bar",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
+    },
+    "grid-banner": {
+      "enabled": false,
+      "width": 300,
+      "height": 250,
+      "label": "Games grid, one tile every 12 games (max 6)",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
+    },
+    "games-bottom": {
+      "enabled": false,
+      "width": 728,
+      "height": 90,
+      "label": "Games page, after the grid",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
+    },
+    "tools-banner": {
+      "enabled": false,
+      "width": 728,
+      "height": 90,
+      "label": "Custom Tools page, top",
+      "html": "",
+      "mobile": {
+        "width": 300,
+        "height": 250,
+        "html": ""
+      }
     }
   },
   "site": {

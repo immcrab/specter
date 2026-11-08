@@ -332,6 +332,26 @@
             opacity: 0.45;
             margin-bottom: 6px;
         }
+
+        .ad-slot--wide { max-width: 970px; }
+
+        /* In-grid ad tile (inserted between game cards) */
+        .ad-inline-card { display: none; }
+
+        .ad-inline-card.has-ad {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: span 2;
+            min-height: 260px;
+            padding: 6px 0;
+        }
+
+        .ad-inline-card .ad-slot { max-width: 100%; }
+
+        @media (max-width: 560px) {
+            .ad-inline-card.has-ad { grid-column: 1 / -1; }
+        }
         /* --- END AD SLOTS --- */
 
         @keyframes fadeIn {
@@ -2315,6 +2335,7 @@
 
     <main class="main-view">
         <section id="home-content" class="view-section">
+            <div class="ad-slot ad-slot--wide" data-ad-slot="home-top" aria-label="Advertisement"></div>
             <div class="hero">
                 <h1>Welcome to<br><span id="typewriter"></span></h1>
                 <p class="subtitle" style="color: var(--text-dim); margin-top: 10px;">
@@ -2327,6 +2348,7 @@
                 <div id="home-date">LOADING SYSTEM...</div>
             </div>
             <div class="ad-slot" data-ad-slot="home-banner" aria-label="Advertisement"></div>
+            <div class="ad-slot ad-slot--wide" data-ad-slot="home-bottom" aria-label="Advertisement"></div>
         </section>
 
         <section id="customapps" class="view-section">
@@ -2334,6 +2356,7 @@
                 <h2>Custom Tools</h2>
                 <p style="color:var(--text-dim)">Manage and run your locally stored HTML applications.</p>
             </div>
+            <div class="ad-slot ad-slot--wide" data-ad-slot="tools-banner" aria-label="Advertisement"></div>
             <div class="settings-card">
                 <h3 id="app-editor-title">Create New App</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -2772,6 +2795,8 @@
             </div>
 
             <div id="gamesContainer">Loading zones...</div>
+
+            <div class="ad-slot ad-slot--wide" data-ad-slot="games-bottom" aria-label="Advertisement"></div>
         </section>
 
         <!-- ZONE VIEWER OVERLAY -->
@@ -7394,6 +7419,25 @@
             gamesHandleSearch();
         }
 
+        // Ad tiles are interleaved between game cards; capped so a long
+        // catalogue does not turn into hundreds of ad frames.
+        const GAMES_AD_INTERVAL = 12;
+        const GAMES_AD_MAX = 6;
+        let gamesAdCount = 0;
+
+        function gamesInsertAdTile() {
+            if (gamesAdCount >= GAMES_AD_MAX) return;
+            gamesAdCount++;
+            const wrap = document.createElement('div');
+            wrap.className = 'ad-inline-card';
+            const slot = document.createElement('div');
+            slot.className = 'ad-slot';
+            slot.setAttribute('data-ad-slot', 'grid-banner');
+            slot.setAttribute('aria-label', 'Advertisement');
+            wrap.appendChild(slot);
+            gamesContainer.appendChild(wrap);
+        }
+
         function gamesRenderGrid(data) {
             const query = document.getElementById('gamesSearchInput').value.toLowerCase();
             const displayData = data.filter(z => {
@@ -7402,7 +7446,9 @@
                 return matchesSearch && matchesFav;
             });
             gamesContainer.innerHTML = "";
-            displayData.forEach(file => {
+            gamesAdCount = 0;
+            displayData.forEach((file, index) => {
+                if (index > 0 && index % GAMES_AD_INTERVAL === 0) gamesInsertAdTile();
                 const div = document.createElement('div');
                 div.className = 'zone-item';
                 div.onclick = () => openZone(file);
@@ -7417,6 +7463,7 @@
                 div.append(heart, img, p);
                 gamesContainer.appendChild(div);
             });
+            if (window.specterAds) window.specterAds.renderAll();
         }
 
         function openZone(file) {
@@ -7497,7 +7544,16 @@
             });
         }
 
+        function pickConf(conf) {
+            const mobile = conf.mobile;
+            if (mobile && String(mobile.html || '').trim() && window.matchMedia('(max-width: 720px)').matches) {
+                return mobile;
+            }
+            return conf;
+        }
+
         function renderSlot(slot, conf) {
+            conf = pickConf(conf);
             const width = conf.width || 728;
             const height = conf.height || 90;
             const label = document.createElement('span');
@@ -7523,10 +7579,23 @@
             doc.close();
 
             slot.classList.add('has-ad');
+            const card = slot.closest('.ad-inline-card');
+            if (card) card.classList.add('has-ad');
+        }
+
+        let cfg = null;
+
+        function renderAll() {
+            if (!cfg || cfg.enabled === false) return;
+            document.querySelectorAll('[data-ad-slot]').forEach(slot => {
+                if (slot.classList.contains('has-ad')) return;
+                const conf = (cfg.slots || {})[slot.dataset.adSlot];
+                if (!conf || !conf.enabled || !String(conf.html || '').trim()) return;
+                renderSlot(slot, conf);
+            });
         }
 
         async function initAds() {
-            let cfg;
             try {
                 cfg = await (await fetch('data/ads.json', { cache: 'no-store' })).json();
             } catch (e) {
@@ -7543,12 +7612,11 @@
                 document.body.appendChild(tpl.content);
             });
 
-            document.querySelectorAll('[data-ad-slot]').forEach(slot => {
-                const conf = (cfg.slots || {})[slot.dataset.adSlot];
-                if (!conf || !conf.enabled || !String(conf.html || '').trim()) return;
-                renderSlot(slot, conf);
-            });
+            renderAll();
+            window.specterAds = { renderAll, config: () => cfg };
         }
+
+        window.specterAds = { renderAll: () => {} };
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initAds);
