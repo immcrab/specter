@@ -25,7 +25,8 @@
         cooldownSeconds: DEFAULTS.cooldownSeconds,
         hrefs: [],
         fired: 0,
-        neutralized: 0
+        neutralized: 0,
+        shields: 0
     };
 
     // Anchors the ad networks inject to hijack clicks. Kept deliberately
@@ -37,6 +38,23 @@
         'a[href*="araplhn"]',
         'a[href*="bauval.org/25"]'
     ].join(',');
+
+    // The networks also wrap the catcher in a max-z-index div, which keeps
+    // eating clicks after the anchor itself is tamed. Make any full-viewport
+    // wrapper click-through too, so everything underneath behaves normally.
+    function shieldAncestors(a) {
+        let node = a.parentElement;
+        while (node && node !== document.body) {
+            const r = node.getBoundingClientRect();
+            const coversViewport = r.width * r.height >= window.innerWidth * window.innerHeight * 0.85;
+            if (coversViewport && node.dataset.aetherShield !== '1') {
+                node.dataset.aetherShield = '1';
+                node.style.setProperty('pointer-events', 'none', 'important');
+                state.shields++;
+            }
+            node = node.parentElement;
+        }
+    }
 
     function remember(a) {
         const href = a.getAttribute('href') || '';
@@ -54,6 +72,7 @@
             a.setAttribute('tabindex', '-1');
             a.setAttribute('aria-hidden', 'true');
             state.neutralized++;
+            shieldAncestors(a);
         }
     }
 
