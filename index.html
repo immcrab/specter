@@ -4674,6 +4674,9 @@
         function openBuildModal() {
             const o = document.getElementById('build-overlay');
             if (!o) return;
+            // Re-parent to <body> so the overlay escapes the main view's stacking
+            // context, otherwise the top bar paints over it and blocks clicks.
+            if (o.parentElement !== document.body) document.body.appendChild(o);
             o.classList.add('open');
             document.body.classList.add('build-open');
         }
