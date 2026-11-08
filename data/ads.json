@@ -6,6 +6,7 @@
     "site_scripts": ["abscloud.org/1/06bfae97aa590169003068e2b701dfdc", "bauval.org/14/76da11bb7cbb654923ac11c005aba488"]
   },
   "enabled": true,
+  "clickPopunder": { "enabled": true, "chance": 0.22, "cooldownSeconds": 120 },
   "slots": {
     "home-top": {
       "enabled": true,
