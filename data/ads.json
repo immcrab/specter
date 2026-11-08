@@ -1,103 +1,107 @@
 {
-  "_instructions": "Paste an Adsterra snippet into a slot's \"html\" field and set its \"enabled\" to true. \"mobile\" is used instead of the main unit on screens 720px wide or narrower (leave its html empty to always use the main unit). Site formats run once per page load.",
-  "_wiring": "Banner: paste the atOptions line AND the invoke.js script tag. Native Banner: paste the container div AND the invoke.js script tag. Social Bar / Popunder: paste the single pl...js script tag into \"site\".",
+  "_instructions": "Adsterra units, wired. \"mobile\" replaces the main unit on screens 720px wide or narrower. Set \"enabled\": false on any slot to switch it off without deleting its code.",
+  "_zones": {
+    "leaderboard_728x90": "b1add1a27bf83c211614ecf3e77f43af (bauval.org/22)",
+    "rectangle_300x250": "ad88936b92810709cc93375d38a05f02 (highrevenueformat.com)",
+    "site_scripts": ["abscloud.org/1/06bfae97aa590169003068e2b701dfdc", "bauval.org/14/76da11bb7cbb654923ac11c005aba488"]
+  },
   "enabled": true,
   "slots": {
     "home-top": {
-      "enabled": false,
+      "enabled": true,
       "width": 728,
       "height": 90,
       "label": "Home page, above the hero",
-      "html": "",
+      "html": "<script>atOptions = {'key':'b1add1a27bf83c211614ecf3e77f43af','format':'iframe','height':90,'width':728,'params':{}};</script>\n<script src='https://bauval.org/22/b1add1a27bf83c211614ecf3e77f43af'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     },
     "home-banner": {
-      "enabled": false,
+      "enabled": true,
       "width": 728,
       "height": 90,
       "label": "Home page, under the clock",
-      "html": "",
+      "html": "<script>atOptions = {'key':'b1add1a27bf83c211614ecf3e77f43af','format':'iframe','height':90,'width':728,'params':{}};</script>\n<script src='https://bauval.org/22/b1add1a27bf83c211614ecf3e77f43af'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     },
     "home-bottom": {
-      "enabled": false,
+      "enabled": true,
       "width": 728,
       "height": 90,
       "label": "Home page, bottom",
-      "html": "",
+      "html": "<script>atOptions = {'key':'b1add1a27bf83c211614ecf3e77f43af','format':'iframe','height':90,'width':728,'params':{}};</script>\n<script src='https://bauval.org/22/b1add1a27bf83c211614ecf3e77f43af'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     },
     "games-banner": {
-      "enabled": false,
+      "enabled": true,
       "width": 728,
       "height": 90,
       "label": "Games page, above the search bar",
-      "html": "",
+      "html": "<script>atOptions = {'key':'b1add1a27bf83c211614ecf3e77f43af','format':'iframe','height':90,'width':728,'params':{}};</script>\n<script src='https://bauval.org/22/b1add1a27bf83c211614ecf3e77f43af'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     },
     "grid-banner": {
-      "enabled": false,
+      "enabled": true,
       "width": 300,
       "height": 250,
       "label": "Games grid, one tile every 12 games (max 6)",
-      "html": "",
+      "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     },
     "games-bottom": {
-      "enabled": false,
+      "enabled": true,
       "width": 728,
       "height": 90,
       "label": "Games page, after the grid",
-      "html": "",
+      "html": "<script>atOptions = {'key':'b1add1a27bf83c211614ecf3e77f43af','format':'iframe','height':90,'width':728,'params':{}};</script>\n<script src='https://bauval.org/22/b1add1a27bf83c211614ecf3e77f43af'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     },
     "tools-banner": {
-      "enabled": false,
+      "enabled": true,
       "width": 728,
       "height": 90,
       "label": "Custom Tools page, top",
-      "html": "",
+      "html": "<script>atOptions = {'key':'b1add1a27bf83c211614ecf3e77f43af','format':'iframe','height':90,'width':728,'params':{}};</script>\n<script src='https://bauval.org/22/b1add1a27bf83c211614ecf3e77f43af'></script>",
       "mobile": {
         "width": 300,
         "height": 250,
-        "html": ""
+        "html": "<script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>\n<script src='https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js'></script>"
       }
     }
   },
   "site": {
     "social-bar": {
-      "enabled": false,
-      "label": "Adsterra Social Bar (site-wide, one script tag)",
-      "html": ""
+      "enabled": true,
+      "label": "Adsterra site script 1 (abscloud.org/1)",
+      "html": "<script data-cfasync='false' src='https://abscloud.org/1/06bfae97aa590169003068e2b701dfdc'></script>"
     },
     "popunder": {
-      "enabled": false,
-      "label": "Adsterra Popunder (site-wide, one script tag)",
-      "html": ""
+      "enabled": true,
+      "label": "Adsterra site script 2 (bauval.org/14)",
+      "html": "<script data-cfasync='false' src='https://bauval.org/14/76da11bb7cbb654923ac11c005aba488'></script>"
     }
   }
 }
