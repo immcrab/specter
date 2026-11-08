@@ -1,0 +1,32 @@
+{
+  "_instructions": "Paste your Adsterra invocation snippets into the html fields below, set enabled to true, then reload the site. Slots render inside an isolated frame; site formats (Social Bar / Popunder) run once per page.",
+  "enabled": true,
+  "slots": {
+    "home-banner": {
+      "enabled": false,
+      "width": 728,
+      "height": 90,
+      "label": "Home page banner (Adsterra Banner / Native Banner)",
+      "html": ""
+    },
+    "games-banner": {
+      "enabled": false,
+      "width": 728,
+      "height": 90,
+      "label": "Games page banner (Adsterra Banner / Native Banner)",
+      "html": ""
+    }
+  },
+  "site": {
+    "social-bar": {
+      "enabled": false,
+      "label": "Adsterra Social Bar (site-wide, one script tag)",
+      "html": ""
+    },
+    "popunder": {
+      "enabled": false,
+      "label": "Adsterra Popunder (site-wide, one script tag)",
+      "html": ""
+    }
+  }
+}

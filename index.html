@@ -301,6 +301,39 @@
             animation: fadeIn 0.4s ease;
         }
 
+        /* --- AD SLOTS (Adsterra) --- */
+        .ad-slot {
+            display: none;
+            width: 100%;
+            max-width: 728px;
+            margin: 0 auto;
+        }
+
+        .ad-slot.has-ad {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 16px 0;
+            overflow: hidden;
+        }
+
+        .ad-slot iframe {
+            border: 0;
+            display: block;
+            max-width: 100%;
+        }
+
+        .ad-slot-label {
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            opacity: 0.45;
+            margin-bottom: 6px;
+        }
+        /* --- END AD SLOTS --- */
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -2293,6 +2326,7 @@
                 <div id="home-clock">00:00:00</div>
                 <div id="home-date">LOADING SYSTEM...</div>
             </div>
+            <div class="ad-slot" data-ad-slot="home-banner" aria-label="Advertisement"></div>
         </section>
 
         <section id="customapps" class="view-section">
@@ -2719,6 +2753,8 @@
                 </div>
                 <button class="games-nav-btn games-nav-next" onclick="gamesManualNav(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
             </div>
+
+            <div class="ad-slot" data-ad-slot="games-banner" aria-label="Advertisement"></div>
 
             <div class="games-search-container">
                 <div class="games-search-input-wrapper">
@@ -7445,6 +7481,81 @@
             if (gamesFeaturedGames.length > 0) gamesRenderFeatured();
         });
     // ---END GAMES LOGIC---
+    </script>
+
+    <script>
+    // --- ADSTERRA ADS ---
+    // Slots are declared in data/ads.json. Paste the Adsterra snippet into a slot's
+    // "html" field and set "enabled": true; nothing loads while a slot is empty.
+    (function () {
+        function makeScriptsLive(root) {
+            root.querySelectorAll('script').forEach(old => {
+                const s = document.createElement('script');
+                [...old.attributes].forEach(a => s.setAttribute(a.name, a.value));
+                if (old.textContent.trim()) s.textContent = old.textContent;
+                old.replaceWith(s);
+            });
+        }
+
+        function renderSlot(slot, conf) {
+            const width = conf.width || 728;
+            const height = conf.height || 90;
+            const label = document.createElement('span');
+            label.className = 'ad-slot-label';
+            label.textContent = 'Advertisement';
+            slot.appendChild(label);
+
+            // Each unit gets its own frame: Adsterra banners share a global
+            // atOptions object, so two on one page would overwrite each other.
+            const frame = document.createElement('iframe');
+            frame.width = width;
+            frame.height = height;
+            frame.title = 'Advertisement';
+            frame.setAttribute('scrolling', 'no');
+            frame.style.width = '100%';
+            frame.style.maxWidth = width + 'px';
+            frame.style.height = height + 'px';
+            slot.appendChild(frame);
+
+            const doc = frame.contentDocument;
+            doc.open();
+            doc.write('<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;background:transparent}</style></head><body>' + conf.html + '</body></html>');
+            doc.close();
+
+            slot.classList.add('has-ad');
+        }
+
+        async function initAds() {
+            let cfg;
+            try {
+                cfg = await (await fetch('data/ads.json', { cache: 'no-store' })).json();
+            } catch (e) {
+                console.warn('Ad config unavailable', e);
+                return;
+            }
+            if (!cfg || cfg.enabled === false) return;
+
+            Object.entries(cfg.site || {}).forEach(([name, conf]) => {
+                if (!conf || !conf.enabled || !String(conf.html || '').trim()) return;
+                const tpl = document.createElement('template');
+                tpl.innerHTML = conf.html;
+                makeScriptsLive(tpl.content);
+                document.body.appendChild(tpl.content);
+            });
+
+            document.querySelectorAll('[data-ad-slot]').forEach(slot => {
+                const conf = (cfg.slots || {})[slot.dataset.adSlot];
+                if (!conf || !conf.enabled || !String(conf.html || '').trim()) return;
+                renderSlot(slot, conf);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAds);
+        } else {
+            initAds();
+        }
+    })();
     </script>
 
     <div class="readme-overlay" id="caught-4k-overlay" style="display:none;">
