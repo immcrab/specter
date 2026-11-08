@@ -335,6 +335,31 @@
 
         .ad-slot--wide { max-width: 970px; }
 
+        /* #home-content is a flex row (hero + clock), so ad units need their own
+           rows or they squeeze the hero and collapse to a strip. */
+        #home-content.view-section {
+            flex-direction: column;
+            justify-content: center;
+            gap: 28px;
+        }
+
+        #home-content .home-main {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+            width: 100%;
+        }
+
+        #home-content .home-ads {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
         /* In-grid ad tile (inserted between game cards) */
         .ad-inline-card { display: none; }
 
@@ -2335,20 +2360,26 @@
 
     <main class="main-view">
         <section id="home-content" class="view-section">
-            <div class="ad-slot ad-slot--wide" data-ad-slot="home-top" aria-label="Advertisement"></div>
-            <div class="hero">
-                <h1>Welcome to<br><span id="typewriter"></span></h1>
-                <p class="subtitle" style="color: var(--text-dim); margin-top: 10px;">
-                    Specter Network // <span class="total-visits-display" id="total-visits" style="font-size:1em; opacity:1; margin-left:0;">...</span>
-                </p>
-                <button class="btn-start" onclick="glInitSystems()">INITIALIZE SYSTEMS</button>
+            <div class="home-ads">
+                <div class="ad-slot ad-slot--wide" data-ad-slot="home-top" aria-label="Advertisement"></div>
             </div>
-            <div class="clock-container">
-                <div id="home-clock">00:00:00</div>
-                <div id="home-date">LOADING SYSTEM...</div>
+            <div class="home-main">
+                <div class="hero">
+                    <h1>Welcome to<br><span id="typewriter"></span></h1>
+                    <p class="subtitle" style="color: var(--text-dim); margin-top: 10px;">
+                        Specter Network // <span class="total-visits-display" id="total-visits" style="font-size:1em; opacity:1; margin-left:0;">...</span>
+                    </p>
+                    <button class="btn-start" onclick="glInitSystems()">INITIALIZE SYSTEMS</button>
+                </div>
+                <div class="clock-container">
+                    <div id="home-clock">00:00:00</div>
+                    <div id="home-date">LOADING SYSTEM...</div>
+                </div>
             </div>
-            <div class="ad-slot" data-ad-slot="home-banner" aria-label="Advertisement"></div>
-            <div class="ad-slot ad-slot--wide" data-ad-slot="home-bottom" aria-label="Advertisement"></div>
+            <div class="home-ads">
+                <div class="ad-slot" data-ad-slot="home-banner" aria-label="Advertisement"></div>
+                <div class="ad-slot ad-slot--wide" data-ad-slot="home-bottom" aria-label="Advertisement"></div>
+            </div>
         </section>
 
         <section id="customapps" class="view-section">
@@ -7625,6 +7656,8 @@
         }
     })();
     </script>
+
+    <script src="assets/adblock-guard.js" defer></script>
 
     <div class="readme-overlay" id="caught-4k-overlay" style="display:none;">
         <div class="readme-modal" style="max-width:440px;">
