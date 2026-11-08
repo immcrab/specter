@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Specter - Free Proxy Browser</title>
-    <meta name="description" content="Specter is a free proxy browser. Access any website anonymously and securely.">
+    <title>Aether - Free Proxy Browser</title>
+    <meta name="description" content="Aether is a free proxy browser. Access any website anonymously and securely.">
     <meta name="keywords" content="specter, proxy, browser, anonymous browsing, unblock websites">
-    <meta name="author" content="Specter">
+    <meta name="author" content="Aether">
     
     <!-- Open Graph Tags for Social Media & Discord Embeds -->
-    <meta property="og:title" content="Specter - Free Proxy Browser">
-    <meta property="og:description" content="Access any website anonymously with Specter.">
+    <meta property="og:title" content="Aether - Free Proxy Browser">
+    <meta property="og:description" content="Access any website anonymously with Aether.">
     <meta property="og:url" content="https://immcrab.github.io/urban-octo-winner">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Specter - Free Proxy Browser">
-    <meta name="twitter:description" content="Access any website anonymously with Specter.">
+    <meta name="twitter:title" content="Aether - Free Proxy Browser">
+    <meta name="twitter:description" content="Access any website anonymously with Aether.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/immcrab/urban-octo-winner/main/og-image.png">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="cd4687b2-c160-4e0c-8b26-5df67d4ea39a"></script>
     <!--- Supabase for total visits --->
@@ -129,16 +129,16 @@
     </script>
     <style>
         :root {
-            --bg: #000000;
-            --sidebar-bg: var(--bg);
-            --accent: #6ecbff;
-            --accent-glow: rgba(110, 203, 255, 0.3);
-            --text-primary: #ffffff;
-            --text-dim: #94a3b8;
-            --border: rgba(110, 203, 255, 0.08);
+            --bg: #08060f;
+            --sidebar-bg: rgba(12, 9, 22, 0.92);
+            --accent: #a678ff;
+            --accent-glow: rgba(166, 120, 255, 0.35);
+            --text-primary: #f5f1ff;
+            --text-dim: #a094b8;
+            --border: rgba(166, 120, 255, 0.16);
             --font: 'Courier New', monospace;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --input-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.045);
+            --input-bg: rgba(255, 255, 255, 0.06);
             --bg-image: none;
             --bg-blur: 0px;
             --bg-brightness: 100%;
@@ -1294,7 +1294,7 @@
            PROXY BROWSER — integrated CSS
            .settings-card/.settings-header renamed to
            .proxy-wisp-card/.proxy-wisp-header to avoid
-           conflicts with Specter's own settings CSS.
+           conflicts with Aether's own settings CSS.
            ════════════════════════════════════════ */
 
         /* ── BROWSER LAYOUT ── */
@@ -2369,7 +2369,7 @@
                 <div class="hero">
                     <h1>Welcome to<br><span id="typewriter"></span></h1>
                     <p class="subtitle" style="color: var(--text-dim); margin-top: 10px;">
-                        Specter Network // <span class="total-visits-display" id="total-visits" style="font-size:1em; opacity:1; margin-left:0;">...</span>
+                        Aether Network // <span class="total-visits-display" id="total-visits" style="font-size:1em; opacity:1; margin-left:0;">...</span>
                     </p>
                     <button class="btn-start" onclick="glInitSystems()">INITIALIZE SYSTEMS</button>
                 </div>
@@ -2666,7 +2666,7 @@
                 <!-- REPO FILE EXPLORER CARD -->
                 <div class="settings-card">
                     <h3>Repository Files</h3>
-                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;">Browse and download files from the Specter GitHub repository, or download the jsdelivr launcher directly.</p>
+                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 15px;">Browse and download files from the Aether GitHub repository, or download the jsdelivr launcher directly.</p>
                     <div style="display:flex; flex-direction:column; gap:10px;">
                         <button class="btn-start" onclick="openRepoModal()" style="margin-top:0; display:flex; align-items:center; justify-content:center; gap:8px;">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
@@ -2968,18 +2968,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>New Tab | Specter</title>
+  <title>New Tab | Aether</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg:            var(--nt-bg,             #000000);
-      --accent:        var(--nt-accent,         #6ecbff);
-      --accent-glow:   var(--nt-accent-glow,    rgba(110, 203, 255, 0.3));
-      --text-primary:  var(--nt-text-primary,   #ffffff);
-      --text-dim:      var(--nt-text-dim,       #94a3b8);
-      --border:        var(--nt-border,         rgba(110, 203, 255, 0.08));
-      --card-bg:       var(--nt-card-bg,        rgba(255, 255, 255, 0.03));
-      --input-bg:      var(--nt-input-bg,       rgba(255, 255, 255, 0.05));
+      --bg:            var(--nt-bg,             #08060f);
+      --accent:        var(--nt-accent,         #a678ff);
+      --accent-glow:   var(--nt-accent-glow,    rgba(166, 120, 255, 0.35));
+      --text-primary:  var(--nt-text-primary,   #f5f1ff);
+      --text-dim:      var(--nt-text-dim,       #a094b8);
+      --border:        var(--nt-border,         rgba(166, 120, 255, 0.16));
+      --card-bg:       var(--nt-card-bg,        rgba(255, 255, 255, 0.045));
+      --input-bg:      var(--nt-input-bg,       rgba(255, 255, 255, 0.06));
       --font:          var(--nt-font,           'Courier New', monospace);
       --bg-image:      var(--nt-bg-image,       none);
       --bg-blur:       var(--nt-bg-blur,        0px);
@@ -3339,7 +3339,7 @@
   <div class="content">
     <div class="hero-block">
       <div class="gl-logo">◈</div>
-      <h1 class="gl-title">Specter</h1>
+      <h1 class="gl-title">Aether</h1>
     </div>
     <form class="search-wrap" id="searchForm">
       <div class="search-box">
@@ -3576,7 +3576,7 @@
     </div>
 
     <script>
-        const DEFAULT_WORDS = ["Specter.", "Knowhere.", "modularity.", "blueeeee.", "anonymity.", "the OASIS.", "freedom.", "the hub ;P.", "liminality.", "simulation."];
+        const DEFAULT_WORDS = ["Aether.", "Knowhere.", "modularity.", "blueeeee.", "anonymity.", "the OASIS.", "freedom.", "the hub ;P.", "liminality.", "simulation."];
         let words = JSON.parse(localStorage.getItem('ghostlink_words')) || DEFAULT_WORDS.slice();
 
         const tabPresets = [
@@ -4363,7 +4363,7 @@
                 overlay.style.display = 'none';
                 const f = document.getElementById('afk-cloak-frame');
                 f.removeAttribute('srcdoc'); f.src = 'about:blank';
-                document.title = savedTitle || 'Specter';
+                document.title = savedTitle || 'Aether';
                 applyCloak();
                 reset();
             }
@@ -4979,7 +4979,7 @@
         function resetToDefaultCloak() {
             document.getElementById('cloak-title').value = '';
             document.getElementById('cloak-icon').value = '';
-            document.title = 'Specter';
+            document.title = 'Aether';
             var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6ecbff';
             setDefaultFaviconWithAccent(accent);
             saveConfig();
@@ -6156,7 +6156,7 @@
                     const title = frame.frame.contentWindow.document.title;
                     if (title) {
                         tab.title = title;
-                        if (title === 'Specter' && window.__glAch) window.__glAch.onRussianDolls();
+                        if (title === 'Aether' && window.__glAch) window.__glAch.onRussianDolls();
                     }
                 } catch { }
 
@@ -7031,7 +7031,7 @@
                             animation:spin 0.8s linear infinite;">
                         </div>
                         <div style="font-size:0.65rem; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:20px; text-shadow:0 0 8px var(--accent-glow);">
-                            SPECTER PROXY
+                            AETHER PROXY
                         </div>
                         <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
                             ${_piSteps.map(s => `
@@ -7135,7 +7135,7 @@
                                 <code style="background:rgba(255,255,255,0.07);padding:1px 4px;border-radius:3px;">bareworker.js</code>
                                 must be in the root of the site.
                                 Get them from the <a href="https://github.com/immcrab/urban-octo-winner" target="_blank" rel="noopener"
-                                style="color:var(--accent);text-decoration:underline;">Specter GitHub</a> or contact the site owner.
+                                style="color:var(--accent);text-decoration:underline;">Aether GitHub</a> or contact the site owner.
                             </p>
                         </div>
                         <div style="border-left:2px solid var(--accent);padding-left:10px;">
@@ -7181,7 +7181,7 @@
                                         are in the root of your site. Download them from the
                                         <a href="https://github.com/immcrab/urban-octo-winner" target="_blank" rel="noopener"
                                             style="color:var(--accent);text-decoration:underline;text-shadow:0 0 6px var(--accent-glow);">
-                                            Specter GitHub repo</a>,
+                                            Aether GitHub repo</a>,
                                         or contact the site owner.
                                     </p>
                                 </div>
@@ -7500,7 +7500,7 @@
         }
 
         function openZone(file) {
-            if (file.name === "[!] SPECTER DISCORD .gg/D4c9VFYWyU") {
+            if (file.name === "[!] AETHER DISCORD .gg/D4c9VFYWyU") {
                 window.open("https://discord.com/invite/dKs2sUNUXd", "_blank");
                 return;
             }
@@ -7852,16 +7852,16 @@
                 emoji: '👻',
                 name: 'W User',
                 desc: 'Come back 10 times.',
-                longDesc: 'You visited Specter 10+ times. W.',
+                longDesc: 'You visited Aether 10+ times. W.',
                 secret: false,
-                hint: 'Visit Specter enough times...'
+                hint: 'Visit Aether enough times...'
             },
             {
                 id: 'loyal_user',
                 emoji: '🔒',
                 name: 'Loyal User',
                 desc: 'Come back 100 times.',
-                longDesc: 'You have visited Specter over 100 times. You\'re locked in.',
+                longDesc: 'You have visited Aether over 100 times. You\'re locked in.',
                 secret: false,
                 hint: 'Keep coming back...'
             },
@@ -7933,7 +7933,7 @@
                 emoji: '🧑‍💻',
                 name: 'Pro-Hacker',
                 desc: 'Modify every setting.',
-                longDesc: 'You touched every single setting in Specter. Are you ok😭😭.',
+                longDesc: 'You touched every single setting in Aether. Are you ok😭😭.',
                 secret: true,
                 hint: ''
             },
@@ -7942,7 +7942,7 @@
                 emoji: '🎭',
                 name: 'Peak Education',
                 desc: 'Cloak the tab.',
-                longDesc: 'You used Tab Cloaker to disguise Specter, tuffff.',
+                longDesc: 'You used Tab Cloaker to disguise Aether, tuffff.',
                 secret: false,
                 hint: 'Hide what you\'re doing in Settings...'
             },
@@ -7959,10 +7959,10 @@
                 id: 'russian_dolls',
                 emoji: '🪆',
                 name: 'Russian Dolls',
-                desc: 'Visit Specter inside Specter.',
-                longDesc: 'You loaded Specter in the proxy. But you can\'t nest it more sorry, scramjet does NOT do serviceworkers.',
+                desc: 'Visit Aether inside Aether.',
+                longDesc: 'You loaded Aether in the proxy. But you can\'t nest it more sorry, scramjet does NOT do serviceworkers.',
                 secret: false,
-                hint: 'Use the Specter in a certain tool...'
+                hint: 'Use the Aether in a certain tool...'
             },
             {
                 id: 'fourth_dimension',
@@ -7980,7 +7980,7 @@
                 desc: 'Open the Ghost Network.',
                 longDesc: 'You launched the Ghost Network visualizer. Most links are blocked lol.',
                 secret: false,
-                hint: 'Open Specter network...'
+                hint: 'Open Aether network...'
             },
             {
                 id: 'colorblind',
@@ -8041,7 +8041,7 @@
                 emoji: '🥪',
                 name: 'Eat Lunch Gng',
                 desc: 'Visit between 11 AM–2 PM.',
-                longDesc: 'Why were you on Specter at lunchtime screenager.',
+                longDesc: 'Why were you on Aether at lunchtime screenager.',
                 secret: false,
                 hint: 'Visit during midday...'
             },
@@ -8075,7 +8075,7 @@
             {
                 id: 'ghostlink_sweat',
                 emoji: '😜',
-                name: 'Specter Sweat',
+                name: 'Aether Sweat',
                 desc: 'Unlock every non-secret achievement.',
                 longDesc: 'You unlocked every non-secret achievement. Why. Just, why??',
                 secret: false,
@@ -8494,8 +8494,8 @@
             </div>
             <div class="readme-panel active" style="padding:24px;">
                 <div class="readme-body" style="color:#d1d5db;">
-                    <h2 style="color:var(--accent);">Specter Repository</h2>
-                    <p>Open the Specter GitHub repo from here or use the button below to navigate directly.</p>
+                    <h2 style="color:var(--accent);">Aether Repository</h2>
+                    <p>Open the Aether GitHub repo from here or use the button below to navigate directly.</p>
                     <p style="margin-top:16px;">This popup is designed as a quick home footer action, similar to the privacy and policy links.</p>
                     <button class="btn-start" onclick="window.open('https://github.com/immcrab/urban-octo-winner', '_blank', 'noopener')" style="margin-top:24px;">Open GitHub Repository</button>
                 </div>

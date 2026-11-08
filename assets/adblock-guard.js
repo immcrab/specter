@@ -1,4 +1,4 @@
-/* Specter ad-block guard
+/* Aether ad-block guard
  * Locks the site while an ad blocker is stripping the Adsterra units.
  * Fails open: if data/ads.json cannot be read, no ads are enabled, or the
  * browser is offline, nothing is enforced.
@@ -136,7 +136,7 @@
     overlay.innerHTML = [
       '<div class="sab-card">',
       '  <h2>Ad blocker detected</h2>',
-      '  <p>Specter is free because the ads pay for it. An ad blocker is running, so the site is paused until it is switched off.</p>',
+      '  <p>Aether is free because the ads pay for it. An ad blocker is running, so the site is paused until it is switched off.</p>',
       '  <ol>',
       '    <li>Turn off your ad blocker for <strong>immcrab.github.io</strong>.</li>',
       '    <li>Or whitelist this site in your blocker\u2019s settings.</li>',
