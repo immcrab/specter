@@ -1,0 +1,8 @@
+# Freebuff workspace metadata (not part of the site)
+.freebuff/
+
+# Local scratch/temp files
+.tmp/
+
+# Legacy sync workflow would overwrite the rebuilt site with the old CDN copy
+.github/workflows/
