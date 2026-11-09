@@ -928,6 +928,14 @@
     ]
   },
   {
+    "id": 108,
+    "name": "Tiny Fishing",
+    "cover": "{COVER_URL}/108.png",
+    "url": "{HTML_URL}/108-fix2.html",
+    "author": "Winter Studio",
+    "authorLink": "https://winterstudio.com/"
+  },
+  {
     "id": 109,
     "name": "Tomb Of The Mask",
     "cover": "{COVER_URL}/109.png",

@@ -1664,7 +1664,8 @@ html[data-icon-size="lg"] .desktop-shortcut { width: 88px; }
     line-height: 1.55;
 }
 
-.desktop-subtitle .total-visits-display { margin-left: 6px; font-size: 0.68rem; opacity: 0.55; }
+.desktop-subtitle .total-visits-display,
+.desktop-subtitle .game-count-display { margin-left: 6px; font-size: 0.68rem; opacity: 0.55; }
 .desktop-welcome .hero-actions { margin-top: 14px; gap: 8px; }
 .desktop-welcome .btn-start { margin-top: 0; padding: 10px 16px; border-radius: 8px; font-size: 0.68rem; letter-spacing: 1.1px; }
 .desktop-welcome .btn-ghost { padding: 9px 14px; border-radius: 8px; font-size: 0.66rem; letter-spacing: 1.1px; }

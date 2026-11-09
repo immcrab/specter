@@ -662,7 +662,7 @@
             color: var(--accent);
         }
         .online-count-val { color: var(--accent); }
-        .total-visits-display {
+        .total-visits-display, .game-count-display {
             font-size: 0.72em;
             opacity: 0.38;
             margin-left: 14px;
@@ -2446,7 +2446,7 @@
                             <div class="desktop-window-body">
                                 <p class="desktop-kicker">Aether Desktop</p>
                                 <h1>Welcome to<br><span id="typewriter"></span></h1>
-                                <p class="desktop-subtitle">Games, tools, AI and a private browser in one place.<span class="total-visits-display" id="total-visits">...</span></p>
+                                <p class="desktop-subtitle">Games, tools, AI and a private browser in one place.<span class="total-visits-display" id="total-visits">...</span><span class="game-count-display" data-game-count></span></p>
                                 <div class="hero-actions">
                                     <button class="btn-start" onclick="glInitSystems()">QUICK START</button>
                                     <button class="btn-ghost" onclick="nav('settings')">PERSONALIZE</button>
@@ -7747,12 +7747,45 @@
             return list.length + ':' + (hash >>> 0);
         }
 
+        // How many games the library actually holds; the homepage shows this
+        // instead of making players open the games page to find out.
+        function gamesCountTotal(list) {
+            if (!Array.isArray(list)) return 0;
+            return list.filter(z => z && z.id !== -1 && !String(z.name || '').includes('SUGGEST')).length;
+        }
+
+        function gamesUpdateCount(total) {
+            document.querySelectorAll('[data-game-count]').forEach(el => {
+                el.textContent = total > 0 ? '\u00b7 ' + total + ' games' : '';
+            });
+        }
+
+        // The homepage is the first screen, so read the cached catalogue (or
+        // fetch it once) rather than waiting for the games page to be opened.
+        function gamesInitCount() {
+            const cached = gamesReadCache(GAMES_ZONES_CACHE);
+            if (cached && Array.isArray(cached.zones) && cached.zones.length) {
+                gamesUpdateCount(gamesCountTotal(cached.zones));
+            }
+            fetch(zonesURL, { cache: 'default' })
+                .then(res => res.ok ? res.json() : null)
+                .then(list => { if (Array.isArray(list) && list.length) gamesUpdateCount(gamesCountTotal(list)); })
+                .catch(() => {});
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', gamesInitCount, { once: true });
+        } else {
+            gamesInitCount();
+        }
+
         async function gamesListZones() {
             const cached = gamesReadCache(GAMES_ZONES_CACHE);
             let painted = false;
             if (cached && Array.isArray(cached.zones) && cached.zones.length) {
                 zones = cached.zones;
                 if (cached.popularity) gamesPopularityData = cached.popularity;
+                gamesUpdateCount(gamesCountTotal(zones));
                 gamesSetupFeatured();
                 gamesHandleSearch();
                 painted = true;
@@ -7771,6 +7804,7 @@
                 const changed = gamesZonesSignature(freshZones) !== gamesZonesSignature(zones);
                 zones = freshZones;
                 gamesPopularityData = freshPopularity || {};
+                gamesUpdateCount(gamesCountTotal(zones));
                 gamesWriteCache(GAMES_ZONES_CACHE, { zones: freshZones, popularity: gamesPopularityData, saved: Date.now() });
                 if (!painted || changed) {
                     gamesSetupFeatured();
