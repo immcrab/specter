@@ -1,0 +1,1041 @@
+/* ══════════════════════════════════════════════════════════════════════
+   AETHER — desktop OS shell
+   Loaded after layout-v2.css. Turns the site into an actual desktop:
+
+     · the wallpaper covers the whole viewport (no floating card)
+     · app icons sit directly on that wallpaper, like a real desktop
+     · widgets are windows with title bars and traffic lights
+     · the navigation is a floating dock at the bottom
+     · every ad slot is framed as a desktop panel / window
+
+   Everything adapts: desktop, laptop, iPad (portrait + landscape) and
+   iPhone. `html[data-layout="classic"]` is left untouched, so the old
+   top-bar layout is still available in Settings.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Tokens ──────────────────────────────────────────────────────── */
+html[data-layout="desktop"],
+html[data-layout="compact"] {
+    --dock-h: 64px;
+    --dock-gap: 14px;
+    --dock-space: calc(var(--dock-h) + var(--dock-gap) * 2 + env(safe-area-inset-bottom, 0px));
+
+    --win-border: rgba(255, 255, 255, 0.10);
+    --win-bg: linear-gradient(165deg, rgba(33, 24, 54, 0.84), rgba(10, 8, 19, 0.94));
+    --win-bar: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015));
+    --win-shadow: 0 26px 60px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    --win-radius: 15px;
+
+    --desktop-wallpaper:
+        radial-gradient(1100px 700px at 84% -8%, rgba(166, 120, 255, 0.44), transparent 62%),
+        radial-gradient(820px 640px at -6% 102%, rgba(255, 92, 200, 0.20), transparent 60%),
+        radial-gradient(900px 560px at 46% 118%, rgba(96, 64, 200, 0.30), transparent 66%),
+        linear-gradient(158deg, #170f2b 0%, #08060f 52%, #0c0718 100%);
+}
+
+html[data-layout="compact"] {
+    --dock-h: 56px;
+    --dock-gap: 12px;
+}
+
+html[data-layout="desktop"][data-wallpaper="grid"],
+html[data-layout="compact"][data-wallpaper="grid"] {
+    --desktop-wallpaper:
+        radial-gradient(900px 620px at 78% -4%, rgba(110, 203, 255, 0.16), transparent 62%),
+        radial-gradient(700px 520px at 6% 108%, rgba(166, 120, 255, 0.16), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 48px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 48px),
+        linear-gradient(160deg, #0b1220, #05070d 60%, #0a0f19);
+}
+
+html[data-layout="desktop"][data-wallpaper="graphite"],
+html[data-layout="compact"][data-wallpaper="graphite"] {
+    --desktop-wallpaper:
+        radial-gradient(900px 620px at 80% 0%, rgba(255, 255, 255, 0.10), transparent 66%),
+        linear-gradient(160deg, #26262c, #121216 55%, #08080b);
+}
+
+/* ── 2. One wallpaper behind the whole desktop ──────────────────────── */
+html[data-layout]:not([data-layout="classic"]) .main-view {
+    margin-left: 0;
+    padding: 0;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    background-color: #08060f;
+    background-image: var(--desktop-wallpaper);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* The old shell painted its own glow behind a floating card. */
+html[data-layout]:not([data-layout="classic"]) body::after { display: none; }
+
+/* ── 3. Every app page is a window on that wallpaper ────────────────── */
+html[data-layout]:not([data-layout="classic"]) .view-section:not(#home-content):not(#proxy-content) {
+    position: relative;
+    height: calc(100dvh - var(--dock-space) - 20px) !important;
+    min-height: 0 !important;
+    max-width: 1500px;
+    margin: 10px auto;
+    padding: 0 clamp(14px, 2.2vw, 30px) clamp(20px, 3vh, 32px) !important;
+    border: 1px solid var(--win-border);
+    border-radius: var(--win-radius);
+    background: var(--win-bg);
+    box-shadow: var(--win-shadow);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Window title bar, drawn from data-window-title. The traffic lights are
+   painted with gradients so no extra markup is needed. */
+html[data-layout]:not([data-layout="classic"]) .view-section[data-window-title]::before {
+    content: attr(data-window-title);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    box-sizing: border-box;
+    height: 38px;
+    margin: 0 calc(-1 * clamp(14px, 2.2vw, 30px)) clamp(14px, 2vh, 22px);
+    padding: 0 14px 0 66px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background-color: rgba(14, 10, 26, 0.96);
+    background-image:
+        radial-gradient(circle at 24px 19px, #ff5f57 0 4.5px, transparent 5px),
+        radial-gradient(circle at 40px 19px, #febc2e 0 4.5px, transparent 5px),
+        radial-gradient(circle at 56px 19px, #28c840 0 4.5px, transparent 5px),
+        var(--win-bar);
+    background-repeat: no-repeat;
+    backdrop-filter: blur(14px) saturate(150%);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    font-size: 9px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Games is a flex column with centred children; keep the bar full width. */
+html[data-layout]:not([data-layout="classic"]) #games-content[data-window-title]::before {
+    align-self: stretch;
+}
+
+/* Pages scroll inside their window, so their sticky toolbars belong
+   directly under the window title bar. */
+html[data-layout]:not([data-layout="classic"]) .games-search-container { top: 38px; }
+
+/* ── 4. Home is the desktop itself ──────────────────────────────────── */
+html[data-layout]:not([data-layout="classic"]) #home-content.view-section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    width: 100%;
+    max-width: none;
+    height: calc(100dvh - var(--dock-space)) !important;
+    min-height: 0 !important;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* layout-v2 pins .desktop-stage to flex: 0 0 auto with a higher-specificity
+   selector; the desktop has to fill the screen, so match that specificity. */
+html[data-layout]:not([data-layout="classic"]) #home-content > .desktop-stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.4vh, 18px);
+    margin: 0;
+    padding: clamp(14px, 1.7vw, 28px) clamp(16px, 2.4vw, 38px) clamp(8px, 1.1vh, 14px);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Soft vignette instead of the old inner grid / card background. */
+html[data-layout]:not([data-layout="classic"]) .desktop-stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(125% 95% at 50% -10%, transparent 55%, rgba(0, 0, 0, 0.34) 100%),
+        linear-gradient(to bottom, transparent 72%, rgba(0, 0, 0, 0.24));
+    background-size: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-stage > * { position: relative; z-index: 1; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-workarea {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    /* The row must be pinned to the free space: an auto row would grow to the
+       windows' max-content and push the desktop past the screen. */
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: clamp(78px, 6.2vw, 98px) minmax(0, 1fr);
+    gap: clamp(16px, 2vw, 30px);
+    align-items: stretch;
+}
+
+/* ── 5. Desktop icons, sitting straight on the wallpaper ────────────── */
+html[data-layout]:not([data-layout="classic"]) .desktop-app-column {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-label {
+    margin: 0 0 8px;
+    padding-left: 6px;
+    text-align: left;
+    font-size: 8px;
+    letter-spacing: 2.4px;
+    color: var(--text-dim);
+    opacity: 0.55;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-shortcut {
+    width: 100%;
+    padding: 7px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: #d9d0ee;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-shortcut:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.09);
+    color: var(--text-primary);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-shortcut.active {
+    background: rgba(166, 120, 255, 0.16);
+    border-color: rgba(166, 120, 255, 0.42);
+    color: var(--text-primary);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    background: linear-gradient(150deg, rgba(166, 120, 255, 0.36), rgba(58, 38, 104, 0.55));
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-icon svg { width: 23px; height: 23px; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-shortcut:hover .desktop-icon,
+html[data-layout]:not([data-layout="classic"]) .desktop-shortcut.active .desktop-icon {
+    transform: translateY(-1px);
+    border-color: rgba(166, 120, 255, 0.75);
+    box-shadow: 0 0 20px rgba(166, 120, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-name {
+    max-width: 92px;
+    font-size: 9.5px;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+    color: inherit;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-tip {
+    margin: 10px 0 0;
+    padding-left: 6px;
+    text-align: left;
+    font-size: 8px;
+    line-height: 1.4;
+    color: var(--text-dim);
+    opacity: 0.4;
+}
+
+html[data-icon-size="sm"] .desktop-icon { width: 42px; height: 42px; border-radius: 12px; }
+html[data-icon-size="sm"] .desktop-icon svg { width: 20px; height: 20px; }
+html[data-icon-size="lg"] .desktop-icon { width: 54px; height: 54px; border-radius: 16px; }
+html[data-icon-size="lg"] .desktop-icon svg { width: 26px; height: 26px; }
+
+/* ── 6. Floating windows ────────────────────────────────────────────── */
+html[data-layout]:not([data-layout="classic"]) .desktop-panels {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.62fr) minmax(248px, 0.92fr);
+    gap: clamp(12px, 1.4vw, 18px);
+    align-items: stretch;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-widget {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.2vw, 16px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-window {
+    min-width: 0;
+    min-height: 0;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--win-border);
+    border-radius: var(--win-radius);
+    background: var(--win-bg);
+    box-shadow: var(--win-shadow);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-window-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 0 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background: var(--win-bar);
+    color: rgba(233, 224, 255, 0.72);
+    font-size: 9px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-dots { display: inline-flex; gap: 7px; flex-shrink: 0; }
+html[data-layout]:not([data-layout="classic"]) .desktop-dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+}
+html[data-layout]:not([data-layout="classic"]) .desktop-dots i:first-child { background: #ff5f57; box-shadow: 0 0 8px rgba(255, 95, 87, 0.4); }
+html[data-layout]:not([data-layout="classic"]) .desktop-dots i:nth-child(2) { background: #febc2e; box-shadow: 0 0 8px rgba(254, 188, 46, 0.32); }
+html[data-layout]:not([data-layout="classic"]) .desktop-dots i:nth-child(3) { background: #28c840; box-shadow: 0 0 8px rgba(40, 200, 64, 0.32); }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-window-title {
+    font-weight: bold;
+    letter-spacing: 1.6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+html[data-layout]:not([data-layout="classic"]) .desktop-window-mini { margin-left: auto; font-size: 7.5px; opacity: 0.55; white-space: nowrap; }
+html[data-layout]:not([data-layout="classic"]) .desktop-online {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 7.5px;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+html[data-layout]:not([data-layout="classic"]) .desktop-online i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #6ee7b7;
+    box-shadow: 0 0 6px rgba(110, 231, 183, 0.8);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-window-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: clamp(18px, 2.2vw, 34px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+/* The welcome window owns the free space, so the desktop never looks
+   like a small card floating in an empty field. */
+html[data-layout]:not([data-layout="classic"]) .desktop-welcome .desktop-window-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-kicker {
+    margin: 0 0 10px;
+    font-size: 8.5px;
+    letter-spacing: 2.6px;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-welcome h1 {
+    margin: 0 0 14px;
+    font-size: clamp(1.7rem, 2.7vw, 2.6rem);
+    line-height: 1.12;
+    letter-spacing: 0.2px;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-welcome h1 span#typewriter {
+    color: var(--accent);
+    border-right: 2px solid var(--accent);
+    padding-right: 4px;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-subtitle {
+    max-width: 54ch;
+    margin: 0;
+    font-size: clamp(0.76rem, 0.9vw, 0.87rem);
+    line-height: 1.65;
+    color: var(--text-dim);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-welcome .hero-actions { margin-top: 22px; gap: 10px; }
+html[data-layout]:not([data-layout="classic"]) .desktop-welcome .btn-start { margin-top: 0; padding: 13px 22px; border-radius: 10px; font-size: 0.72rem; }
+html[data-layout]:not([data-layout="classic"]) .desktop-welcome .btn-ghost { padding: 12px 18px; border-radius: 10px; font-size: 0.7rem; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-clock-body {
+    flex: 0 0 auto;
+    padding: 18px 20px 20px;
+    overflow: visible;
+}
+
+html[data-layout]:not([data-layout="classic"]) #home-content #home-clock {
+    margin: 0;
+    font-size: clamp(1.9rem, 2.9vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+}
+
+html[data-layout]:not([data-layout="classic"]) #home-content #home-date {
+    margin-top: 8px;
+    font-size: 9px;
+    letter-spacing: 1.6px;
+}
+
+/* Sponsor widget window (the TextNexus card). */
+html[data-layout]:not([data-layout="classic"]) .desktop-promo {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    max-width: none;
+    margin: 0;
+    padding: 14px 15px;
+    border-radius: 14px;
+}
+
+/* Sponsored window above the promo card — only takes space when filled. */
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window {
+    flex: 0 0 auto;
+    display: none;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window:has(.ad-slot.has-ad) { display: flex; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window .desktop-ad-body {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    padding: 12px;
+    overflow: hidden;
+    background: radial-gradient(340px 170px at 50% 0%, rgba(166, 120, 255, 0.12), transparent 72%);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window .ad-slot { max-width: 100%; }
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window .ad-slot.has-ad { padding: 0; background: none; border: 0; }
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window .ad-slot-label { display: none; }
+
+/* ── 7. Ads framed as desktop panels ────────────────────────────────── */
+/* The page's inline stylesheet also targets #home-content .home-ads, so the
+   id is part of the selector here or the strip collapses into a column. */
+html[data-layout]:not([data-layout="classic"]) #home-content .desktop-ad-row {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: clamp(8px, 1vw, 14px);
+    width: 100%;
+    margin: 0;
+    padding: clamp(4px, 0.7vw, 10px) clamp(16px, 2.4vw, 38px) clamp(10px, 1.4vh, 18px);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel {
+    display: none;
+    flex: 1 1 380px;
+    max-width: 728px;
+    min-width: 0;
+    height: auto;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--win-border);
+    border-radius: 13px;
+    background: linear-gradient(180deg, rgba(26, 18, 44, 0.80), rgba(9, 7, 17, 0.88));
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel:has(.ad-slot.has-ad) { display: flex; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    height: 26px;
+    padding: 0 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.028);
+    color: var(--text-dim);
+    font-size: 7.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-bar .desktop-dots { gap: 5px; }
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-bar .desktop-dots i { width: 7px; height: 7px; }
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-title { font-weight: bold; }
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-tag {
+    margin-left: auto;
+    padding: 1px 5px;
+    border: 1px solid rgba(166, 120, 255, 0.35);
+    border-radius: 4px;
+    font-size: 6.5px;
+    letter-spacing: 1.4px;
+    color: var(--accent);
+    opacity: 0.85;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-body {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    min-height: 96px;
+    overflow: hidden;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel .ad-slot,
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel .ad-slot--wide { max-width: 100%; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel .ad-slot.has-ad {
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel .ad-slot-label,
+html[data-layout]:not([data-layout="classic"]) .page-ad .ad-slot-label { display: none; }
+
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel iframe,
+html[data-layout]:not([data-layout="classic"]) .page-ad iframe,
+html[data-layout]:not([data-layout="classic"]) .desktop-ad-window iframe {
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.28);
+}
+
+/* In-page ads (Games, Tools, Store, Settings, Achievements) get the same
+   panel treatment so they read as part of the desktop, not pasted on it. */
+html[data-layout]:not([data-layout="classic"]) .page-ad {
+    width: 100%;
+    max-width: 100%;
+    margin: clamp(14px, 2vw, 22px) auto 0;
+    border: 1px solid var(--win-border);
+    border-radius: 13px;
+    background: linear-gradient(180deg, rgba(26, 18, 44, 0.62), rgba(9, 7, 17, 0.74));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+}
+
+html[data-layout]:not([data-layout="classic"]) .page-ad.has-ad { padding: 10px 12px 12px; }
+
+html[data-layout]:not([data-layout="classic"]) .page-ad.has-ad::before {
+    content: "SPONSORED";
+    display: block;
+    flex: 0 0 auto;
+    width: calc(100% + 24px);
+    margin: -10px -12px 10px;
+    padding: 7px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.028);
+    font-size: 7.5px;
+    letter-spacing: 2.2px;
+    color: var(--text-dim);
+}
+
+/* In-grid game ad tiles borrow the game-card shape so they belong. */
+html[data-layout]:not([data-layout="classic"]) .ad-inline-card.has-ad {
+    min-height: 0;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    grid-column: span 2;
+}
+
+html[data-layout]:not([data-layout="classic"]) .ad-inline-card .ad-slot { max-width: 100%; }
+html[data-layout]:not([data-layout="classic"]) .ad-inline-card .ad-slot.has-ad { padding: 4px; gap: 6px; }
+html[data-layout]:not([data-layout="classic"]) .ad-inline-card .ad-slot-label { display: none; }
+
+/* ── 8. The dock ────────────────────────────────────────────────────── */
+html[data-layout="desktop"] .sidebar,
+html[data-layout="compact"] .sidebar {
+    position: fixed;
+    top: auto;
+    bottom: calc(var(--dock-gap) + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    right: auto;
+    width: auto;
+    max-width: calc(100vw - 24px);
+    height: var(--dock-h);
+    padding: 0 8px;
+    transform: translateX(-50%);
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(34, 25, 56, 0.86), rgba(9, 7, 18, 0.96));
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.60), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(26px) saturate(170%);
+    -webkit-backdrop-filter: blur(26px) saturate(170%);
+    z-index: 1200;
+}
+
+html[data-layout="desktop"] .sidebar:hover,
+html[data-layout="compact"] .sidebar:hover { width: auto; }
+
+html[data-layout="desktop"] .logo-box,
+html[data-layout="compact"] .logo-box {
+    width: 42px;
+    height: 42px;
+    margin: 0 6px 0 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(166, 120, 255, 0.34);
+    border-radius: 13px;
+    background: linear-gradient(150deg, rgba(166, 120, 255, 0.34), rgba(60, 40, 110, 0.5));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 6px 14px rgba(0, 0, 0, 0.35);
+    font-size: 22px;
+    line-height: 1;
+}
+
+html[data-layout="desktop"] .nav-group,
+html[data-layout="compact"] .nav-group {
+    flex: 0 1 auto;
+    min-width: 0;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    gap: 2px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+html[data-layout="desktop"] .nav-group::-webkit-scrollbar,
+html[data-layout="compact"] .nav-group::-webkit-scrollbar { display: none; }
+
+html[data-layout="desktop"] .nav-item,
+html[data-layout="compact"] .nav-item {
+    width: auto;
+    min-width: 62px;
+    height: calc(100% - 10px);
+    min-height: 0;
+    padding: 5px 9px 4px;
+    gap: 4px;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 11px;
+}
+
+html[data-layout="desktop"] .nav-item::before,
+html[data-layout="compact"] .nav-item::before { display: none; }
+
+html[data-layout="desktop"] .nav-item svg,
+html[data-layout="compact"] .nav-item svg { width: 20px; height: 20px; min-width: 0; }
+
+html[data-layout="desktop"] .nav-item.active,
+html[data-layout="compact"] .nav-item.active {
+    background: rgba(166, 120, 255, 0.18);
+    box-shadow: inset 0 0 0 1px rgba(166, 120, 255, 0.28);
+}
+
+html[data-layout="desktop"] .nav-item.active::after,
+html[data-layout="compact"] .nav-item.active::after {
+    content: "";
+    left: 50%;
+    bottom: 3px;
+    width: 16px;
+    height: 2.5px;
+    margin-left: -8px;
+    border-radius: 99px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+html[data-layout="desktop"] .sidebar-bottom,
+html[data-layout="compact"] .sidebar-bottom {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    margin-left: 2px;
+    padding: 0;
+    gap: 2px;
+    border: 0;
+}
+
+html[data-layout="desktop"] .create-cta,
+html[data-layout="compact"] .create-cta {
+    flex-shrink: 0;
+    height: 38px;
+    margin-left: 4px;
+    padding: 0 12px;
+    border-radius: 11px;
+    font-size: 0.62rem;
+    letter-spacing: 1.3px;
+}
+
+html[data-layout="desktop"] .taskbar-tray,
+html[data-layout="compact"] .taskbar-tray {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: auto;
+    padding-left: 8px;
+    flex-shrink: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+html[data-layout="desktop"] .taskbar-clock,
+html[data-layout="compact"] .taskbar-clock {
+    min-width: 64px;
+    height: 42px;
+    padding: 0 8px;
+    border-radius: 10px;
+}
+html[data-layout="desktop"] .taskbar-clock:hover,
+html[data-layout="compact"] .taskbar-clock:hover { background: rgba(255, 255, 255, 0.06); }
+
+#taskbar-time { font-size: 13px; }
+#taskbar-date { font-size: 8.5px; letter-spacing: 0.7px; }
+
+/* ── 9. Proxy / embedded app frames ─────────────────────────────────── */
+html[data-layout]:not([data-layout="classic"]) #app-frame {
+    top: 0 !important;
+    height: calc(100dvh - var(--dock-space)) !important;
+}
+
+html[data-layout]:not([data-layout="classic"]) #proxy-content {
+    height: calc(100dvh - var(--dock-space)) !important;
+    min-height: 0 !important;
+    max-width: none;
+    padding: 0 !important;
+}
+
+html[data-layout]:not([data-layout="classic"]) #legal-footer {
+    bottom: calc(var(--dock-space) + 2px);
+    left: 0;
+    right: 0;
+    font-size: 8px;
+    opacity: 0.5;
+}
+
+/* ── 10. Tablet ─────────────────────────────────────────────────────── */
+@media (max-width: 1180px) {
+    /* Tablets in landscape still get a real two-window desktop, just with a
+       narrower widget rail; stacking starts at portrait widths below. */
+    html[data-layout]:not([data-layout="classic"]) .desktop-panels {
+        grid-template-columns: minmax(0, 1.5fr) minmax(228px, 0.9fr);
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-widget { min-height: 0; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-window .desktop-ad-body { min-height: 90px; }
+}
+
+@media (max-width: 1024px) {
+    /* Landscape tablets keep a full desktop: icons on top, windows filling
+       the rest and scrolling inside themselves instead of scrolling the page. */
+    html[data-layout]:not([data-layout="classic"]) #home-content > .desktop-stage {
+        flex: 1 1 auto;
+        min-height: 320px;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-workarea {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-label { margin-bottom: 6px; padding-left: 4px; }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcuts {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 4px;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcut { width: auto; padding: 7px 3px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-tip { display: none; }
+}
+
+/* iPad portrait: icons in two tidy rows of four. */
+@media (max-width: 900px) {
+    /* Portrait tablets and phones scroll the desktop instead. */
+    html[data-layout]:not([data-layout="classic"]) #home-content > .desktop-stage {
+        flex: 0 0 auto;
+        min-height: 0;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-workarea {
+        grid-template-rows: auto;
+        align-items: start;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcuts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-panels {
+        grid-template-columns: 1fr;
+        /* Stacked windows need auto rows; a 1fr row would collapse the
+           first one to nothing because the second lands in an implicit row. */
+        grid-template-rows: auto;
+        height: auto;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-widget {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        max-height: none;
+        overflow: visible;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-window { grid-column: span 2; }
+    html[data-layout]:not([data-layout="classic"]) .view-section:not(#home-content):not(#proxy-content) {
+        height: calc(100dvh - var(--dock-space) - 14px) !important;
+        margin: 7px auto;
+        padding: 0 14px 22px !important;
+    }
+    html[data-layout]:not([data-layout="classic"]) .view-section[data-window-title]::before {
+        margin: 0 -14px clamp(12px, 2vh, 18px);
+    }
+}
+
+/* ── 11. Phone ──────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+    html[data-layout] {
+        --dock-h: 58px;
+        --dock-gap: 0px;
+        --dock-space: calc(58px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* A phone OS dock is edge-to-edge, like the home indicator bar. */
+    html[data-layout="desktop"] .sidebar,
+    html[data-layout="compact"] .sidebar {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: none;
+        width: 100%;
+        max-width: none;
+        height: calc(var(--dock-h) + env(safe-area-inset-bottom, 0px));
+        padding: 0 6px env(safe-area-inset-bottom, 0px);
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 0;
+    }
+
+    html[data-layout="desktop"] .sidebar:hover,
+    html[data-layout="compact"] .sidebar:hover { width: 100%; }
+
+    html[data-layout]:not([data-layout="classic"]) #home-content.view-section {
+        height: calc(100dvh - var(--dock-space)) !important;
+        overflow-y: auto;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) #home-content > .desktop-stage {
+        flex: 0 0 auto;
+        min-height: 0;
+        overflow: visible;
+        padding: 12px 12px 6px;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-workarea { grid-template-columns: 1fr; gap: 12px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcuts {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcut { width: auto; padding: 8px 2px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-name { max-width: 100%; }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-panels {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-widget {
+        display: flex;
+        flex-direction: column;
+        max-height: none;
+        overflow: visible;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-window { grid-column: auto; }
+
+    html[data-layout]:not([data-layout="classic"]) .desktop-window { border-radius: 16px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-welcome .desktop-window-body {
+        justify-content: flex-start;
+        padding: 18px;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-welcome h1 { font-size: 1.5rem; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-welcome .hero-actions { margin-top: 16px; gap: 8px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-welcome .btn-start,
+    html[data-layout]:not([data-layout="classic"]) .desktop-welcome .btn-ghost { flex: 1 1 auto; padding: 12px 14px; }
+    html[data-layout]:not([data-layout="classic"]) #home-content #home-clock { font-size: 2.1rem; }
+
+    html[data-layout]:not([data-layout="classic"]) #home-content .desktop-ad-row {
+        padding: 4px 12px 12px;
+        gap: 8px;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel { flex: 1 1 100%; max-width: none; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel-body { min-height: 84px; padding: 6px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-window .desktop-ad-body { padding: 8px; }
+
+    html[data-layout]:not([data-layout="classic"]) .view-section:not(#home-content):not(#proxy-content) {
+        height: calc(100dvh - var(--dock-space) - 10px) !important;
+        margin: 5px;
+        padding: 0 12px 20px !important;
+        border-radius: 14px;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) .view-section[data-window-title]::before {
+        height: 34px;
+        margin: 0 -12px 12px;
+        padding-left: 58px;
+        background-image:
+            radial-gradient(circle at 20px 17px, #ff5f57 0 4px, transparent 4.5px),
+            radial-gradient(circle at 34px 17px, #febc2e 0 4px, transparent 4.5px),
+            radial-gradient(circle at 48px 17px, #28c840 0 4px, transparent 4.5px),
+            var(--win-bar);
+        font-size: 8px;
+        letter-spacing: 1.8px;
+    }
+
+    html[data-layout]:not([data-layout="classic"]) .games-search-container { top: 34px; }
+
+    html[data-layout="desktop"] .logo-box,
+    html[data-layout="compact"] .logo-box { width: 36px; height: 36px; margin-right: 4px; border-radius: 11px; font-size: 19px; }
+    html[data-layout="desktop"] .nav-item,
+    html[data-layout="compact"] .nav-item { min-width: 48px; padding: 5px 6px 4px; gap: 3px; }
+    html[data-layout="desktop"] .nav-item svg,
+    html[data-layout="compact"] .nav-item svg { width: 21px; height: 21px; }
+    html[data-layout="desktop"] .taskbar-tray,
+    html[data-layout="compact"] .taskbar-tray { padding-left: 5px; }
+    html[data-layout="desktop"] .taskbar-clock,
+    html[data-layout="compact"] .taskbar-clock { min-width: 52px; height: 38px; padding: 0 4px; }
+    #taskbar-time { font-size: 12px; }
+}
+
+@media (max-width: 420px) {
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcuts { gap: 2px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-shortcut { padding: 6px 1px; gap: 4px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-icon { width: 42px; height: 42px; border-radius: 12px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-icon svg { width: 20px; height: 20px; }
+    html[data-layout]:not([data-layout="classic"]) .desktop-name { font-size: 8.5px; letter-spacing: 0; }
+    html[data-layout]:not([data-layout="classic"]) #home-content #home-clock { font-size: 1.95rem; }
+    html[data-layout="desktop"] .nav-item,
+    html[data-layout="compact"] .nav-item { min-width: 44px; padding: 5px 5px 4px; }
+}
+
+/* Landscape phones: keep the windows usable and let the desktop scroll. */
+@media (max-height: 520px) and (max-width: 1100px) {
+    html[data-layout]:not([data-layout="classic"]) #home-content > .desktop-stage {
+        flex: 0 0 auto;
+        min-height: 0;
+        overflow: visible;
+    }
+    html[data-layout]:not([data-layout="classic"]) .desktop-widget {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: visible;
+    }
+}
+
+/* Touch devices: skip the expensive live blurs, keep the depth. */
+@media (pointer: coarse) {
+    html[data-layout]:not([data-layout="classic"]) .view-section:not(#home-content):not(#proxy-content),
+    html[data-layout]:not([data-layout="classic"]) .desktop-window,
+    html[data-layout]:not([data-layout="classic"]) .desktop-ad-panel,
+    html[data-layout="desktop"] .sidebar,
+    html[data-layout="compact"] .sidebar {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    html[data-layout]:not([data-layout="classic"]) .view-section:not(#home-content):not(#proxy-content),
+    html[data-layout]:not([data-layout="classic"]) .desktop-window {
+        background: linear-gradient(165deg, rgba(26, 19, 44, 0.97), rgba(9, 7, 17, 0.99));
+    }
+    html[data-layout="desktop"] .sidebar,
+    html[data-layout="compact"] .sidebar {
+        background: linear-gradient(180deg, rgba(30, 22, 50, 0.97), rgba(9, 7, 18, 0.99));
+    }
+}
+
+/* ── 12. Keep Classic exactly as it was ─────────────────────────────── */
+html[data-layout="classic"] .desktop-stage { border-radius: 18px; }
