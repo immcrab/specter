@@ -8002,8 +8002,8 @@
 
         function gamesCoverSrc(file) {
             const full = gamesCoverFull(file);
-            const match = full.match(/^covers\/(.+)\.(?:png|jpe?g)$/i);
-            return match ? `covers/thumbs/${match[1]}.webp` : full;
+            const match = full.match(/covers\/(.+)\.(?:png|jpe?g)$/i);
+            return match ? `${coverURL}/thumbs/${match[1]}.webp` : full;
         }
 
         // Warm the HTTP cache as soon as a tile is hovered or pressed, so a
