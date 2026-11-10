@@ -1423,7 +1423,7 @@
     "id": 181,
     "name": "Minecraft 1.8.8",
     "cover": "{COVER_URL}/181.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/181-fix.html",
+    "url": "{HTML_URL}/181-fix.html",
     "author": "lax1dude",
     "authorLink": "https://eaglercraft.com"
   },
@@ -7974,7 +7974,7 @@
     "id": 1022,
     "name": "The Sims - Busting Out",
     "cover": "{COVER_URL}/1022.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1022-fix.html"
+    "url": "{HTML_URL}/1022-fix.html"
   },
   {
     "id": 1023,
@@ -8604,7 +8604,7 @@
     "id": 1127,
     "name": "Sonic Advance",
     "cover": "{COVER_URL}/1127.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1127-fix.html"
+    "url": "{HTML_URL}/1127-fix.html"
   },
   {
     "id": 1128,
@@ -9576,7 +9576,7 @@
     "id": 1289,
     "name": "Sonic Advance 2",
     "cover": "{COVER_URL}/1289.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1289-fix.html"
+    "url": "{HTML_URL}/1289-fix.html"
   },
   {
     "id": 1290,
@@ -9834,7 +9834,7 @@
     "id": 1332,
     "name": "Sonic Advance 3",
     "cover": "{COVER_URL}/1332.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1332-fix.html"
+    "url": "{HTML_URL}/1332-fix.html"
   },
   {
     "id": 1333,
@@ -10566,7 +10566,7 @@
     "id": 1454,
     "name": "Crazy Taxi",
     "cover": "{COVER_URL}/1454.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1454-fix.html"
+    "url": "{HTML_URL}/1454-fix.html"
   },
   {
     "id": 1455,
@@ -10602,7 +10602,7 @@
     "id": 1460,
     "name": "GTA: Advance",
     "cover": "{COVER_URL}/1460.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1460-fix.html"
+    "url": "{HTML_URL}/1460-fix.html"
   },
   {
     "id": 1461,
@@ -10986,7 +10986,7 @@
     "id": 1524,
     "name": "Hill Climb Racing 2",
     "cover": "{COVER_URL}/1524.png",
-    "url": "https://raw.githubusercontent.com/immcrab/specter-games/main/games/1524-fix.html"
+    "url": "{HTML_URL}/1524-fix.html"
   },
   {
     "id": 1525,
