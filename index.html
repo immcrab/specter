@@ -38,6 +38,39 @@
     <link rel="stylesheet" href="vendor/fontawesome/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="vendor/fontawesome/all.min.css"></noscript>
     <script>
+        // The AI chat talks to the xKiro gateway directly, and that API only grants
+        // CORS to an opaque origin. So the page is served through a sandboxed srcdoc
+        // frame (no allow-same-origin) and its chat history is bridged to this page.
+        function loadAiFrame() {
+            const frame = document.getElementById('app-frame');
+            if (!frame) return;
+            frame.style.display = 'block';
+
+            const applyTheme = () => {
+                sendThemeToIframe();
+                setTimeout(sendThemeToIframe, 120);
+                setTimeout(sendThemeToIframe, 600);
+            };
+
+            fetch('src/ai.html', { cache: 'no-store' })
+                .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+                .then(html => {
+                    frame.removeAttribute('src');
+                    frame.setAttribute('sandbox', 'allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads');
+                    frame.onload = applyTheme;
+                    frame.srcdoc = html;
+                    applyTheme();
+                })
+                .catch(err => {
+                    console.warn('Local AI page unavailable, loading it directly instead.', err);
+                    frame.removeAttribute('sandbox');
+                    frame.removeAttribute('srcdoc');
+                    const s = getComputedStyle(document.documentElement);
+                    frame.src = 'src/ai.html?accent=' + encodeURIComponent(s.getPropertyValue('--accent').trim()) +
+                                '&bg=' + encodeURIComponent(s.getPropertyValue('--bg').trim());
+                });
+        }
+
         function loadIntoFrame(targetUrl) {
             const frame = document.getElementById('app-frame');
             frame.style.display = 'block';
@@ -4154,10 +4187,9 @@
             } else if (page === 'achievements') {
                 achievementsView.style.display = 'block';
             } else if (page === 'ai') {
-                const baseUrl = 'https://cdn.jsdelivr.net/gh/virtuan4-max/ghostlinkhub@main/src/';
-                const fileMap = { 'ai': 'ai.html' };
+                // Local copy so the AI page has no CDN dependency.
                 sendThemeToIframe();
-                loadIntoFrame(`${baseUrl}${fileMap[page]}?v=${new Date().getTime()}`);
+                loadAiFrame();
                 sendThemeToIframe();
             } else if (page === 'lucide') {
                 loadIntoFrame('Lucide/index.html');
@@ -5820,6 +5852,19 @@
         }
 
         window.addEventListener('message', (event) => {
+            const msg = event.data || {};
+            // Storage bridge for the sandboxed AI frame (it has an opaque origin,
+            // so it cannot reach localStorage itself).
+            if (msg.type === 'GL_AI_STORE_GET') {
+                let value = null;
+                try { value = localStorage.getItem(msg.key); } catch (e) {}
+                try { event.source.postMessage({ type: 'GL_AI_STORE_DATA', key: msg.key, value: value }, '*'); } catch (e) {}
+                return;
+            }
+            if (msg.type === 'GL_AI_STORE_SET') {
+                try { localStorage.setItem(msg.key, msg.value); } catch (e) {}
+                return;
+            }
             if (event.data.type === 'GHOSTLINK_QUERY_THEME') {
                 sendThemeToIframe();
             }
