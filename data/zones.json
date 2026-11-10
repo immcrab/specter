@@ -7837,5 +7837,3851 @@
     "special": [
       "port"
     ]
+  },
+  {
+    "id": 1000,
+    "name": "Wordle Bot",
+    "cover": "{COVER_URL}/1000.png",
+    "url": "{HTML_URL}/1000-fix.html"
+  },
+  {
+    "id": 1001,
+    "name": "Ultimate Flash Sonic",
+    "cover": "{COVER_URL}/1001.png",
+    "url": "{HTML_URL}/1001-fix.html"
+  },
+  {
+    "id": 1002,
+    "name": "Aquapark Slides",
+    "cover": "{COVER_URL}/1002.png",
+    "url": "{HTML_URL}/1002-fix.html"
+  },
+  {
+    "id": 1003,
+    "name": "Lows Adventures 2",
+    "cover": "{COVER_URL}/1003.png",
+    "url": "{HTML_URL}/1003-fix.html"
+  },
+  {
+    "id": 1004,
+    "name": "Gun Knight",
+    "cover": "{COVER_URL}/1004.png",
+    "url": "{HTML_URL}/1004-fix.html"
+  },
+  {
+    "id": 1005,
+    "name": "Drift King",
+    "cover": "{COVER_URL}/1005.png",
+    "url": "{HTML_URL}/1005-fix.html"
+  },
+  {
+    "id": 1006,
+    "name": "Altered Beast",
+    "cover": "{COVER_URL}/1006.png",
+    "url": "{HTML_URL}/1006-fix.html"
+  },
+  {
+    "id": 1007,
+    "name": "TU-46",
+    "cover": "{COVER_URL}/1007.png",
+    "url": "{HTML_URL}/1007-fix.html"
+  },
+  {
+    "id": 1008,
+    "name": "Twin Shot 2",
+    "cover": "{COVER_URL}/1008.png",
+    "url": "{HTML_URL}/1008-fix.html"
+  },
+  {
+    "id": 1009,
+    "name": "Rot In Paradise",
+    "cover": "{COVER_URL}/1009.png",
+    "url": "{HTML_URL}/1009-fix.html"
+  },
+  {
+    "id": 1010,
+    "name": "Grand Truckismo",
+    "cover": "{COVER_URL}/1010.png",
+    "url": "{HTML_URL}/1010-fix.html"
+  },
+  {
+    "id": 1011,
+    "name": "Rough Dino",
+    "cover": "{COVER_URL}/1011.png",
+    "url": "{HTML_URL}/1011-fix.html"
+  },
+  {
+    "id": 1012,
+    "name": "Eat The Rich",
+    "cover": "{COVER_URL}/1012.png",
+    "url": "{HTML_URL}/1012-fix.html"
+  },
+  {
+    "id": 1013,
+    "name": "Papa Louie 3",
+    "cover": "{COVER_URL}/1013.png",
+    "url": "{HTML_URL}/1013-fix.html"
+  },
+  {
+    "id": 1014,
+    "name": "Rayman 3",
+    "cover": "{COVER_URL}/1014.png",
+    "url": "{HTML_URL}/1014-fix.html"
+  },
+  {
+    "id": 1015,
+    "name": "CrossNRoad",
+    "cover": "{COVER_URL}/1015.png",
+    "url": "{HTML_URL}/1015-fix.html"
+  },
+  {
+    "id": 1016,
+    "name": "Commodore 64 Clicker",
+    "cover": "{COVER_URL}/1016.png",
+    "url": "{HTML_URL}/1016-fix.html"
+  },
+  {
+    "id": 1017,
+    "name": "Cut The Rope Holiday",
+    "cover": "{COVER_URL}/1017.png",
+    "url": "{HTML_URL}/1017-fix.html"
+  },
+  {
+    "id": 1018,
+    "name": "Shop Empire",
+    "cover": "{COVER_URL}/1018.png",
+    "url": "{HTML_URL}/1018-fix.html"
+  },
+  {
+    "id": 1019,
+    "name": "Animal Crossing Population Growing",
+    "cover": "{COVER_URL}/1019.png",
+    "url": "{HTML_URL}/1019-fix.html"
+  },
+  {
+    "id": 1020,
+    "name": "Adventure Capitalist",
+    "cover": "{COVER_URL}/1020.png",
+    "url": "{HTML_URL}/1020-fix.html"
+  },
+  {
+    "id": 1021,
+    "name": "Mindustry",
+    "cover": "{COVER_URL}/1021.png",
+    "url": "{HTML_URL}/1021-fix.html"
+  },
+  {
+    "id": 1022,
+    "name": "The Sims - Busting Out",
+    "cover": "{COVER_URL}/1022.png",
+    "url": "{HTML_URL}/1022-fix.html"
+  },
+  {
+    "id": 1023,
+    "name": "Quake 1",
+    "cover": "{COVER_URL}/1023.png",
+    "url": "{HTML_URL}/1023-fix.html"
+  },
+  {
+    "id": 1024,
+    "name": "Chibi Knight",
+    "cover": "{COVER_URL}/1024.png",
+    "url": "{HTML_URL}/1024-fix.html"
+  },
+  {
+    "id": 1025,
+    "name": "BERGENTRUCK",
+    "cover": "{COVER_URL}/1025.png",
+    "url": "{HTML_URL}/1025-fix.html"
+  },
+  {
+    "id": 1026,
+    "name": "Pokemon Silver",
+    "cover": "{COVER_URL}/1026.png",
+    "url": "{HTML_URL}/1026-fix.html"
+  },
+  {
+    "id": 1027,
+    "name": "Bike Champ",
+    "cover": "{COVER_URL}/1027.png",
+    "url": "{HTML_URL}/1027-fix.html"
+  },
+  {
+    "id": 1028,
+    "name": "Space Invaders",
+    "cover": "{COVER_URL}/1028.png",
+    "url": "{HTML_URL}/1028-fix.html"
+  },
+  {
+    "id": 1029,
+    "name": "How to Fish",
+    "cover": "{COVER_URL}/1029.png",
+    "url": "{HTML_URL}/1029-fix.html"
+  },
+  {
+    "id": 1030,
+    "name": "Shop Empire Fable",
+    "cover": "{COVER_URL}/1030.png",
+    "url": "{HTML_URL}/1030-fix.html"
+  },
+  {
+    "id": 1031,
+    "name": "Super Smash Bros",
+    "cover": "{COVER_URL}/1031.png",
+    "url": "{HTML_URL}/1031-fix.html"
+  },
+  {
+    "id": 1032,
+    "name": "Super Mario Kart",
+    "cover": "{COVER_URL}/1032.png",
+    "url": "{HTML_URL}/1032-fix.html"
+  },
+  {
+    "id": 1033,
+    "name": "Ristar",
+    "cover": "{COVER_URL}/1033.png",
+    "url": "{HTML_URL}/1033-fix.html"
+  },
+  {
+    "id": 1034,
+    "name": "Weave Silk",
+    "cover": "{COVER_URL}/1034.png",
+    "url": "{HTML_URL}/1034-fix.html"
+  },
+  {
+    "id": 1035,
+    "name": "CSGO Case Clicker",
+    "cover": "{COVER_URL}/1035.png",
+    "url": "{HTML_URL}/1035-fix.html"
+  },
+  {
+    "id": 1036,
+    "name": "Fireboy & Watergirl 4",
+    "cover": "{COVER_URL}/1036.png",
+    "url": "{HTML_URL}/1036-fix.html"
+  },
+  {
+    "id": 1037,
+    "name": "Robo Run",
+    "cover": "{COVER_URL}/1037.png",
+    "url": "{HTML_URL}/1037-fix.html"
+  },
+  {
+    "id": 1038,
+    "name": "Mystical Ninja Starring Goemon",
+    "cover": "{COVER_URL}/1038.png",
+    "url": "{HTML_URL}/1038-fix.html"
+  },
+  {
+    "id": 1039,
+    "name": "Super Bomberman",
+    "cover": "{COVER_URL}/1039.png",
+    "url": "{HTML_URL}/1039-fix.html"
+  },
+  {
+    "id": 1040,
+    "name": "Ace Attorney: Apollo Justice",
+    "cover": "{COVER_URL}/1040.png",
+    "url": "{HTML_URL}/1040-fix.html"
+  },
+  {
+    "id": 1041,
+    "name": "Elevator Hitch",
+    "cover": "{COVER_URL}/1041.png",
+    "url": "{HTML_URL}/1041-fix.html"
+  },
+  {
+    "id": 1042,
+    "name": "3D Space Cadet Pinball",
+    "cover": "{COVER_URL}/1042.png",
+    "url": "{HTML_URL}/1042-fix.html"
+  },
+  {
+    "id": 1043,
+    "name": "Shining Force",
+    "cover": "{COVER_URL}/1043.png",
+    "url": "{HTML_URL}/1043-fix.html"
+  },
+  {
+    "id": 1044,
+    "name": "Crazy Flasher 4",
+    "cover": "{COVER_URL}/1044.png",
+    "url": "{HTML_URL}/1044-fix.html"
+  },
+  {
+    "id": 1045,
+    "name": "Super Mario World",
+    "cover": "{COVER_URL}/1045.png",
+    "url": "{HTML_URL}/1045-fix.html"
+  },
+  {
+    "id": 1046,
+    "name": "Pokemon Unbound",
+    "cover": "{COVER_URL}/1046.png",
+    "url": "{HTML_URL}/1046-fix.html"
+  },
+  {
+    "id": 1047,
+    "name": "Bee Swarm Simulator",
+    "cover": "{COVER_URL}/1047.png",
+    "url": "{HTML_URL}/1047-fix.html"
+  },
+  {
+    "id": 1048,
+    "name": "Counter Strike: DS",
+    "cover": "{COVER_URL}/1048.png",
+    "url": "{HTML_URL}/1048-fix.html"
+  },
+  {
+    "id": 1049,
+    "name": "Among Us",
+    "cover": "{COVER_URL}/1049.png",
+    "url": "{HTML_URL}/1049-fix.html"
+  },
+  {
+    "id": 1050,
+    "name": "BIOTOMATA",
+    "cover": "{COVER_URL}/1050.png",
+    "url": "{HTML_URL}/1050-fix.html"
+  },
+  {
+    "id": 1051,
+    "name": "Russian Car Driver",
+    "cover": "{COVER_URL}/1051.png",
+    "url": "{HTML_URL}/1051-fix.html"
+  },
+  {
+    "id": 1052,
+    "name": "Skibidi 1 v 100",
+    "cover": "{COVER_URL}/1052.png",
+    "url": "{HTML_URL}/1052-fix.html"
+  },
+  {
+    "id": 1053,
+    "name": "9007199254740992",
+    "cover": "{COVER_URL}/1053.png",
+    "url": "{HTML_URL}/1053-fix.html"
+  },
+  {
+    "id": 1054,
+    "name": "Pokemon Diamond",
+    "cover": "{COVER_URL}/1054.png",
+    "url": "{HTML_URL}/1054-fix.html"
+  },
+  {
+    "id": 1055,
+    "name": "Ninja Gaiden",
+    "cover": "{COVER_URL}/1055.png",
+    "url": "{HTML_URL}/1055-fix.html"
+  },
+  {
+    "id": 1056,
+    "name": "Phantasy Star IV",
+    "cover": "{COVER_URL}/1056.png",
+    "url": "{HTML_URL}/1056-fix.html"
+  },
+  {
+    "id": 1057,
+    "name": "Hardware Tycoon",
+    "cover": "{COVER_URL}/1057.png",
+    "url": "{HTML_URL}/1057-fix.html"
+  },
+  {
+    "id": 1058,
+    "name": "Extreme Run 3D",
+    "cover": "{COVER_URL}/1058.png",
+    "url": "{HTML_URL}/1058-fix.html"
+  },
+  {
+    "id": 1059,
+    "name": "Traffic Jam 3D",
+    "cover": "{COVER_URL}/1059.png",
+    "url": "{HTML_URL}/1059-fix.html"
+  },
+  {
+    "id": 1060,
+    "name": "Mine Blocks",
+    "cover": "{COVER_URL}/1060.png",
+    "url": "{HTML_URL}/1060-fix.html"
+  },
+  {
+    "id": 1061,
+    "name": "Hollow Knight",
+    "cover": "{COVER_URL}/1061.png",
+    "url": "{HTML_URL}/1061-fix.html"
+  },
+  {
+    "id": 1062,
+    "name": "Monkey Mart",
+    "cover": "{COVER_URL}/1062.png",
+    "url": "{HTML_URL}/1062-fix.html"
+  },
+  {
+    "id": 1063,
+    "name": "Flippy Fish",
+    "cover": "{COVER_URL}/1063.png",
+    "url": "{HTML_URL}/1063-fix.html"
+  },
+  {
+    "id": 1064,
+    "name": "Solitaire",
+    "cover": "{COVER_URL}/1064.png",
+    "url": "{HTML_URL}/1064-fix.html"
+  },
+  {
+    "id": 1065,
+    "name": "2D Rocket League",
+    "cover": "{COVER_URL}/1065.png",
+    "url": "{HTML_URL}/1065-fix.html"
+  },
+  {
+    "id": 1066,
+    "name": "Red Ball 1",
+    "cover": "{COVER_URL}/1066.png",
+    "url": "{HTML_URL}/1066-fix.html"
+  },
+  {
+    "id": 1067,
+    "name": "Swindler",
+    "cover": "{COVER_URL}/1067.png",
+    "url": "{HTML_URL}/1067-fix.html"
+  },
+  {
+    "id": 1068,
+    "name": "Mario Party DS",
+    "cover": "{COVER_URL}/1068.png",
+    "url": "{HTML_URL}/1068-fix.html"
+  },
+  {
+    "id": 1069,
+    "name": "Funny Shooter",
+    "cover": "{COVER_URL}/1069.png",
+    "url": "{HTML_URL}/1069-fix.html"
+  },
+  {
+    "id": 1070,
+    "name": "Mega Man 4",
+    "cover": "{COVER_URL}/1070.png",
+    "url": "{HTML_URL}/1070-fix.html"
+  },
+  {
+    "id": 1071,
+    "name": "Star Fox 64",
+    "cover": "{COVER_URL}/1071.png",
+    "url": "{HTML_URL}/1071-fix.html"
+  },
+  {
+    "id": 1072,
+    "name": "Rogue",
+    "cover": "{COVER_URL}/1072.png",
+    "url": "{HTML_URL}/1072-fix.html"
+  },
+  {
+    "id": 1073,
+    "name": "Tappy Plane",
+    "cover": "{COVER_URL}/1073.png",
+    "url": "{HTML_URL}/1073-fix.html"
+  },
+  {
+    "id": 1074,
+    "name": "Earn to Die",
+    "cover": "{COVER_URL}/1074.png",
+    "url": "{HTML_URL}/1074-fix.html"
+  },
+  {
+    "id": 1075,
+    "name": "Mario Kart DS",
+    "cover": "{COVER_URL}/1075.png",
+    "url": "{HTML_URL}/1075-fix.html"
+  },
+  {
+    "id": 1076,
+    "name": "Game Maker Doodle",
+    "cover": "{COVER_URL}/1076.png",
+    "url": "{HTML_URL}/1076-fix.html"
+  },
+  {
+    "id": 1077,
+    "name": "Champion Island",
+    "cover": "{COVER_URL}/1077.png",
+    "url": "{HTML_URL}/1077-fix.html"
+  },
+  {
+    "id": 1078,
+    "name": "Flappy Race",
+    "cover": "{COVER_URL}/1078.png",
+    "url": "{HTML_URL}/1078-fix.html"
+  },
+  {
+    "id": 1079,
+    "name": "Pokemon Emerald Crest",
+    "cover": "{COVER_URL}/1079.png",
+    "url": "{HTML_URL}/1079-fix.html"
+  },
+  {
+    "id": 1080,
+    "name": "Shift 3",
+    "cover": "{COVER_URL}/1080.png",
+    "url": "{HTML_URL}/1080-fix.html"
+  },
+  {
+    "id": 1081,
+    "name": "Monopoly",
+    "cover": "{COVER_URL}/1081.png",
+    "url": "{HTML_URL}/1081-fix.html"
+  },
+  {
+    "id": 1082,
+    "name": "Paper Mario",
+    "cover": "{COVER_URL}/1082.png",
+    "url": "{HTML_URL}/1082-fix.html"
+  },
+  {
+    "id": 1083,
+    "name": "The Sims 2",
+    "cover": "{COVER_URL}/1083.png",
+    "url": "{HTML_URL}/1083-fix.html"
+  },
+  {
+    "id": 1084,
+    "name": "Skywire 2",
+    "cover": "{COVER_URL}/1084.png",
+    "url": "{HTML_URL}/1084-fix.html"
+  },
+  {
+    "id": 1085,
+    "name": "Goober Dash",
+    "cover": "{COVER_URL}/1085.png",
+    "url": "{HTML_URL}/1085-fix.html"
+  },
+  {
+    "id": 1086,
+    "name": "There Is No Game",
+    "cover": "{COVER_URL}/1086.png",
+    "url": "{HTML_URL}/1086-fix.html"
+  },
+  {
+    "id": 1087,
+    "name": "The Enchanted Cave 2",
+    "cover": "{COVER_URL}/1087.png",
+    "url": "{HTML_URL}/1087-fix.html"
+  },
+  {
+    "id": 1088,
+    "name": "Madalin Cars",
+    "cover": "{COVER_URL}/1088.png",
+    "url": "{HTML_URL}/1088-fix.html"
+  },
+  {
+    "id": 1089,
+    "name": "Bad Parenting",
+    "cover": "{COVER_URL}/1089.png",
+    "url": "{HTML_URL}/1089-fix.html"
+  },
+  {
+    "id": 1090,
+    "name": "Sonic 1",
+    "cover": "{COVER_URL}/1090.png",
+    "url": "{HTML_URL}/1090-fix.html"
+  },
+  {
+    "id": 1091,
+    "name": "Helix Jump",
+    "cover": "{COVER_URL}/1091.png",
+    "url": "{HTML_URL}/1091-fix.html"
+  },
+  {
+    "id": 1092,
+    "name": "Backrooms 2D",
+    "cover": "{COVER_URL}/1092.png",
+    "url": "{HTML_URL}/1092-fix.html"
+  },
+  {
+    "id": 1093,
+    "name": "Cat Goes Fishing",
+    "cover": "{COVER_URL}/1093.png",
+    "url": "{HTML_URL}/1093-fix.html"
+  },
+  {
+    "id": 1094,
+    "name": "Time Shooter 3",
+    "cover": "{COVER_URL}/1094.png",
+    "url": "{HTML_URL}/1094-fix.html"
+  },
+  {
+    "id": 1095,
+    "name": "Super Mario RPG",
+    "cover": "{COVER_URL}/1095.png",
+    "url": "{HTML_URL}/1095-fix.html"
+  },
+  {
+    "id": 1096,
+    "name": "Crazy Tunnel 3D",
+    "cover": "{COVER_URL}/1096.png",
+    "url": "{HTML_URL}/1096-fix.html"
+  },
+  {
+    "id": 1097,
+    "name": "Legend of Zelda - Ocarina of Time",
+    "cover": "{COVER_URL}/1097.png",
+    "url": "{HTML_URL}/1097-fix.html"
+  },
+  {
+    "id": 1098,
+    "name": "RimWorld",
+    "cover": "{COVER_URL}/1098.png",
+    "url": "{HTML_URL}/1098-fix.html"
+  },
+  {
+    "id": 1099,
+    "name": "Bloons Player Pack 2",
+    "cover": "{COVER_URL}/1099.png",
+    "url": "{HTML_URL}/1099-fix.html"
+  },
+  {
+    "id": 1100,
+    "name": "Henry Stickmin - Fleeing the Complex",
+    "cover": "{COVER_URL}/1100.png",
+    "url": "{HTML_URL}/1100-fix.html"
+  },
+  {
+    "id": 1101,
+    "name": "Skywire",
+    "cover": "{COVER_URL}/1101.png",
+    "url": "{HTML_URL}/1101-fix.html"
+  },
+  {
+    "id": 1102,
+    "name": "Train Surfers",
+    "cover": "{COVER_URL}/1102.png",
+    "url": "{HTML_URL}/1102-fix.html"
+  },
+  {
+    "id": 1103,
+    "name": "Pokemon Sapphire",
+    "cover": "{COVER_URL}/1103.png",
+    "url": "{HTML_URL}/1103-fix.html"
+  },
+  {
+    "id": 1104,
+    "name": "UNDERRUN",
+    "cover": "{COVER_URL}/1104.png",
+    "url": "{HTML_URL}/1104-fix.html"
+  },
+  {
+    "id": 1105,
+    "name": "Stick RPG",
+    "cover": "{COVER_URL}/1105.png",
+    "url": "{HTML_URL}/1105-fix.html"
+  },
+  {
+    "id": 1106,
+    "name": "Advance Wars 2",
+    "cover": "{COVER_URL}/1106.png",
+    "url": "{HTML_URL}/1106-fix.html"
+  },
+  {
+    "id": 1107,
+    "name": "Geometry Dash Lite",
+    "cover": "{COVER_URL}/1107.png",
+    "url": "{HTML_URL}/1107-fix.html"
+  },
+  {
+    "id": 1108,
+    "name": "Professor Layton and the Curious Village",
+    "cover": "{COVER_URL}/1108.png",
+    "url": "{HTML_URL}/1108-fix.html"
+  },
+  {
+    "id": 1109,
+    "name": "WebGL Fluid Sim",
+    "cover": "{COVER_URL}/1109.png",
+    "url": "{HTML_URL}/1109-fix.html"
+  },
+  {
+    "id": 1110,
+    "name": "Cut The Rope Time Travel",
+    "cover": "{COVER_URL}/1110.png",
+    "url": "{HTML_URL}/1110-fix.html"
+  },
+  {
+    "id": 1111,
+    "name": "Gacha Life",
+    "cover": "{COVER_URL}/1111.png",
+    "url": "{HTML_URL}/1111-fix.html"
+  },
+  {
+    "id": 1112,
+    "name": "Cut The Rope Experiments",
+    "cover": "{COVER_URL}/1112.png",
+    "url": "{HTML_URL}/1112-fix.html"
+  },
+  {
+    "id": 1113,
+    "name": "Superhero Drop",
+    "cover": "{COVER_URL}/1113.png",
+    "url": "{HTML_URL}/1113-fix.html"
+  },
+  {
+    "id": 1114,
+    "name": "Glassworks",
+    "cover": "{COVER_URL}/1114.png",
+    "url": "{HTML_URL}/1114-fix.html"
+  },
+  {
+    "id": 1115,
+    "name": "Factory Balls Forever",
+    "cover": "{COVER_URL}/1115.png",
+    "url": "{HTML_URL}/1115-fix.html"
+  },
+  {
+    "id": 1116,
+    "name": "Penrose",
+    "cover": "{COVER_URL}/1116.png",
+    "url": "{HTML_URL}/1116-fix.html"
+  },
+  {
+    "id": 1117,
+    "name": "Bubble Shooter",
+    "cover": "{COVER_URL}/1117.png",
+    "url": "{HTML_URL}/1117-fix.html"
+  },
+  {
+    "id": 1118,
+    "name": "Tap Road",
+    "cover": "{COVER_URL}/1118.png",
+    "url": "{HTML_URL}/1118-fix.html"
+  },
+  {
+    "id": 1119,
+    "name": "Neon Rider",
+    "cover": "{COVER_URL}/1119.png",
+    "url": "{HTML_URL}/1119-fix.html"
+  },
+  {
+    "id": 1120,
+    "name": "Run 3 Editor",
+    "cover": "{COVER_URL}/1120.png",
+    "url": "{HTML_URL}/1120-fix.html"
+  },
+  {
+    "id": 1121,
+    "name": "Portal",
+    "cover": "{COVER_URL}/1121.png",
+    "url": "{HTML_URL}/1121-fix.html"
+  },
+  {
+    "id": 1122,
+    "name": "Amazing Rope Police",
+    "cover": "{COVER_URL}/1122.png",
+    "url": "{HTML_URL}/1122-fix.html"
+  },
+  {
+    "id": 1123,
+    "name": "Battle Beavers",
+    "cover": "{COVER_URL}/1123.png",
+    "url": "{HTML_URL}/1123-fix.html"
+  },
+  {
+    "id": 1124,
+    "name": "Watermelon Game",
+    "cover": "{COVER_URL}/1124.png",
+    "url": "{HTML_URL}/1124-fix.html"
+  },
+  {
+    "id": 1125,
+    "name": "Earn to Die 2",
+    "cover": "{COVER_URL}/1125.png",
+    "url": "{HTML_URL}/1125-fix.html"
+  },
+  {
+    "id": 1126,
+    "name": "Conway's Game Of Life",
+    "cover": "{COVER_URL}/1126.png",
+    "url": "{HTML_URL}/1126-fix.html"
+  },
+  {
+    "id": 1127,
+    "name": "Sonic Advance",
+    "cover": "{COVER_URL}/1127.png",
+    "url": "{HTML_URL}/1127-fix.html"
+  },
+  {
+    "id": 1128,
+    "name": "Mother 3",
+    "cover": "{COVER_URL}/1128.png",
+    "url": "{HTML_URL}/1128-fix.html"
+  },
+  {
+    "id": 1129,
+    "name": "Ranger X",
+    "cover": "{COVER_URL}/1129.png",
+    "url": "{HTML_URL}/1129-fix.html"
+  },
+  {
+    "id": 1130,
+    "name": "SimCity 2000",
+    "cover": "{COVER_URL}/1130.png",
+    "url": "{HTML_URL}/1130-fix.html"
+  },
+  {
+    "id": 1131,
+    "name": "Pong",
+    "cover": "{COVER_URL}/1131.png",
+    "url": "{HTML_URL}/1131-fix.html"
+  },
+  {
+    "id": 1132,
+    "name": "Tower Game",
+    "cover": "{COVER_URL}/1132.png",
+    "url": "{HTML_URL}/1132-fix.html"
+  },
+  {
+    "id": 1133,
+    "name": "Canopy",
+    "cover": "{COVER_URL}/1133.png",
+    "url": "{HTML_URL}/1133-fix.html"
+  },
+  {
+    "id": 1134,
+    "name": "The Binding of Issac",
+    "cover": "{COVER_URL}/1134.png",
+    "url": "{HTML_URL}/1134-fix.html"
+  },
+  {
+    "id": 1135,
+    "name": "Drive Mad",
+    "cover": "{COVER_URL}/1135.png",
+    "url": "{HTML_URL}/1135-fix.html"
+  },
+  {
+    "id": 1136,
+    "name": "Tron",
+    "cover": "{COVER_URL}/1136.png",
+    "url": "{HTML_URL}/1136-fix.html"
+  },
+  {
+    "id": 1137,
+    "name": "Star Clicker",
+    "cover": "{COVER_URL}/1137.png",
+    "url": "{HTML_URL}/1137-fix.html"
+  },
+  {
+    "id": 1138,
+    "name": "Steak and Jake",
+    "cover": "{COVER_URL}/1138.png",
+    "url": "{HTML_URL}/1138-fix.html"
+  },
+  {
+    "id": 1139,
+    "name": "Processor Tycoon",
+    "cover": "{COVER_URL}/1139.png",
+    "url": "{HTML_URL}/1139-fix.html"
+  },
+  {
+    "id": 1140,
+    "name": "Cars 2",
+    "cover": "{COVER_URL}/1140.png",
+    "url": "{HTML_URL}/1140-fix.html"
+  },
+  {
+    "id": 1141,
+    "name": "Ace Attorney: Pheonix Wright",
+    "cover": "{COVER_URL}/1141.png",
+    "url": "{HTML_URL}/1141-fix.html"
+  },
+  {
+    "id": 1142,
+    "name": "Funny Mad Racing",
+    "cover": "{COVER_URL}/1142.png",
+    "url": "{HTML_URL}/1142-fix.html"
+  },
+  {
+    "id": 1143,
+    "name": "Legend of Zelda",
+    "cover": "{COVER_URL}/1143.png",
+    "url": "{HTML_URL}/1143-fix.html"
+  },
+  {
+    "id": 1144,
+    "name": "Duck Life 1",
+    "cover": "{COVER_URL}/1144.png",
+    "url": "{HTML_URL}/1144-fix.html"
+  },
+  {
+    "id": 1145,
+    "name": "Antimatter Dimensions",
+    "cover": "{COVER_URL}/1145.png",
+    "url": "{HTML_URL}/1145-fix.html"
+  },
+  {
+    "id": 1146,
+    "name": "Shift 2",
+    "cover": "{COVER_URL}/1146.png",
+    "url": "{HTML_URL}/1146-fix.html"
+  },
+  {
+    "id": 1147,
+    "name": "Mario Party 3",
+    "cover": "{COVER_URL}/1147.png",
+    "url": "{HTML_URL}/1147-fix.html"
+  },
+  {
+    "id": 1148,
+    "name": "Level Devil",
+    "cover": "{COVER_URL}/1148.png",
+    "url": "{HTML_URL}/1148-fix.html"
+  },
+  {
+    "id": 1149,
+    "name": "Monster Brawl",
+    "cover": "{COVER_URL}/1149.png",
+    "url": "{HTML_URL}/1149-fix.html"
+  },
+  {
+    "id": 1150,
+    "name": "Wario Land 4",
+    "cover": "{COVER_URL}/1150.png",
+    "url": "{HTML_URL}/1150-fix.html"
+  },
+  {
+    "id": 1151,
+    "name": "Nitrome Must Die",
+    "cover": "{COVER_URL}/1151.png",
+    "url": "{HTML_URL}/1151-fix.html"
+  },
+  {
+    "id": 1152,
+    "name": "Henry Stickmin - Escaping the Prison",
+    "cover": "{COVER_URL}/1152.png",
+    "url": "{HTML_URL}/1152-fix.html"
+  },
+  {
+    "id": 1153,
+    "name": "Interactive Buddy",
+    "cover": "{COVER_URL}/1153.png",
+    "url": "{HTML_URL}/1153-fix.html"
+  },
+  {
+    "id": 1154,
+    "name": "Funny Ball Game",
+    "cover": "{COVER_URL}/1154.png",
+    "url": "{HTML_URL}/1154-fix.html"
+  },
+  {
+    "id": 1155,
+    "name": "Vex",
+    "cover": "{COVER_URL}/1155.png",
+    "url": "{HTML_URL}/1155-fix.html"
+  },
+  {
+    "id": 1156,
+    "name": "Worlds Hardest Game",
+    "cover": "{COVER_URL}/1156.png",
+    "url": "{HTML_URL}/1156-fix.html"
+  },
+  {
+    "id": 1157,
+    "name": "FIRST KISS AT A SPOOKY SOIREE",
+    "cover": "{COVER_URL}/1157.png",
+    "url": "{HTML_URL}/1157-fix.html"
+  },
+  {
+    "id": 1158,
+    "name": "Doge Miner 2",
+    "cover": "{COVER_URL}/1158.png",
+    "url": "{HTML_URL}/1158-fix.html"
+  },
+  {
+    "id": 1159,
+    "name": "Fancy Pants Adventures 2",
+    "cover": "{COVER_URL}/1159.png",
+    "url": "{HTML_URL}/1159-fix.html"
+  },
+  {
+    "id": 1160,
+    "name": "Henry Stickmin - Stealing the Diamond",
+    "cover": "{COVER_URL}/1160.png",
+    "url": "{HTML_URL}/1160-fix.html"
+  },
+  {
+    "id": 1161,
+    "name": "Pokemon LeafGreen",
+    "cover": "{COVER_URL}/1161.png",
+    "url": "{HTML_URL}/1161-fix.html"
+  },
+  {
+    "id": 1162,
+    "name": "Turok: Dinosaur Hunter",
+    "cover": "{COVER_URL}/1162.png",
+    "url": "{HTML_URL}/1162-fix.html"
+  },
+  {
+    "id": 1163,
+    "name": "Battletoads",
+    "cover": "{COVER_URL}/1163.png",
+    "url": "{HTML_URL}/1163-fix.html"
+  },
+  {
+    "id": 1164,
+    "name": "Crazy Flasher 6",
+    "cover": "{COVER_URL}/1164.png",
+    "url": "{HTML_URL}/1164-fix.html"
+  },
+  {
+    "id": 1165,
+    "name": "Adventure Time: Hey Ice King",
+    "cover": "{COVER_URL}/1165.png",
+    "url": "{HTML_URL}/1165-fix.html"
+  },
+  {
+    "id": 1166,
+    "name": "Clicker Heroes",
+    "cover": "{COVER_URL}/1166.png",
+    "url": "{HTML_URL}/1166-fix.html"
+  },
+  {
+    "id": 1167,
+    "name": "Donkey Kong 64",
+    "cover": "{COVER_URL}/1167.png",
+    "url": "{HTML_URL}/1167-fix.html"
+  },
+  {
+    "id": 1168,
+    "name": "Agario Lite",
+    "cover": "{COVER_URL}/1168.png",
+    "url": "{HTML_URL}/1168-fix.html"
+  },
+  {
+    "id": 1169,
+    "name": "Henry Stickmin - Infiltrating the Airship",
+    "cover": "{COVER_URL}/1169.png",
+    "url": "{HTML_URL}/1169-fix.html"
+  },
+  {
+    "id": 1170,
+    "name": "Nut Simulator",
+    "cover": "{COVER_URL}/1170.png",
+    "url": "{HTML_URL}/1170-fix.html"
+  },
+  {
+    "id": 1171,
+    "name": "WASM Doom",
+    "cover": "{COVER_URL}/1171.png",
+    "url": "{HTML_URL}/1171-fix.html"
+  },
+  {
+    "id": 1172,
+    "name": "Sonic 3",
+    "cover": "{COVER_URL}/1172.png",
+    "url": "{HTML_URL}/1172-fix.html"
+  },
+  {
+    "id": 1173,
+    "name": "upstream",
+    "cover": "{COVER_URL}/1173.png",
+    "url": "{HTML_URL}/1173-fix.html"
+  },
+  {
+    "id": 1174,
+    "name": "American Racing 2",
+    "cover": "{COVER_URL}/1174.png",
+    "url": "{HTML_URL}/1174-fix.html"
+  },
+  {
+    "id": 1175,
+    "name": "Super Smash Flash 2",
+    "cover": "{COVER_URL}/1175.png",
+    "url": "{HTML_URL}/1175-fix.html"
+  },
+  {
+    "id": 1176,
+    "name": "Mega Man Zero",
+    "cover": "{COVER_URL}/1176.png",
+    "url": "{HTML_URL}/1176-fix.html"
+  },
+  {
+    "id": 1177,
+    "name": "Dumb Ways to Die 3",
+    "cover": "{COVER_URL}/1177.png",
+    "url": "{HTML_URL}/1177-fix.html"
+  },
+  {
+    "id": 1178,
+    "name": "Pool",
+    "cover": "{COVER_URL}/1178.png",
+    "url": "{HTML_URL}/1178-fix.html"
+  },
+  {
+    "id": 1179,
+    "name": "Ace Attorney Investigations",
+    "cover": "{COVER_URL}/1179.png",
+    "url": "{HTML_URL}/1179-fix.html"
+  },
+  {
+    "id": 1180,
+    "name": "Punch-Out!!",
+    "cover": "{COVER_URL}/1180.png",
+    "url": "{HTML_URL}/1180-fix.html"
+  },
+  {
+    "id": 1181,
+    "name": "The Sims 3",
+    "cover": "{COVER_URL}/1181.png",
+    "url": "{HTML_URL}/1181-fix.html"
+  },
+  {
+    "id": 1182,
+    "name": "Rise Higher",
+    "cover": "{COVER_URL}/1182.png",
+    "url": "{HTML_URL}/1182-fix.html"
+  },
+  {
+    "id": 1183,
+    "name": "Guppy Guard Express",
+    "cover": "{COVER_URL}/1183.png",
+    "url": "{HTML_URL}/1183-fix.html"
+  },
+  {
+    "id": 1184,
+    "name": "Pokemon Gold",
+    "cover": "{COVER_URL}/1184.png",
+    "url": "{HTML_URL}/1184-fix.html"
+  },
+  {
+    "id": 1185,
+    "name": "1 on 1 Soccer",
+    "cover": "{COVER_URL}/1185.png",
+    "url": "{HTML_URL}/1185-fix.html"
+  },
+  {
+    "id": 1186,
+    "name": "Rocket Bot Royale",
+    "cover": "{COVER_URL}/1186.png",
+    "url": "{HTML_URL}/1186-fix.html"
+  },
+  {
+    "id": 1187,
+    "name": "hole.io",
+    "cover": "{COVER_URL}/1187.png",
+    "url": "{HTML_URL}/1187-fix.html"
+  },
+  {
+    "id": 1188,
+    "name": "POOM",
+    "cover": "{COVER_URL}/1188.png",
+    "url": "{HTML_URL}/1188-fix.html"
+  },
+  {
+    "id": 1189,
+    "name": "Avalanche",
+    "cover": "{COVER_URL}/1189.png",
+    "url": "{HTML_URL}/1189-fix.html"
+  },
+  {
+    "id": 1190,
+    "name": "Yoshi's Story",
+    "cover": "{COVER_URL}/1190.png",
+    "url": "{HTML_URL}/1190-fix.html"
+  },
+  {
+    "id": 1191,
+    "name": "Pokemon Yellow",
+    "cover": "{COVER_URL}/1191.png",
+    "url": "{HTML_URL}/1191-fix.html"
+  },
+  {
+    "id": 1192,
+    "name": "Balloon Run",
+    "cover": "{COVER_URL}/1192.png",
+    "url": "{HTML_URL}/1192-fix.html"
+  },
+  {
+    "id": 1193,
+    "name": "osu!mania",
+    "cover": "{COVER_URL}/1193.png",
+    "url": "{HTML_URL}/1193-fix.html"
+  },
+  {
+    "id": 1194,
+    "name": "Super Metroid",
+    "cover": "{COVER_URL}/1194.png",
+    "url": "{HTML_URL}/1194-fix.html"
+  },
+  {
+    "id": 1195,
+    "name": "Wario's Woods",
+    "cover": "{COVER_URL}/1195.png",
+    "url": "{HTML_URL}/1195-fix.html"
+  },
+  {
+    "id": 1196,
+    "name": "Balatro",
+    "cover": "{COVER_URL}/1196.png",
+    "url": "{HTML_URL}/1196-fix.html"
+  },
+  {
+    "id": 1197,
+    "name": "Test Subject Arena",
+    "cover": "{COVER_URL}/1197.png",
+    "url": "{HTML_URL}/1197-fix.html"
+  },
+  {
+    "id": 1198,
+    "name": "Factory Balls 2",
+    "cover": "{COVER_URL}/1198.png",
+    "url": "{HTML_URL}/1198-fix.html"
+  },
+  {
+    "id": 1199,
+    "name": "GTA: Vice City",
+    "cover": "{COVER_URL}/1199.png",
+    "url": "{HTML_URL}/1199-fix.html"
+  },
+  {
+    "id": 1200,
+    "name": "Metroid Fusion",
+    "cover": "{COVER_URL}/1200.png",
+    "url": "{HTML_URL}/1200-fix.html"
+  },
+  {
+    "id": 1201,
+    "name": "Mega Man 5",
+    "cover": "{COVER_URL}/1201.png",
+    "url": "{HTML_URL}/1201-fix.html"
+  },
+  {
+    "id": 1202,
+    "name": "Stick War",
+    "cover": "{COVER_URL}/1202.png",
+    "url": "{HTML_URL}/1202-fix.html"
+  },
+  {
+    "id": 1203,
+    "name": "Shift 4",
+    "cover": "{COVER_URL}/1203.png",
+    "url": "{HTML_URL}/1203-fix.html"
+  },
+  {
+    "id": 1204,
+    "name": "Banjo Kazooie",
+    "cover": "{COVER_URL}/1204.png",
+    "url": "{HTML_URL}/1204-fix.html"
+  },
+  {
+    "id": 1205,
+    "name": "Geometry Dash Sky",
+    "cover": "{COVER_URL}/1205.png",
+    "url": "{HTML_URL}/1205-fix.html"
+  },
+  {
+    "id": 1206,
+    "name": "Theme Hotel",
+    "cover": "{COVER_URL}/1206.png",
+    "url": "{HTML_URL}/1206-fix.html"
+  },
+  {
+    "id": 1207,
+    "name": "Terri-Fried",
+    "cover": "{COVER_URL}/1207.png",
+    "url": "{HTML_URL}/1207-fix.html"
+  },
+  {
+    "id": 1208,
+    "name": "Bike Champ 2",
+    "cover": "{COVER_URL}/1208.png",
+    "url": "{HTML_URL}/1208-fix.html"
+  },
+  {
+    "id": 1209,
+    "name": "Pizza Tower: Scoutdingo",
+    "cover": "{COVER_URL}/1209.png",
+    "url": "{HTML_URL}/1209-fix.html"
+  },
+  {
+    "id": 1210,
+    "name": "Wall Smash",
+    "cover": "{COVER_URL}/1210.png",
+    "url": "{HTML_URL}/1210-fix.html"
+  },
+  {
+    "id": 1211,
+    "name": "Mega Man",
+    "cover": "{COVER_URL}/1211.png",
+    "url": "{HTML_URL}/1211-fix.html"
+  },
+  {
+    "id": 1212,
+    "name": "InfiniteCraft",
+    "cover": "{COVER_URL}/1212.png",
+    "url": "{HTML_URL}/1212-fix.html"
+  },
+  {
+    "id": 1213,
+    "name": "Metroid II",
+    "cover": "{COVER_URL}/1213.png",
+    "url": "{HTML_URL}/1213-fix.html"
+  },
+  {
+    "id": 1214,
+    "name": "Doki Doki Literature Club",
+    "cover": "{COVER_URL}/1214.png",
+    "url": "{HTML_URL}/1214-fix.html"
+  },
+  {
+    "id": 1215,
+    "name": "Super Mario 64 DS",
+    "cover": "{COVER_URL}/1215.png",
+    "url": "{HTML_URL}/1215-fix.html"
+  },
+  {
+    "id": 1216,
+    "name": "WarioWare: DIY",
+    "cover": "{COVER_URL}/1216.png",
+    "url": "{HTML_URL}/1216-fix.html"
+  },
+  {
+    "id": 1217,
+    "name": "Knife Hit",
+    "cover": "{COVER_URL}/1217.png",
+    "url": "{HTML_URL}/1217-fix.html"
+  },
+  {
+    "id": 1218,
+    "name": "Factory Balls 3",
+    "cover": "{COVER_URL}/1218.png",
+    "url": "{HTML_URL}/1218-fix.html"
+  },
+  {
+    "id": 1219,
+    "name": "Gambler's Table",
+    "cover": "{COVER_URL}/1219.png",
+    "url": "{HTML_URL}/1219-fix.html"
+  },
+  {
+    "id": 1220,
+    "name": "Burrito Bison",
+    "cover": "{COVER_URL}/1220.png",
+    "url": "{HTML_URL}/1220-fix.html"
+  },
+  {
+    "id": 1221,
+    "name": "The Final Earth 2",
+    "cover": "{COVER_URL}/1221.png",
+    "url": "{HTML_URL}/1221-fix.html"
+  },
+  {
+    "id": 1222,
+    "name": "Bloons Player Pack 4",
+    "cover": "{COVER_URL}/1222.png",
+    "url": "{HTML_URL}/1222-fix.html"
+  },
+  {
+    "id": 1223,
+    "name": "Plunger",
+    "cover": "{COVER_URL}/1223.png",
+    "url": "{HTML_URL}/1223-fix.html"
+  },
+  {
+    "id": 1224,
+    "name": "Banjo Tooie",
+    "cover": "{COVER_URL}/1224.png",
+    "url": "{HTML_URL}/1224-fix.html"
+  },
+  {
+    "id": 1225,
+    "name": "Pickcrafter",
+    "cover": "{COVER_URL}/1225.png",
+    "url": "{HTML_URL}/1225-fix.html"
+  },
+  {
+    "id": 1226,
+    "name": "Gun Mayhem Redux",
+    "cover": "{COVER_URL}/1226.png",
+    "url": "{HTML_URL}/1226-fix.html"
+  },
+  {
+    "id": 1227,
+    "name": "Idle Research",
+    "cover": "{COVER_URL}/1227.png",
+    "url": "{HTML_URL}/1227-fix.html"
+  },
+  {
+    "id": 1228,
+    "name": "Gun Mayhem",
+    "cover": "{COVER_URL}/1228.png",
+    "url": "{HTML_URL}/1228-fix.html"
+  },
+  {
+    "id": 1229,
+    "name": "Stack",
+    "cover": "{COVER_URL}/1229.png",
+    "url": "{HTML_URL}/1229-fix.html"
+  },
+  {
+    "id": 1230,
+    "name": "Mario",
+    "cover": "{COVER_URL}/1230.png",
+    "url": "{HTML_URL}/1230-fix.html"
+  },
+  {
+    "id": 1231,
+    "name": "Slender",
+    "cover": "{COVER_URL}/1231.png",
+    "url": "{HTML_URL}/1231-fix.html"
+  },
+  {
+    "id": 1232,
+    "name": "Super Treadmill",
+    "cover": "{COVER_URL}/1232.png",
+    "url": "{HTML_URL}/1232-fix.html"
+  },
+  {
+    "id": 1233,
+    "name": "Minesweeper",
+    "cover": "{COVER_URL}/1233.png",
+    "url": "{HTML_URL}/1233-fix.html"
+  },
+  {
+    "id": 1234,
+    "name": "Taisei Project",
+    "cover": "{COVER_URL}/1234.png",
+    "url": "{HTML_URL}/1234-fix.html"
+  },
+  {
+    "id": 1235,
+    "name": "Picross DS",
+    "cover": "{COVER_URL}/1235.png",
+    "url": "{HTML_URL}/1235-fix.html"
+  },
+  {
+    "id": 1236,
+    "name": "Hextris",
+    "cover": "{COVER_URL}/1236.png",
+    "url": "{HTML_URL}/1236-fix.html"
+  },
+  {
+    "id": 1237,
+    "name": "Cut The Rope",
+    "cover": "{COVER_URL}/1237.png",
+    "url": "{HTML_URL}/1237-fix.html"
+  },
+  {
+    "id": 1238,
+    "name": "HexGL",
+    "cover": "{COVER_URL}/1238.png",
+    "url": "{HTML_URL}/1238-fix.html"
+  },
+  {
+    "id": 1239,
+    "name": "Bloons Player Pack 5",
+    "cover": "{COVER_URL}/1239.png",
+    "url": "{HTML_URL}/1239-fix.html"
+  },
+  {
+    "id": 1240,
+    "name": "Bouncy Flappy",
+    "cover": "{COVER_URL}/1240.png",
+    "url": "{HTML_URL}/1240-fix.html"
+  },
+  {
+    "id": 1241,
+    "name": "Go Ball",
+    "cover": "{COVER_URL}/1241.png",
+    "url": "{HTML_URL}/1241-fix.html"
+  },
+  {
+    "id": 1242,
+    "name": "The Freak Circus",
+    "cover": "{COVER_URL}/1242.png",
+    "url": "{HTML_URL}/1242-fix.html"
+  },
+  {
+    "id": 1243,
+    "name": "The Legend of Zelda: A Link To The Past",
+    "cover": "{COVER_URL}/1243.png",
+    "url": "{HTML_URL}/1243-fix.html"
+  },
+  {
+    "id": 1244,
+    "name": "Baseball",
+    "cover": "{COVER_URL}/1244.png",
+    "url": "{HTML_URL}/1244-fix.html"
+  },
+  {
+    "id": 1245,
+    "name": "The Heist",
+    "cover": "{COVER_URL}/1245.png",
+    "url": "{HTML_URL}/1245-fix.html"
+  },
+  {
+    "id": 1246,
+    "name": "Super Mario Flash",
+    "cover": "{COVER_URL}/1246.png",
+    "url": "{HTML_URL}/1246-fix.html"
+  },
+  {
+    "id": 1247,
+    "name": "Geometry Dash Remastered",
+    "cover": "{COVER_URL}/1247.png",
+    "url": "{HTML_URL}/1247-fix.html"
+  },
+  {
+    "id": 1248,
+    "name": "Ace Attorney: Justice for All",
+    "cover": "{COVER_URL}/1248.png",
+    "url": "{HTML_URL}/1248-fix.html"
+  },
+  {
+    "id": 1249,
+    "name": "Sonic Rush",
+    "cover": "{COVER_URL}/1249.png",
+    "url": "{HTML_URL}/1249-fix.html"
+  },
+  {
+    "id": 1250,
+    "name": "Geometry Dash (Scratch)",
+    "cover": "{COVER_URL}/1250.png",
+    "url": "{HTML_URL}/1250-fix.html"
+  },
+  {
+    "id": 1251,
+    "name": "Windows 98",
+    "cover": "{COVER_URL}/1251.png",
+    "url": "{HTML_URL}/1251-fix.html"
+  },
+  {
+    "id": 1252,
+    "name": "Wheely 1",
+    "cover": "{COVER_URL}/1252.png",
+    "url": "{HTML_URL}/1252-fix.html"
+  },
+  {
+    "id": 1253,
+    "name": "Shape Shipper",
+    "cover": "{COVER_URL}/1253.png",
+    "url": "{HTML_URL}/1253-fix.html"
+  },
+  {
+    "id": 1254,
+    "name": "Super Meat Boy",
+    "cover": "{COVER_URL}/1254.png",
+    "url": "{HTML_URL}/1254-fix.html"
+  },
+  {
+    "id": 1255,
+    "name": "Thumb Fighter",
+    "cover": "{COVER_URL}/1255.png",
+    "url": "{HTML_URL}/1255-fix.html"
+  },
+  {
+    "id": 1256,
+    "name": "Love Angel Syndrome",
+    "cover": "{COVER_URL}/1256.png",
+    "url": "{HTML_URL}/1256-fix.html"
+  },
+  {
+    "id": 1257,
+    "name": "Oneshot",
+    "cover": "{COVER_URL}/1257.png",
+    "url": "{HTML_URL}/1257-fix.html"
+  },
+  {
+    "id": 1258,
+    "name": "Baldurs Gate 2",
+    "cover": "{COVER_URL}/1258.png",
+    "url": "{HTML_URL}/1258-fix.html"
+  },
+  {
+    "id": 1259,
+    "name": "The Kid at the Back",
+    "cover": "{COVER_URL}/1259.png",
+    "url": "{HTML_URL}/1259-fix.html"
+  },
+  {
+    "id": 1260,
+    "name": "Cactus McCoy 2",
+    "cover": "{COVER_URL}/1260.png",
+    "url": "{HTML_URL}/1260-fix.html"
+  },
+  {
+    "id": 1261,
+    "name": "Lazy Jump 3D",
+    "cover": "{COVER_URL}/1261.png",
+    "url": "{HTML_URL}/1261-fix.html"
+  },
+  {
+    "id": 1262,
+    "name": "Snake",
+    "cover": "{COVER_URL}/1262.png",
+    "url": "{HTML_URL}/1262-fix.html"
+  },
+  {
+    "id": 1263,
+    "name": "Majora's Mask",
+    "cover": "{COVER_URL}/1263.png",
+    "url": "{HTML_URL}/1263-fix.html"
+  },
+  {
+    "id": 1264,
+    "name": "Amorphous",
+    "cover": "{COVER_URL}/1264.png",
+    "url": "{HTML_URL}/1264-fix.html"
+  },
+  {
+    "id": 1265,
+    "name": "Super Mario Bros 2",
+    "cover": "{COVER_URL}/1265.png",
+    "url": "{HTML_URL}/1265-fix.html"
+  },
+  {
+    "id": 1266,
+    "name": "Abuda The Alien",
+    "cover": "{COVER_URL}/1266.png",
+    "url": "{HTML_URL}/1266-fix.html"
+  },
+  {
+    "id": 1267,
+    "name": "Kick That Buddy",
+    "cover": "{COVER_URL}/1267.png",
+    "url": "{HTML_URL}/1267-fix.html"
+  },
+  {
+    "id": 1268,
+    "name": "1",
+    "cover": "{COVER_URL}/1268.png",
+    "url": "{HTML_URL}/1268-fix.html"
+  },
+  {
+    "id": 1269,
+    "name": "Worms: World Party",
+    "cover": "{COVER_URL}/1269.png",
+    "url": "{HTML_URL}/1269-fix.html"
+  },
+  {
+    "id": 1270,
+    "name": "Unfair Mario",
+    "cover": "{COVER_URL}/1270.png",
+    "url": "{HTML_URL}/1270-fix.html"
+  },
+  {
+    "id": 1271,
+    "name": "Test Subject Complete",
+    "cover": "{COVER_URL}/1271.png",
+    "url": "{HTML_URL}/1271-fix.html"
+  },
+  {
+    "id": 1272,
+    "name": "Bloons Player Pack 1",
+    "cover": "{COVER_URL}/1272.png",
+    "url": "{HTML_URL}/1272-fix.html"
+  },
+  {
+    "id": 1273,
+    "name": "Jackpot Crash Course",
+    "cover": "{COVER_URL}/1273.png",
+    "url": "{HTML_URL}/1273-fix.html"
+  },
+  {
+    "id": 1274,
+    "name": "Mario Party 2",
+    "cover": "{COVER_URL}/1274.png",
+    "url": "{HTML_URL}/1274-fix.html"
+  },
+  {
+    "id": 1275,
+    "name": "Spank the Monkey",
+    "cover": "{COVER_URL}/1275.png",
+    "url": "{HTML_URL}/1275-fix.html"
+  },
+  {
+    "id": 1276,
+    "name": "wipEout",
+    "cover": "{COVER_URL}/1276.png",
+    "url": "{HTML_URL}/1276-fix.html"
+  },
+  {
+    "id": 1277,
+    "name": "The Simpsons: Road Rage",
+    "cover": "{COVER_URL}/1277.png",
+    "url": "{HTML_URL}/1277-fix.html"
+  },
+  {
+    "id": 1278,
+    "name": "Run",
+    "cover": "{COVER_URL}/1278.png",
+    "url": "{HTML_URL}/1278-fix.html"
+  },
+  {
+    "id": 1279,
+    "name": "Block Zappers 3",
+    "cover": "{COVER_URL}/1279.png",
+    "url": "{HTML_URL}/1279-fix.html"
+  },
+  {
+    "id": 1280,
+    "name": "Crazy Flasher 5",
+    "cover": "{COVER_URL}/1280.png",
+    "url": "{HTML_URL}/1280-fix.html"
+  },
+  {
+    "id": 1281,
+    "name": "Fruit Cuts 3D",
+    "cover": "{COVER_URL}/1281.png",
+    "url": "{HTML_URL}/1281-fix.html"
+  },
+  {
+    "id": 1282,
+    "name": "Kingsley's Customer Palooza",
+    "cover": "{COVER_URL}/1282.png",
+    "url": "{HTML_URL}/1282-fix.html"
+  },
+  {
+    "id": 1283,
+    "name": "Doom 64",
+    "cover": "{COVER_URL}/1283.png",
+    "url": "{HTML_URL}/1283-fix.html"
+  },
+  {
+    "id": 1284,
+    "name": "Papas Pizzeria",
+    "cover": "{COVER_URL}/1284.png",
+    "url": "{HTML_URL}/1284-fix.html"
+  },
+  {
+    "id": 1285,
+    "name": "Pandemic 2",
+    "cover": "{COVER_URL}/1285.png",
+    "url": "{HTML_URL}/1285-fix.html"
+  },
+  {
+    "id": 1286,
+    "name": "Townscaper",
+    "cover": "{COVER_URL}/1286.png",
+    "url": "{HTML_URL}/1286-fix.html"
+  },
+  {
+    "id": 1287,
+    "name": "Rabbit Samurai",
+    "cover": "{COVER_URL}/1287.png",
+    "url": "{HTML_URL}/1287-fix.html"
+  },
+  {
+    "id": 1288,
+    "name": "Zombotron",
+    "cover": "{COVER_URL}/1288.png",
+    "url": "{HTML_URL}/1288-fix.html"
+  },
+  {
+    "id": 1289,
+    "name": "Sonic Advance 2",
+    "cover": "{COVER_URL}/1289.png",
+    "url": "{HTML_URL}/1289-fix.html"
+  },
+  {
+    "id": 1290,
+    "name": "Gun Mayhem 2",
+    "cover": "{COVER_URL}/1290.png",
+    "url": "{HTML_URL}/1290-fix.html"
+  },
+  {
+    "id": 1291,
+    "name": "Swords And Sandals",
+    "cover": "{COVER_URL}/1291.png",
+    "url": "{HTML_URL}/1291-fix.html"
+  },
+  {
+    "id": 1292,
+    "name": "Pokemon Crystal",
+    "cover": "{COVER_URL}/1292.png",
+    "url": "{HTML_URL}/1292-fix.html"
+  },
+  {
+    "id": 1293,
+    "name": "Simon",
+    "cover": "{COVER_URL}/1293.png",
+    "url": "{HTML_URL}/1293-fix.html"
+  },
+  {
+    "id": 1294,
+    "name": "New Super Mario Bros",
+    "cover": "{COVER_URL}/1294.png",
+    "url": "{HTML_URL}/1294-fix.html"
+  },
+  {
+    "id": 1295,
+    "name": "Goldeneye 007",
+    "cover": "{COVER_URL}/1295.png",
+    "url": "{HTML_URL}/1295-fix.html"
+  },
+  {
+    "id": 1296,
+    "name": "osu! (Scratch)",
+    "cover": "{COVER_URL}/1296.png",
+    "url": "{HTML_URL}/1296-fix.html"
+  },
+  {
+    "id": 1297,
+    "name": "Skibidi Toilet Attack",
+    "cover": "{COVER_URL}/1297.png",
+    "url": "{HTML_URL}/1297-fix.html"
+  },
+  {
+    "id": 1298,
+    "name": "Duck Life 6",
+    "cover": "{COVER_URL}/1298.png",
+    "url": "{HTML_URL}/1298-fix.html"
+  },
+  {
+    "id": 1299,
+    "name": "Halloween 2016",
+    "cover": "{COVER_URL}/1299.png",
+    "url": "{HTML_URL}/1299-fix.html"
+  },
+  {
+    "id": 1300,
+    "name": "Slope 3",
+    "cover": "{COVER_URL}/1300.png",
+    "url": "{HTML_URL}/1300-fix.html"
+  },
+  {
+    "id": 1301,
+    "name": "Dumb Ways to Die 1",
+    "cover": "{COVER_URL}/1301.png",
+    "url": "{HTML_URL}/1301-fix.html"
+  },
+  {
+    "id": 1302,
+    "name": "Pokemon Platinum",
+    "cover": "{COVER_URL}/1302.png",
+    "url": "{HTML_URL}/1302-fix.html"
+  },
+  {
+    "id": 1303,
+    "name": "Banjo Pilot",
+    "cover": "{COVER_URL}/1303.png",
+    "url": "{HTML_URL}/1303-fix.html"
+  },
+  {
+    "id": 1304,
+    "name": "Married In Red",
+    "cover": "{COVER_URL}/1304.png",
+    "url": "{HTML_URL}/1304-fix.html"
+  },
+  {
+    "id": 1305,
+    "name": "Mega Man X",
+    "cover": "{COVER_URL}/1305.png",
+    "url": "{HTML_URL}/1305-fix.html"
+  },
+  {
+    "id": 1306,
+    "name": "Super Monkey Ball Jr",
+    "cover": "{COVER_URL}/1306.png",
+    "url": "{HTML_URL}/1306-fix.html"
+  },
+  {
+    "id": 1307,
+    "name": "Battleships",
+    "cover": "{COVER_URL}/1307.png",
+    "url": "{HTML_URL}/1307-fix.html"
+  },
+  {
+    "id": 1308,
+    "name": "Street Fighter 2",
+    "cover": "{COVER_URL}/1308.png",
+    "url": "{HTML_URL}/1308-fix.html"
+  },
+  {
+    "id": 1309,
+    "name": "GTA 1",
+    "cover": "{COVER_URL}/1309.png",
+    "url": "{HTML_URL}/1309-fix.html"
+  },
+  {
+    "id": 1310,
+    "name": "WarioWare",
+    "cover": "{COVER_URL}/1310.png",
+    "url": "{HTML_URL}/1310-fix.html"
+  },
+  {
+    "id": 1311,
+    "name": "Ace Attorney: Trials and Tribulations",
+    "cover": "{COVER_URL}/1311.png",
+    "url": "{HTML_URL}/1311-fix.html"
+  },
+  {
+    "id": 1312,
+    "name": "Vectorman 2",
+    "cover": "{COVER_URL}/1312.png",
+    "url": "{HTML_URL}/1312-fix.html"
+  },
+  {
+    "id": 1313,
+    "name": "Advance Wars: Days of Ruin",
+    "cover": "{COVER_URL}/1313.png",
+    "url": "{HTML_URL}/1313-fix.html"
+  },
+  {
+    "id": 1314,
+    "name": "Geometry Meltdown",
+    "cover": "{COVER_URL}/1314.png",
+    "url": "{HTML_URL}/1314-fix.html"
+  },
+  {
+    "id": 1315,
+    "name": "Burger and Frights",
+    "cover": "{COVER_URL}/1315.png",
+    "url": "{HTML_URL}/1315-fix.html"
+  },
+  {
+    "id": 1316,
+    "name": "Doki Doki Literature Club Plus",
+    "cover": "{COVER_URL}/1316.png",
+    "url": "{HTML_URL}/1316-fix.html"
+  },
+  {
+    "id": 1317,
+    "name": "Putin on the Ritz",
+    "cover": "{COVER_URL}/1317.png",
+    "url": "{HTML_URL}/1317-fix.html"
+  },
+  {
+    "id": 1318,
+    "name": "Funny Shooter 2",
+    "cover": "{COVER_URL}/1318.png",
+    "url": "{HTML_URL}/1318-fix.html"
+  },
+  {
+    "id": 1319,
+    "name": "Steak and Jake: Midnight March",
+    "cover": "{COVER_URL}/1319.png",
+    "url": "{HTML_URL}/1319-fix.html"
+  },
+  {
+    "id": 1320,
+    "name": "Indian Truck Driving Simulator",
+    "cover": "{COVER_URL}/1320.png",
+    "url": "{HTML_URL}/1320-fix.html"
+  },
+  {
+    "id": 1321,
+    "name": "Bloons Tower Defense 6 (Scratch)",
+    "cover": "{COVER_URL}/1321.png",
+    "url": "{HTML_URL}/1321-fix.html"
+  },
+  {
+    "id": 1322,
+    "name": "Real Flying Truck 3D",
+    "cover": "{COVER_URL}/1322.png",
+    "url": "{HTML_URL}/1322-fix.html"
+  },
+  {
+    "id": 1323,
+    "name": "13 Days of Hell",
+    "cover": "{COVER_URL}/1323.png",
+    "url": "{HTML_URL}/1323-fix.html"
+  },
+  {
+    "id": 1324,
+    "name": "Little Alchemy",
+    "cover": "{COVER_URL}/1324.png",
+    "url": "{HTML_URL}/1324-fix.html"
+  },
+  {
+    "id": 1325,
+    "name": "Hatsune Miku: Project DIVA",
+    "cover": "{COVER_URL}/1325.png",
+    "url": "{HTML_URL}/1325-fix.html"
+  },
+  {
+    "id": 1326,
+    "name": "Class of '09: The Re-Up",
+    "cover": "{COVER_URL}/1326.png",
+    "url": "{HTML_URL}/1326-fix.html"
+  },
+  {
+    "id": 1327,
+    "name": "Snowball.io",
+    "cover": "{COVER_URL}/1327.png",
+    "url": "{HTML_URL}/1327-fix.html"
+  },
+  {
+    "id": 1328,
+    "name": "TU-95",
+    "cover": "{COVER_URL}/1328.png",
+    "url": "{HTML_URL}/1328-fix.html"
+  },
+  {
+    "id": 1329,
+    "name": "Blocky Demolition Derby",
+    "cover": "{COVER_URL}/1329.png",
+    "url": "{HTML_URL}/1329-fix.html"
+  },
+  {
+    "id": 1330,
+    "name": "Sonic & Knuckles",
+    "cover": "{COVER_URL}/1330.png",
+    "url": "{HTML_URL}/1330-fix.html"
+  },
+  {
+    "id": 1331,
+    "name": "Tanks",
+    "cover": "{COVER_URL}/1331.png",
+    "url": "{HTML_URL}/1331-fix.html"
+  },
+  {
+    "id": 1332,
+    "name": "Sonic Advance 3",
+    "cover": "{COVER_URL}/1332.png",
+    "url": "{HTML_URL}/1332-fix.html"
+  },
+  {
+    "id": 1333,
+    "name": "webretro",
+    "cover": "{COVER_URL}/1333.png",
+    "url": "{HTML_URL}/1333-fix.html"
+  },
+  {
+    "id": 1334,
+    "name": "Flappy Copter",
+    "cover": "{COVER_URL}/1334.png",
+    "url": "{HTML_URL}/1334-fix.html"
+  },
+  {
+    "id": 1335,
+    "name": "LORED",
+    "cover": "{COVER_URL}/1335.png",
+    "url": "{HTML_URL}/1335-fix.html"
+  },
+  {
+    "id": 1336,
+    "name": "Pokemon Scarlet and Violet GBA",
+    "cover": "{COVER_URL}/1336.png",
+    "url": "{HTML_URL}/1336-fix.html"
+  },
+  {
+    "id": 1337,
+    "name": "Chessformer",
+    "cover": "{COVER_URL}/1337.png",
+    "url": "{HTML_URL}/1337-fix.html"
+  },
+  {
+    "id": 1338,
+    "name": "Twin Shot",
+    "cover": "{COVER_URL}/1338.png",
+    "url": "{HTML_URL}/1338-fix.html"
+  },
+  {
+    "id": 1339,
+    "name": "Achilles",
+    "cover": "{COVER_URL}/1339.png",
+    "url": "{HTML_URL}/1339-fix.html"
+  },
+  {
+    "id": 1340,
+    "name": "Dumb Ways to Die 2",
+    "cover": "{COVER_URL}/1340.png",
+    "url": "{HTML_URL}/1340-fix.html"
+  },
+  {
+    "id": 1341,
+    "name": "BFB 5B",
+    "cover": "{COVER_URL}/1341.png",
+    "url": "{HTML_URL}/1341-fix.html"
+  },
+  {
+    "id": 1342,
+    "name": "Gacha Club",
+    "cover": "{COVER_URL}/1342.png",
+    "url": "{HTML_URL}/1342-fix.html"
+  },
+  {
+    "id": 1343,
+    "name": "Factory Balls",
+    "cover": "{COVER_URL}/1343.png",
+    "url": "{HTML_URL}/1343-fix.html"
+  },
+  {
+    "id": 1344,
+    "name": "Pyongyang Racer",
+    "cover": "{COVER_URL}/1344.png",
+    "url": "{HTML_URL}/1344-fix.html"
+  },
+  {
+    "id": 1345,
+    "name": "Boil Noodles at Night",
+    "cover": "{COVER_URL}/1345.png",
+    "url": "{HTML_URL}/1345-fix.html"
+  },
+  {
+    "id": 1346,
+    "name": "Sprinter",
+    "cover": "{COVER_URL}/1346.png",
+    "url": "{HTML_URL}/1346-fix.html"
+  },
+  {
+    "id": 1347,
+    "name": "Chess",
+    "cover": "{COVER_URL}/1347.png",
+    "url": "{HTML_URL}/1347-fix.html"
+  },
+  {
+    "id": 1348,
+    "name": "Flappy 2048",
+    "cover": "{COVER_URL}/1348.png",
+    "url": "{HTML_URL}/1348-fix.html"
+  },
+  {
+    "id": 1349,
+    "name": "Super Mario Flash 2",
+    "cover": "{COVER_URL}/1349.png",
+    "url": "{HTML_URL}/1349-fix.html"
+  },
+  {
+    "id": 1350,
+    "name": "Turbo Racing 3",
+    "cover": "{COVER_URL}/1350.png",
+    "url": "{HTML_URL}/1350-fix.html"
+  },
+  {
+    "id": 1351,
+    "name": "Meteor Game",
+    "cover": "{COVER_URL}/1351.png",
+    "url": "{HTML_URL}/1351-fix.html"
+  },
+  {
+    "id": 1352,
+    "name": "Minisho",
+    "cover": "{COVER_URL}/1352.png",
+    "url": "{HTML_URL}/1352-fix.html"
+  },
+  {
+    "id": 1353,
+    "name": "Zombocalypse",
+    "cover": "{COVER_URL}/1353.png",
+    "url": "{HTML_URL}/1353-fix.html"
+  },
+  {
+    "id": 1354,
+    "name": "reincarnage",
+    "cover": "{COVER_URL}/1354.png",
+    "url": "{HTML_URL}/1354-fix.html"
+  },
+  {
+    "id": 1355,
+    "name": "MY BOYFRIEND",
+    "cover": "{COVER_URL}/1355.png",
+    "url": "{HTML_URL}/1355-fix.html"
+  },
+  {
+    "id": 1356,
+    "name": "JackSmith",
+    "cover": "{COVER_URL}/1356.png",
+    "url": "{HTML_URL}/1356-fix.html"
+  },
+  {
+    "id": 1357,
+    "name": "Bomberman",
+    "cover": "{COVER_URL}/1357.png",
+    "url": "{HTML_URL}/1357-fix.html"
+  },
+  {
+    "id": 1358,
+    "name": "Milkman Karlson",
+    "cover": "{COVER_URL}/1358.png",
+    "url": "{HTML_URL}/1358-fix.html"
+  },
+  {
+    "id": 1359,
+    "name": "Streets of Rage 2",
+    "cover": "{COVER_URL}/1359.png",
+    "url": "{HTML_URL}/1359-fix.html"
+  },
+  {
+    "id": 1360,
+    "name": "Dante",
+    "cover": "{COVER_URL}/1360.png",
+    "url": "{HTML_URL}/1360-fix.html"
+  },
+  {
+    "id": 1361,
+    "name": "Five Nights at Freddy's UCN",
+    "cover": "{COVER_URL}/1361.png",
+    "url": "{HTML_URL}/1361-fix.html"
+  },
+  {
+    "id": 1362,
+    "name": "Gunfest",
+    "cover": "{COVER_URL}/1362.png",
+    "url": "{HTML_URL}/1362-fix.html"
+  },
+  {
+    "id": 1363,
+    "name": "Mousepoint",
+    "cover": "{COVER_URL}/1363.png",
+    "url": "{HTML_URL}/1363-fix.html"
+  },
+  {
+    "id": 1364,
+    "name": "Slope City",
+    "cover": "{COVER_URL}/1364.png",
+    "url": "{HTML_URL}/1364-fix.html"
+  },
+  {
+    "id": 1365,
+    "name": "Slope Ball",
+    "cover": "{COVER_URL}/1365.png",
+    "url": "{HTML_URL}/1365-fix.html"
+  },
+  {
+    "id": 1366,
+    "name": "Class of '09: The Flip Side",
+    "cover": "{COVER_URL}/1366.png",
+    "url": "{HTML_URL}/1366-fix.html"
+  },
+  {
+    "id": 1367,
+    "name": "Time Shooter",
+    "cover": "{COVER_URL}/1367.png",
+    "url": "{HTML_URL}/1367-fix.html"
+  },
+  {
+    "id": 1368,
+    "name": "Among Us (better)",
+    "cover": "{COVER_URL}/1368.png",
+    "url": "{HTML_URL}/1368-fix.html"
+  },
+  {
+    "id": 1369,
+    "name": "Gachaverse",
+    "cover": "{COVER_URL}/1369.png",
+    "url": "{HTML_URL}/1369-fix.html"
+  },
+  {
+    "id": 1370,
+    "name": "Connect Four",
+    "cover": "{COVER_URL}/1370.png",
+    "url": "{HTML_URL}/1370-fix.html"
+  },
+  {
+    "id": 1371,
+    "name": "osu!mania (Scratch)",
+    "cover": "{COVER_URL}/1371.png",
+    "url": "{HTML_URL}/1371-fix.html"
+  },
+  {
+    "id": 1372,
+    "name": "Crazy Flasher 3",
+    "cover": "{COVER_URL}/1372.png",
+    "url": "{HTML_URL}/1372-fix.html"
+  },
+  {
+    "id": 1373,
+    "name": "Mega Man 2",
+    "cover": "{COVER_URL}/1373.png",
+    "url": "{HTML_URL}/1373-fix.html"
+  },
+  {
+    "id": 1374,
+    "name": "The Circle",
+    "cover": "{COVER_URL}/1374.png",
+    "url": "{HTML_URL}/1374-fix.html"
+  },
+  {
+    "id": 1375,
+    "name": "Black Navy War 2",
+    "cover": "{COVER_URL}/1375.png",
+    "url": "{HTML_URL}/1375-fix.html"
+  },
+  {
+    "id": 1376,
+    "name": "Mortal Kombat 3",
+    "cover": "{COVER_URL}/1376.png",
+    "url": "{HTML_URL}/1376-fix.html"
+  },
+  {
+    "id": 1377,
+    "name": "Wubzzy's Amazing Adventure",
+    "cover": "{COVER_URL}/1377.png",
+    "url": "{HTML_URL}/1377-fix.html"
+  },
+  {
+    "id": 1378,
+    "name": "Driving Force 4",
+    "cover": "{COVER_URL}/1378.png",
+    "url": "{HTML_URL}/1378-fix.html"
+  },
+  {
+    "id": 1379,
+    "name": "Pako Highway",
+    "cover": "{COVER_URL}/1379.png",
+    "url": "{HTML_URL}/1379-fix.html"
+  },
+  {
+    "id": 1380,
+    "name": "Oodlegobs",
+    "cover": "{COVER_URL}/1380.png",
+    "url": "{HTML_URL}/1380-fix.html"
+  },
+  {
+    "id": 1381,
+    "name": "60s Burger Run",
+    "cover": "{COVER_URL}/1381.png",
+    "url": "{HTML_URL}/1381-fix.html"
+  },
+  {
+    "id": 1382,
+    "name": "Bubble Tanks 2",
+    "cover": "{COVER_URL}/1382.png",
+    "url": "{HTML_URL}/1382-fix.html"
+  },
+  {
+    "id": 1383,
+    "name": "Frostpunk Pico",
+    "cover": "{COVER_URL}/1383.png",
+    "url": "{HTML_URL}/1383-fix.html"
+  },
+  {
+    "id": 1384,
+    "name": "Skywire VIP (Extended)",
+    "cover": "{COVER_URL}/1384.png",
+    "url": "{HTML_URL}/1384-fix.html"
+  },
+  {
+    "id": 1385,
+    "name": "Customer Support",
+    "cover": "{COVER_URL}/1385.png",
+    "url": "{HTML_URL}/1385-fix.html"
+  },
+  {
+    "id": 1386,
+    "name": "Lo-Fi Room",
+    "cover": "{COVER_URL}/1386.png",
+    "url": "{HTML_URL}/1386-fix.html"
+  },
+  {
+    "id": 1387,
+    "name": "Subway Surfers",
+    "cover": "{COVER_URL}/1387.png",
+    "url": "{HTML_URL}/1387-fix.html"
+  },
+  {
+    "id": 1388,
+    "name": "Donkey Kong",
+    "cover": "{COVER_URL}/1388.png",
+    "url": "{HTML_URL}/1388-fix.html"
+  },
+  {
+    "id": 1389,
+    "name": "Shift",
+    "cover": "{COVER_URL}/1389.png",
+    "url": "{HTML_URL}/1389-fix.html"
+  },
+  {
+    "id": 1390,
+    "name": "Surf Go",
+    "cover": "{COVER_URL}/1390.png",
+    "url": "{HTML_URL}/1390-fix.html"
+  },
+  {
+    "id": 1391,
+    "name": "Zombotron 2",
+    "cover": "{COVER_URL}/1391.png",
+    "url": "{HTML_URL}/1391-fix.html"
+  },
+  {
+    "id": 1392,
+    "name": "Portal 2D",
+    "cover": "{COVER_URL}/1392.png",
+    "url": "{HTML_URL}/1392-fix.html"
+  },
+  {
+    "id": 1393,
+    "name": "Talking Tom Cat",
+    "cover": "{COVER_URL}/1393.png",
+    "url": "{HTML_URL}/1393-fix.html"
+  },
+  {
+    "id": 1394,
+    "name": "Vectorman",
+    "cover": "{COVER_URL}/1394.png",
+    "url": "{HTML_URL}/1394-fix.html"
+  },
+  {
+    "id": 1395,
+    "name": "Universal Paperclips",
+    "cover": "{COVER_URL}/1395.png",
+    "url": "{HTML_URL}/1395-fix.html"
+  },
+  {
+    "id": 1396,
+    "name": "Portal (Flash)",
+    "cover": "{COVER_URL}/1396.png",
+    "url": "{HTML_URL}/1396-fix.html"
+  },
+  {
+    "id": 1397,
+    "name": "Mutiny",
+    "cover": "{COVER_URL}/1397.png",
+    "url": "{HTML_URL}/1397-fix.html"
+  },
+  {
+    "id": 1398,
+    "name": "Crazy Flasher 2",
+    "cover": "{COVER_URL}/1398.png",
+    "url": "{HTML_URL}/1398-fix.html"
+  },
+  {
+    "id": 1399,
+    "name": "Bloons Tower Defense 5",
+    "cover": "{COVER_URL}/1399.png",
+    "url": "{HTML_URL}/1399-fix.html"
+  },
+  {
+    "id": 1400,
+    "name": "Papa Louie 2",
+    "cover": "{COVER_URL}/1400.png",
+    "url": "{HTML_URL}/1400-fix.html"
+  },
+  {
+    "id": 1401,
+    "name": "Evolve",
+    "cover": "{COVER_URL}/1401.png",
+    "url": "{HTML_URL}/1401-fix.html"
+  },
+  {
+    "id": 1402,
+    "name": "Temple of Boom",
+    "cover": "{COVER_URL}/1402.png",
+    "url": "{HTML_URL}/1402-fix.html"
+  },
+  {
+    "id": 1403,
+    "name": "Cactus McCoy",
+    "cover": "{COVER_URL}/1403.png",
+    "url": "{HTML_URL}/1403-fix.html"
+  },
+  {
+    "id": 1404,
+    "name": "Jedi Knight: Dark Forces II",
+    "cover": "{COVER_URL}/1404.png",
+    "url": "{HTML_URL}/1404-fix.html"
+  },
+  {
+    "id": 1405,
+    "name": "Shapez",
+    "cover": "{COVER_URL}/1405.png",
+    "url": "{HTML_URL}/1405-fix.html"
+  },
+  {
+    "id": 1406,
+    "name": "Worlds Hardest Game 2",
+    "cover": "{COVER_URL}/1406.png",
+    "url": "{HTML_URL}/1406-fix.html"
+  },
+  {
+    "id": 1407,
+    "name": "Bloons Tower Defense 4",
+    "cover": "{COVER_URL}/1407.png",
+    "url": "{HTML_URL}/1407-fix.html"
+  },
+  {
+    "id": 1408,
+    "name": "Super Mario Bros 3",
+    "cover": "{COVER_URL}/1408.png",
+    "url": "{HTML_URL}/1408-fix.html"
+  },
+  {
+    "id": 1409,
+    "name": "Pokemon Stadium",
+    "cover": "{COVER_URL}/1409.png",
+    "url": "{HTML_URL}/1409-fix.html"
+  },
+  {
+    "id": 1410,
+    "name": "A Dance of Fire & Ice",
+    "cover": "{COVER_URL}/1410.png",
+    "url": "{HTML_URL}/1410-fix.html"
+  },
+  {
+    "id": 1411,
+    "name": "Mega Man 3",
+    "cover": "{COVER_URL}/1411.png",
+    "url": "{HTML_URL}/1411-fix.html"
+  },
+  {
+    "id": 1412,
+    "name": "SimCity",
+    "cover": "{COVER_URL}/1412.png",
+    "url": "{HTML_URL}/1412-fix.html"
+  },
+  {
+    "id": 1413,
+    "name": "Factory Balls 4",
+    "cover": "{COVER_URL}/1413.png",
+    "url": "{HTML_URL}/1413-fix.html"
+  },
+  {
+    "id": 1414,
+    "name": "The Impossible Quiz 2",
+    "cover": "{COVER_URL}/1414.png",
+    "url": "{HTML_URL}/1414-fix.html"
+  },
+  {
+    "id": 1415,
+    "name": "Bloons Player Pack 3",
+    "cover": "{COVER_URL}/1415.png",
+    "url": "{HTML_URL}/1415-fix.html"
+  },
+  {
+    "id": 1416,
+    "name": "Sonic Spinball",
+    "cover": "{COVER_URL}/1416.png",
+    "url": "{HTML_URL}/1416-fix.html"
+  },
+  {
+    "id": 1417,
+    "name": "Sonic 2",
+    "cover": "{COVER_URL}/1417.png",
+    "url": "{HTML_URL}/1417-fix.html"
+  },
+  {
+    "id": 1418,
+    "name": "Racer",
+    "cover": "{COVER_URL}/1418.png",
+    "url": "{HTML_URL}/1418-fix.html"
+  },
+  {
+    "id": 1419,
+    "name": "Nintendogs",
+    "cover": "{COVER_URL}/1419.png",
+    "url": "{HTML_URL}/1419-fix.html"
+  },
+  {
+    "id": 1420,
+    "name": "Geometry Jump",
+    "cover": "{COVER_URL}/1420.png",
+    "url": "{HTML_URL}/1420-fix.html"
+  },
+  {
+    "id": 1421,
+    "name": "Hero 3: Flying Robot",
+    "cover": "{COVER_URL}/1421.png",
+    "url": "{HTML_URL}/1421-fix.html"
+  },
+  {
+    "id": 1422,
+    "name": "Six Cats Under",
+    "cover": "{COVER_URL}/1422.png",
+    "url": "{HTML_URL}/1422-fix.html"
+  },
+  {
+    "id": 1423,
+    "name": "Friday Night Funkin: X Miku",
+    "cover": "{COVER_URL}/1423.png",
+    "url": "{HTML_URL}/1423-fix.html"
+  },
+  {
+    "id": 1424,
+    "name": "GTA III",
+    "cover": "{COVER_URL}/1424.png",
+    "url": "{HTML_URL}/1424-fix.html"
+  },
+  {
+    "id": 1425,
+    "name": "Animal Crossing Wild World",
+    "cover": "{COVER_URL}/1425.png",
+    "url": "{HTML_URL}/1425-fix.html"
+  },
+  {
+    "id": 1426,
+    "name": "Henry Stickmin - Breaking the Bank",
+    "cover": "{COVER_URL}/1426.png",
+    "url": "{HTML_URL}/1426-fix.html"
+  },
+  {
+    "id": 1427,
+    "name": "Gunbrick",
+    "cover": "{COVER_URL}/1427.png",
+    "url": "{HTML_URL}/1427-fix.html"
+  },
+  {
+    "id": 1428,
+    "name": "The Minions: Resurrection",
+    "cover": "{COVER_URL}/1428.png",
+    "url": "{HTML_URL}/1428-fix.html"
+  },
+  {
+    "id": 1429,
+    "name": "Color Switch",
+    "cover": "{COVER_URL}/1429.png",
+    "url": "{HTML_URL}/1429-fix.html"
+  },
+  {
+    "id": 1430,
+    "name": "Fish Rescue",
+    "cover": "{COVER_URL}/1430.png",
+    "url": "{HTML_URL}/1430-fix.html"
+  },
+  {
+    "id": 1431,
+    "name": "Sand Game",
+    "cover": "{COVER_URL}/1431.png",
+    "url": "{HTML_URL}/1431-fix.html"
+  },
+  {
+    "id": 1432,
+    "name": "Plague Inc: Evolved",
+    "cover": "{COVER_URL}/1432.png",
+    "url": "{HTML_URL}/1432-fix.html"
+  },
+  {
+    "id": 1433,
+    "name": "Boxing Physics 2",
+    "cover": "{COVER_URL}/1433.png",
+    "url": "{HTML_URL}/1433-fix.html"
+  },
+  {
+    "id": 1434,
+    "name": "Pandemic",
+    "cover": "{COVER_URL}/1434.png",
+    "url": "{HTML_URL}/1434-fix.html"
+  },
+  {
+    "id": 1435,
+    "name": "Shrek 2",
+    "cover": "{COVER_URL}/1435.png",
+    "url": "{HTML_URL}/1435-fix.html"
+  },
+  {
+    "id": 1436,
+    "name": "Hill Climb Racing",
+    "cover": "{COVER_URL}/1436.png",
+    "url": "{HTML_URL}/1436-fix.html"
+  },
+  {
+    "id": 1437,
+    "name": "The Legend of Zelda: Spirit Tracks",
+    "cover": "{COVER_URL}/1437.png",
+    "url": "{HTML_URL}/1437-fix.html"
+  },
+  {
+    "id": 1438,
+    "name": "Copter",
+    "cover": "{COVER_URL}/1438.png",
+    "url": "{HTML_URL}/1438-fix.html"
+  },
+  {
+    "id": 1439,
+    "name": "Fancy Pants Adventures 3",
+    "cover": "{COVER_URL}/1439.png",
+    "url": "{HTML_URL}/1439-fix.html"
+  },
+  {
+    "id": 1440,
+    "name": "American Racing",
+    "cover": "{COVER_URL}/1440.png",
+    "url": "{HTML_URL}/1440-fix.html"
+  },
+  {
+    "id": 1441,
+    "name": "Super Tennis",
+    "cover": "{COVER_URL}/1441.png",
+    "url": "{HTML_URL}/1441-fix.html"
+  },
+  {
+    "id": 1442,
+    "name": "Pokemon Ruby",
+    "cover": "{COVER_URL}/1442.png",
+    "url": "{HTML_URL}/1442-fix.html"
+  },
+  {
+    "id": 1443,
+    "name": "Mega Man 6",
+    "cover": "{COVER_URL}/1443.png",
+    "url": "{HTML_URL}/1443-fix.html"
+  },
+  {
+    "id": 1444,
+    "name": "Pokemon SoulSilver",
+    "cover": "{COVER_URL}/1444.png",
+    "url": "{HTML_URL}/1444-fix.html"
+  },
+  {
+    "id": 1445,
+    "name": "Bloons Tower Defense",
+    "cover": "{COVER_URL}/1445.png",
+    "url": "{HTML_URL}/1445-fix.html"
+  },
+  {
+    "id": 1446,
+    "name": "JellyTruck",
+    "cover": "{COVER_URL}/1446.png",
+    "url": "{HTML_URL}/1446-fix.html"
+  },
+  {
+    "id": 1447,
+    "name": "Deepest Sword",
+    "cover": "{COVER_URL}/1447.png",
+    "url": "{HTML_URL}/1447-fix.html"
+  },
+  {
+    "id": 1448,
+    "name": "Pokemon Snap",
+    "cover": "{COVER_URL}/1448.png",
+    "url": "{HTML_URL}/1448-fix.html"
+  },
+  {
+    "id": 1449,
+    "name": "Brotato Paws and Claws: Abyssal Terrors",
+    "cover": "{COVER_URL}/1449.png",
+    "url": "{HTML_URL}/1449-fix.html"
+  },
+  {
+    "id": 1450,
+    "name": "Frogger",
+    "cover": "{COVER_URL}/1450.png",
+    "url": "{HTML_URL}/1450-fix.html"
+  },
+  {
+    "id": 1451,
+    "name": "Thirty Dollar Website",
+    "cover": "{COVER_URL}/1451.png",
+    "url": "{HTML_URL}/1451-fix.html"
+  },
+  {
+    "id": 1452,
+    "name": "Danganronpa: Trigger Happy Havoc",
+    "cover": "{COVER_URL}/1452.png",
+    "url": "{HTML_URL}/1452-fix.html"
+  },
+  {
+    "id": 1453,
+    "name": "Gloom",
+    "cover": "{COVER_URL}/1453.png",
+    "url": "{HTML_URL}/1453-fix.html"
+  },
+  {
+    "id": 1454,
+    "name": "Crazy Taxi",
+    "cover": "{COVER_URL}/1454.png",
+    "url": "{HTML_URL}/1454-fix.html"
+  },
+  {
+    "id": 1455,
+    "name": "Guilty Gear",
+    "cover": "{COVER_URL}/1455.png",
+    "url": "{HTML_URL}/1455-fix.html"
+  },
+  {
+    "id": 1456,
+    "name": "Bouncy Motors",
+    "cover": "{COVER_URL}/1456.png",
+    "url": "{HTML_URL}/1456-fix.html"
+  },
+  {
+    "id": 1457,
+    "name": "Streets of Rage",
+    "cover": "{COVER_URL}/1457.png",
+    "url": "{HTML_URL}/1457-fix.html"
+  },
+  {
+    "id": 1458,
+    "name": "Super Mario Construct",
+    "cover": "{COVER_URL}/1458.png",
+    "url": "{HTML_URL}/1458-fix.html"
+  },
+  {
+    "id": 1459,
+    "name": "NGU Idle",
+    "cover": "{COVER_URL}/1459.png",
+    "url": "{HTML_URL}/1459-fix.html"
+  },
+  {
+    "id": 1460,
+    "name": "GTA: Advance",
+    "cover": "{COVER_URL}/1460.png",
+    "url": "{HTML_URL}/1460-fix.html"
+  },
+  {
+    "id": 1461,
+    "name": "Mortal Kombat 4",
+    "cover": "{COVER_URL}/1461.png",
+    "url": "{HTML_URL}/1461-fix.html"
+  },
+  {
+    "id": 1462,
+    "name": "Ballistic Chickens",
+    "cover": "{COVER_URL}/1462.png",
+    "url": "{HTML_URL}/1462-fix.html"
+  },
+  {
+    "id": 1463,
+    "name": "Fancy Pants Adventures",
+    "cover": "{COVER_URL}/1463.png",
+    "url": "{HTML_URL}/1463-fix.html"
+  },
+  {
+    "id": 1464,
+    "name": "Offline Paradise",
+    "cover": "{COVER_URL}/1464.png",
+    "url": "{HTML_URL}/1464-fix.html"
+  },
+  {
+    "id": 1465,
+    "name": "Fireboy & Watergirl 2",
+    "cover": "{COVER_URL}/1465.png",
+    "url": "{HTML_URL}/1465-fix.html"
+  },
+  {
+    "id": 1466,
+    "name": "Super Auto Pets",
+    "cover": "{COVER_URL}/1466.png",
+    "url": "{HTML_URL}/1466-fix.html"
+  },
+  {
+    "id": 1467,
+    "name": "Yoshi's Island",
+    "cover": "{COVER_URL}/1467.png",
+    "url": "{HTML_URL}/1467-fix.html"
+  },
+  {
+    "id": 1468,
+    "name": "Big Red Button",
+    "cover": "{COVER_URL}/1468.png",
+    "url": "{HTML_URL}/1468-fix.html"
+  },
+  {
+    "id": 1469,
+    "name": "Crimson Fantasia",
+    "cover": "{COVER_URL}/1469.png",
+    "url": "{HTML_URL}/1469-fix.html"
+  },
+  {
+    "id": 1470,
+    "name": "3 Lines",
+    "cover": "{COVER_URL}/1470.png",
+    "url": "{HTML_URL}/1470-fix.html"
+  },
+  {
+    "id": 1471,
+    "name": "Civ Clicker",
+    "cover": "{COVER_URL}/1471.png",
+    "url": "{HTML_URL}/1471-fix.html"
+  },
+  {
+    "id": 1472,
+    "name": "Stick Kombat",
+    "cover": "{COVER_URL}/1472.png",
+    "url": "{HTML_URL}/1472-fix.html"
+  },
+  {
+    "id": 1473,
+    "name": "Skateboarding Simulator",
+    "cover": "{COVER_URL}/1473.png",
+    "url": "{HTML_URL}/1473-fix.html"
+  },
+  {
+    "id": 1474,
+    "name": "Super Princess Peach",
+    "cover": "{COVER_URL}/1474.png",
+    "url": "{HTML_URL}/1474-fix.html"
+  },
+  {
+    "id": 1475,
+    "name": "Mario Party",
+    "cover": "{COVER_URL}/1475.png",
+    "url": "{HTML_URL}/1475-fix.html"
+  },
+  {
+    "id": 1476,
+    "name": "OvO Dimensions",
+    "cover": "{COVER_URL}/1476.png",
+    "url": "{HTML_URL}/1476-fix.html"
+  },
+  {
+    "id": 1477,
+    "name": "Stick War 2",
+    "cover": "{COVER_URL}/1477.png",
+    "url": "{HTML_URL}/1477-fix.html"
+  },
+  {
+    "id": 1478,
+    "name": "Drift Mania",
+    "cover": "{COVER_URL}/1478.png",
+    "url": "{HTML_URL}/1478-fix.html"
+  },
+  {
+    "id": 1479,
+    "name": "Wario Land II",
+    "cover": "{COVER_URL}/1479.png",
+    "url": "{HTML_URL}/1479-fix.html"
+  },
+  {
+    "id": 1480,
+    "name": "Scribblenauts",
+    "cover": "{COVER_URL}/1480.png",
+    "url": "{HTML_URL}/1480-fix.html"
+  },
+  {
+    "id": 1481,
+    "name": "Tung Tung Horror",
+    "cover": "{COVER_URL}/1481.png",
+    "url": "{HTML_URL}/1481-fix.html"
+  },
+  {
+    "id": 1482,
+    "name": "Multitask",
+    "cover": "{COVER_URL}/1482.png",
+    "url": "{HTML_URL}/1482-fix.html"
+  },
+  {
+    "id": 1483,
+    "name": "Headcase",
+    "cover": "{COVER_URL}/1483.png",
+    "url": "{HTML_URL}/1483-fix.html"
+  },
+  {
+    "id": 1484,
+    "name": "Age of War",
+    "cover": "{COVER_URL}/1484.png",
+    "url": "{HTML_URL}/1484-fix.html"
+  },
+  {
+    "id": 1485,
+    "name": "Snotput",
+    "cover": "{COVER_URL}/1485.png",
+    "url": "{HTML_URL}/1485-fix.html"
+  },
+  {
+    "id": 1486,
+    "name": "Last Horizon",
+    "cover": "{COVER_URL}/1486.png",
+    "url": "{HTML_URL}/1486-fix.html"
+  },
+  {
+    "id": 1487,
+    "name": "Shinobi III - Return of the Ninja Master",
+    "cover": "{COVER_URL}/1487.png",
+    "url": "{HTML_URL}/1487-fix.html"
+  },
+  {
+    "id": 1488,
+    "name": "Friday Night Funkin: Mid-fight Masses",
+    "cover": "{COVER_URL}/1488.png",
+    "url": "{HTML_URL}/1488-fix.html"
+  },
+  {
+    "id": 1489,
+    "name": "Wave Race 64",
+    "cover": "{COVER_URL}/1489.png",
+    "url": "{HTML_URL}/1489-fix.html"
+  },
+  {
+    "id": 1490,
+    "name": "Corporation Inc",
+    "cover": "{COVER_URL}/1490.png",
+    "url": "{HTML_URL}/1490-fix.html"
+  },
+  {
+    "id": 1491,
+    "name": "Metroid",
+    "cover": "{COVER_URL}/1491.png",
+    "url": "{HTML_URL}/1491-fix.html"
+  },
+  {
+    "id": 1492,
+    "name": "Battle Simulator",
+    "cover": "{COVER_URL}/1492.png",
+    "url": "{HTML_URL}/1492-fix.html"
+  },
+  {
+    "id": 1493,
+    "name": "Papa Louie",
+    "cover": "{COVER_URL}/1493.png",
+    "url": "{HTML_URL}/1493-fix.html"
+  },
+  {
+    "id": 1494,
+    "name": "Defend the Tank",
+    "cover": "{COVER_URL}/1494.png",
+    "url": "{HTML_URL}/1494-fix.html"
+  },
+  {
+    "id": 1495,
+    "name": "Pokemon Blue",
+    "cover": "{COVER_URL}/1495.png",
+    "url": "{HTML_URL}/1495-fix.html"
+  },
+  {
+    "id": 1496,
+    "name": "paper.io",
+    "cover": "{COVER_URL}/1496.png",
+    "url": "{HTML_URL}/1496-fix.html"
+  },
+  {
+    "id": 1497,
+    "name": "Tomodachi Life",
+    "cover": "{COVER_URL}/1497.png",
+    "url": "{HTML_URL}/1497-fix.html"
+  },
+  {
+    "id": 1498,
+    "name": "Getting Over It",
+    "cover": "{COVER_URL}/1498.png",
+    "url": "{HTML_URL}/1498-fix.html"
+  },
+  {
+    "id": 1499,
+    "name": "Bloons Tower Defense 3",
+    "cover": "{COVER_URL}/1499.png",
+    "url": "{HTML_URL}/1499-fix.html"
+  },
+  {
+    "id": 1500,
+    "name": "Pokemon Mystery Dungeon",
+    "cover": "{COVER_URL}/1500.png",
+    "url": "{HTML_URL}/1500-fix.html"
+  },
+  {
+    "id": 1501,
+    "name": "Jake's Jingle Quest",
+    "cover": "{COVER_URL}/1501.png",
+    "url": "{HTML_URL}/1501-fix.html"
+  },
+  {
+    "id": 1502,
+    "name": "Bloons Tower Defense 2",
+    "cover": "{COVER_URL}/1502.png",
+    "url": "{HTML_URL}/1502-fix.html"
+  },
+  {
+    "id": 1503,
+    "name": "Fireboy & Watergirl 1",
+    "cover": "{COVER_URL}/1503.png",
+    "url": "{HTML_URL}/1503-fix.html"
+  },
+  {
+    "id": 1504,
+    "name": "Two Ball 3D",
+    "cover": "{COVER_URL}/1504.png",
+    "url": "{HTML_URL}/1504-fix.html"
+  },
+  {
+    "id": 1505,
+    "name": "Advance Wars",
+    "cover": "{COVER_URL}/1505.png",
+    "url": "{HTML_URL}/1505-fix.html"
+  },
+  {
+    "id": 1506,
+    "name": "Quest 64",
+    "cover": "{COVER_URL}/1506.png",
+    "url": "{HTML_URL}/1506-fix.html"
+  },
+  {
+    "id": 1507,
+    "name": "Geometry Rash",
+    "cover": "{COVER_URL}/1507.png",
+    "url": "{HTML_URL}/1507-fix.html"
+  },
+  {
+    "id": 1508,
+    "name": "Blood Tournament",
+    "cover": "{COVER_URL}/1508.png",
+    "url": "{HTML_URL}/1508-fix.html"
+  },
+  {
+    "id": 1509,
+    "name": "The Impossible Game",
+    "cover": "{COVER_URL}/1509.png",
+    "url": "{HTML_URL}/1509-fix.html"
+  },
+  {
+    "id": 1510,
+    "name": "Super Liquid Soccer",
+    "cover": "{COVER_URL}/1510.png",
+    "url": "{HTML_URL}/1510-fix.html"
+  },
+  {
+    "id": 1511,
+    "name": "Super Mario Land 2",
+    "cover": "{COVER_URL}/1511.png",
+    "url": "{HTML_URL}/1511-fix.html"
+  },
+  {
+    "id": 1512,
+    "name": "Getaway Shooter",
+    "cover": "{COVER_URL}/1512.png",
+    "url": "{HTML_URL}/1512-fix.html"
+  },
+  {
+    "id": 1513,
+    "name": "Jetski Race",
+    "cover": "{COVER_URL}/1513.png",
+    "url": "{HTML_URL}/1513-fix.html"
+  },
+  {
+    "id": 1514,
+    "name": "Quake 3 Arena",
+    "cover": "{COVER_URL}/1514.png",
+    "url": "{HTML_URL}/1514-fix.html"
+  },
+  {
+    "id": 1515,
+    "name": "Sandboxcity",
+    "cover": "{COVER_URL}/1515.png",
+    "url": "{HTML_URL}/1515-fix.html"
+  },
+  {
+    "id": 1516,
+    "name": "Five Nights at Freddy's Pizzeria Simulator",
+    "cover": "{COVER_URL}/1516.png",
+    "url": "{HTML_URL}/1516-fix.html"
+  },
+  {
+    "id": 1517,
+    "name": "Super Mario Land",
+    "cover": "{COVER_URL}/1517.png",
+    "url": "{HTML_URL}/1517-fix.html"
+  },
+  {
+    "id": 1518,
+    "name": "Fireboy & Watergirl 3",
+    "cover": "{COVER_URL}/1518.png",
+    "url": "{HTML_URL}/1518-fix.html"
+  },
+  {
+    "id": 1519,
+    "name": "Yumi Nikki",
+    "cover": "{COVER_URL}/1519.png",
+    "url": "{HTML_URL}/1519-fix.html"
+  },
+  {
+    "id": 1520,
+    "name": "Grand Shift Auto",
+    "cover": "{COVER_URL}/1520.png",
+    "url": "{HTML_URL}/1520-fix.html"
+  },
+  {
+    "id": 1521,
+    "name": "Gold Digger FRVR",
+    "cover": "{COVER_URL}/1521.png",
+    "url": "{HTML_URL}/1521-fix.html"
+  },
+  {
+    "id": 1522,
+    "name": "Metroid: Zero Mission",
+    "cover": "{COVER_URL}/1522.png",
+    "url": "{HTML_URL}/1522-fix.html"
+  },
+  {
+    "id": 1523,
+    "name": "Portal 2 (Flash)",
+    "cover": "{COVER_URL}/1523.png",
+    "url": "{HTML_URL}/1523-fix.html"
+  },
+  {
+    "id": 1524,
+    "name": "Hill Climb Racing 2",
+    "cover": "{COVER_URL}/1524.png",
+    "url": "{HTML_URL}/1524-fix.html"
+  },
+  {
+    "id": 1525,
+    "name": "Stair Race 3D",
+    "cover": "{COVER_URL}/1525.png",
+    "url": "{HTML_URL}/1525-fix.html"
+  },
+  {
+    "id": 1526,
+    "name": "GTA 2",
+    "cover": "{COVER_URL}/1526.png",
+    "url": "{HTML_URL}/1526-fix.html"
+  },
+  {
+    "id": 1527,
+    "name": "Mad Shark",
+    "cover": "{COVER_URL}/1527.png",
+    "url": "{HTML_URL}/1527-fix.html"
+  },
+  {
+    "id": 1528,
+    "name": "Cold Front",
+    "cover": "{COVER_URL}/1528.png",
+    "url": "{HTML_URL}/1528-fix.html"
+  },
+  {
+    "id": 1529,
+    "name": "Fort@dmin",
+    "cover": "{COVER_URL}/1529.png",
+    "url": "{HTML_URL}/1529-fix.html"
+  },
+  {
+    "id": 1530,
+    "name": "A Dark Room",
+    "cover": "{COVER_URL}/1530.png",
+    "url": "{HTML_URL}/1530-fix.html"
+  },
+  {
+    "id": 1531,
+    "name": "Sandtrix",
+    "cover": "{COVER_URL}/1531.png",
+    "url": "{HTML_URL}/1531-fix.html"
+  },
+  {
+    "id": 1532,
+    "name": "Sudoku",
+    "cover": "{COVER_URL}/1532.png",
+    "url": "{HTML_URL}/1532-fix.html"
+  },
+  {
+    "id": 1533,
+    "name": "Bad Time Simulator",
+    "cover": "{COVER_URL}/1533.png",
+    "url": "{HTML_URL}/1533-fix.html"
+  },
+  {
+    "id": 1534,
+    "name": "Dino",
+    "cover": "{COVER_URL}/1534.png",
+    "url": "{HTML_URL}/1534-fix.html"
+  },
+  {
+    "id": 1535,
+    "name": "I Wanna Be Thy Copy",
+    "cover": "{COVER_URL}/1535.png",
+    "url": "{HTML_URL}/1535-fix.html"
+  },
+  {
+    "id": 1536,
+    "name": "Flappy Dino",
+    "cover": "{COVER_URL}/1536.png",
+    "url": "{HTML_URL}/1536-fix.html"
+  },
+  {
+    "id": 1537,
+    "name": "Stack Bounce",
+    "cover": "{COVER_URL}/1537.png",
+    "url": "{HTML_URL}/1537-fix.html"
+  },
+  {
+    "id": 1538,
+    "name": "Deltarune",
+    "cover": "{COVER_URL}/1538.png",
+    "url": "{HTML_URL}/1538-fix.html"
+  },
+  {
+    "id": 1539,
+    "name": "Bus & Subway Runner",
+    "cover": "{COVER_URL}/1539.png",
+    "url": "{HTML_URL}/1539-fix.html"
+  },
+  {
+    "id": 1540,
+    "name": "Celeste (PICO-8)",
+    "cover": "{COVER_URL}/1540.png",
+    "url": "{HTML_URL}/1540-fix.html"
+  },
+  {
+    "id": 1541,
+    "name": "Pacman",
+    "cover": "{COVER_URL}/1541.png",
+    "url": "{HTML_URL}/1541-fix.html"
+  },
+  {
+    "id": 1542,
+    "name": "Factorish",
+    "cover": "{COVER_URL}/1542.png",
+    "url": "{HTML_URL}/1542-fix.html"
+  },
+  {
+    "id": 1543,
+    "name": "Rocket League",
+    "cover": "{COVER_URL}/1543.png",
+    "url": "{HTML_URL}/1543-fix.html"
+  },
+  {
+    "id": 1544,
+    "name": "Succubox",
+    "cover": "{COVER_URL}/1544.png",
+    "url": "{HTML_URL}/1544-fix.html"
+  },
+  {
+    "id": 1545,
+    "name": "Rocket Soccer",
+    "cover": "{COVER_URL}/1545.png",
+    "url": "{HTML_URL}/1545-fix.html"
+  },
+  {
+    "id": 1546,
+    "name": "Mario Golf",
+    "cover": "{COVER_URL}/1546.png",
+    "url": "{HTML_URL}/1546-fix.html"
+  },
+  {
+    "id": 1547,
+    "name": "Choose Your Weapon 2",
+    "cover": "{COVER_URL}/1547.png",
+    "url": "{HTML_URL}/1547-fix.html"
+  },
+  {
+    "id": 1548,
+    "name": "Mario Combat",
+    "cover": "{COVER_URL}/1548.png",
+    "url": "{HTML_URL}/1548-fix.html"
+  },
+  {
+    "id": 1549,
+    "name": "Choose Your Weapon",
+    "cover": "{COVER_URL}/1549.png",
+    "url": "{HTML_URL}/1549-fix.html"
+  },
+  {
+    "id": 1550,
+    "name": "Earthbound",
+    "cover": "{COVER_URL}/1550.png",
+    "url": "{HTML_URL}/1550-fix.html"
+  },
+  {
+    "id": 1551,
+    "name": "Garfield Gets Real",
+    "cover": "{COVER_URL}/1551.png",
+    "url": "{HTML_URL}/1551-fix.html"
+  },
+  {
+    "id": 1552,
+    "name": "Donkey Kong Country 3",
+    "cover": "{COVER_URL}/1552.png",
+    "url": "{HTML_URL}/1552-fix.html"
+  },
+  {
+    "id": 1553,
+    "name": "Links Awakening DX",
+    "cover": "{COVER_URL}/1553.png",
+    "url": "{HTML_URL}/1553-fix.html"
+  },
+  {
+    "id": 1554,
+    "name": "Crush The Castle 2",
+    "cover": "{COVER_URL}/1554.png",
+    "url": "{HTML_URL}/1554-fix.html"
+  },
+  {
+    "id": 1555,
+    "name": "Chrono Trigger",
+    "cover": "{COVER_URL}/1555.png",
+    "url": "{HTML_URL}/1555-fix.html"
+  },
+  {
+    "id": 1556,
+    "name": "Kirby: Power Paintbrush",
+    "cover": "{COVER_URL}/1556.png",
+    "url": "{HTML_URL}/1556-fix.html"
+  },
+  {
+    "id": 1557,
+    "name": "Dr Mario",
+    "cover": "{COVER_URL}/1557.png",
+    "url": "{HTML_URL}/1557-fix.html"
+  },
+  {
+    "id": 1558,
+    "name": "Duck Life 7",
+    "cover": "{COVER_URL}/1558.png",
+    "url": "{HTML_URL}/1558-fix.html"
+  },
+  {
+    "id": 1559,
+    "name": "Kirby 64",
+    "cover": "{COVER_URL}/1559.png",
+    "url": "{HTML_URL}/1559-fix.html"
+  },
+  {
+    "id": 1560,
+    "name": "Dragon Ball Z: Supersonic Warriors",
+    "cover": "{COVER_URL}/1560.png",
+    "url": "{HTML_URL}/1560-fix.html"
+  },
+  {
+    "id": 1561,
+    "name": "Feed Me",
+    "cover": "{COVER_URL}/1561.png",
+    "url": "{HTML_URL}/1561-fix.html"
+  },
+  {
+    "id": 1562,
+    "name": "Mario and Luigi Superstar Saga",
+    "cover": "{COVER_URL}/1562.png",
+    "url": "{HTML_URL}/1562-fix.html"
+  },
+  {
+    "id": 1563,
+    "name": "Just Hit The Button",
+    "cover": "{COVER_URL}/1563.png",
+    "url": "{HTML_URL}/1563-fix.html"
+  },
+  {
+    "id": 1564,
+    "name": "F-Zero",
+    "cover": "{COVER_URL}/1564.png",
+    "url": "{HTML_URL}/1564-fix.html"
+  },
+  {
+    "id": 1565,
+    "name": "Castlevania: Order of Ecclesia",
+    "cover": "{COVER_URL}/1565.png",
+    "url": "{HTML_URL}/1565-fix.html"
+  },
+  {
+    "id": 1566,
+    "name": "Famidash B-Sides (Geometry Dash)",
+    "cover": "{COVER_URL}/1566.png",
+    "url": "{HTML_URL}/1566-fix.html"
+  },
+  {
+    "id": 1567,
+    "name": "Dragon Boy 2",
+    "cover": "{COVER_URL}/1567.png",
+    "url": "{HTML_URL}/1567-fix.html"
+  },
+  {
+    "id": 1568,
+    "name": "Mario Pinball Land",
+    "cover": "{COVER_URL}/1568.png",
+    "url": "{HTML_URL}/1568-fix.html"
+  },
+  {
+    "id": 1569,
+    "name": "Crush The Castle",
+    "cover": "{COVER_URL}/1569.png",
+    "url": "{HTML_URL}/1569-fix.html"
+  },
+  {
+    "id": 1570,
+    "name": "Flood Runner 3",
+    "cover": "{COVER_URL}/1570.png",
+    "url": "{HTML_URL}/1570-fix.html"
+  },
+  {
+    "id": 1571,
+    "name": "Jet Force Gemini",
+    "cover": "{COVER_URL}/1571.png",
+    "url": "{HTML_URL}/1571-fix.html"
+  },
+  {
+    "id": 1572,
+    "name": "Donkey Kong Country",
+    "cover": "{COVER_URL}/1572.png",
+    "url": "{HTML_URL}/1572-fix.html"
+  },
+  {
+    "id": 1573,
+    "name": "Castlevania: Aria of Sorrow",
+    "cover": "{COVER_URL}/1573.png",
+    "url": "{HTML_URL}/1573-fix.html"
+  },
+  {
+    "id": 1574,
+    "name": "changetype",
+    "cover": "{COVER_URL}/1574.png",
+    "url": "{HTML_URL}/1574-fix.html"
+  },
+  {
+    "id": 1575,
+    "name": "Fire Emblem",
+    "cover": "{COVER_URL}/1575.png",
+    "url": "{HTML_URL}/1575-fix.html"
+  },
+  {
+    "id": 1576,
+    "name": "Flood Runner 2",
+    "cover": "{COVER_URL}/1576.png",
+    "url": "{HTML_URL}/1576-fix.html"
+  },
+  {
+    "id": 1577,
+    "name": "Illusion of Gaia",
+    "cover": "{COVER_URL}/1577.png",
+    "url": "{HTML_URL}/1577-fix.html"
+  },
+  {
+    "id": 1578,
+    "name": "Golden Sun",
+    "cover": "{COVER_URL}/1578.png",
+    "url": "{HTML_URL}/1578-fix.html"
+  },
+  {
+    "id": 1579,
+    "name": "Epic Battle Fantasy",
+    "cover": "{COVER_URL}/1579.png",
+    "url": "{HTML_URL}/1579-fix.html"
+  },
+  {
+    "id": 1580,
+    "name": "Flying Gorilla",
+    "cover": "{COVER_URL}/1580.png",
+    "url": "{HTML_URL}/1580-fix.html"
+  },
+  {
+    "id": 1581,
+    "name": "Daggerfall",
+    "cover": "{COVER_URL}/1581.png",
+    "url": "{HTML_URL}/1581-fix.html"
+  },
+  {
+    "id": 1582,
+    "name": "Cheese Dreams",
+    "cover": "{COVER_URL}/1582.png",
+    "url": "{HTML_URL}/1582-fix.html"
+  },
+  {
+    "id": 1583,
+    "name": "Kid Icarus",
+    "cover": "{COVER_URL}/1583.png",
+    "url": "{HTML_URL}/1583-fix.html"
+  },
+  {
+    "id": 1584,
+    "name": "Chisel 2",
+    "cover": "{COVER_URL}/1584.png",
+    "url": "{HTML_URL}/1584-fix.html"
+  },
+  {
+    "id": 1585,
+    "name": "DuckTales",
+    "cover": "{COVER_URL}/1585.png",
+    "url": "{HTML_URL}/1585-fix.html"
+  },
+  {
+    "id": 1586,
+    "name": "F-Zero X",
+    "cover": "{COVER_URL}/1586.png",
+    "url": "{HTML_URL}/1586-fix.html"
+  },
+  {
+    "id": 1587,
+    "name": "Duke Nukem 64",
+    "cover": "{COVER_URL}/1587.png",
+    "url": "{HTML_URL}/1587-fix.html"
+  },
+  {
+    "id": 1588,
+    "name": "Choose Your Weapon 3",
+    "cover": "{COVER_URL}/1588.png",
+    "url": "{HTML_URL}/1588-fix.html"
+  },
+  {
+    "id": 1589,
+    "name": "Epic Battle Fantasy 3",
+    "cover": "{COVER_URL}/1589.png",
+    "url": "{HTML_URL}/1589-fix.html"
+  },
+  {
+    "id": 1590,
+    "name": "Donkey Kong Country 2",
+    "cover": "{COVER_URL}/1590.png",
+    "url": "{HTML_URL}/1590-fix.html"
+  },
+  {
+    "id": 1591,
+    "name": "Donkey Kong Land",
+    "cover": "{COVER_URL}/1591.png",
+    "url": "{HTML_URL}/1591-fix.html"
+  },
+  {
+    "id": 1592,
+    "name": "Ditto",
+    "cover": "{COVER_URL}/1592.png",
+    "url": "{HTML_URL}/1592-fix.html"
+  },
+  {
+    "id": 1593,
+    "name": "Kirby and the Amazing Mirror",
+    "cover": "{COVER_URL}/1593.png",
+    "url": "{HTML_URL}/1593-fix.html"
+  },
+  {
+    "id": 1594,
+    "name": "Gex 64",
+    "cover": "{COVER_URL}/1594.png",
+    "url": "{HTML_URL}/1594-fix.html"
+  },
+  {
+    "id": 1595,
+    "name": "Mario Kart Super Circuit",
+    "cover": "{COVER_URL}/1595.png",
+    "url": "{HTML_URL}/1595-fix.html"
+  },
+  {
+    "id": 1596,
+    "name": "Castlevania III",
+    "cover": "{COVER_URL}/1596.png",
+    "url": "{HTML_URL}/1596-fix.html"
+  },
+  {
+    "id": 1597,
+    "name": "Undertale",
+    "cover": "{COVER_URL}/1597.png",
+    "url": "{HTML_URL}/1597-fix.html"
+  },
+  {
+    "id": 1598,
+    "name": "Final Fantasy VI",
+    "cover": "{COVER_URL}/1598.png",
+    "url": "{HTML_URL}/1598-fix.html"
+  },
+  {
+    "id": 1599,
+    "name": "Kirby Mass Attack",
+    "cover": "{COVER_URL}/1599.png",
+    "url": "{HTML_URL}/1599-fix.html"
+  },
+  {
+    "id": 1600,
+    "name": "Drill Dozer",
+    "cover": "{COVER_URL}/1600.png",
+    "url": "{HTML_URL}/1600-fix.html"
+  },
+  {
+    "id": 1601,
+    "name": "Contra III",
+    "cover": "{COVER_URL}/1601.png",
+    "url": "{HTML_URL}/1601-fix.html"
+  },
+  {
+    "id": 1602,
+    "name": "Contra",
+    "cover": "{COVER_URL}/1602.png",
+    "url": "{HTML_URL}/1602-fix.html"
+  },
+  {
+    "id": 1603,
+    "name": "Ice Climber",
+    "cover": "{COVER_URL}/1603.png",
+    "url": "{HTML_URL}/1603-fix.html"
+  },
+  {
+    "id": 1604,
+    "name": "Kirby's Dream Land",
+    "cover": "{COVER_URL}/1604.png",
+    "url": "{HTML_URL}/1604-fix.html"
+  },
+  {
+    "id": 1605,
+    "name": "Castlevania: Dawn of Sorrow",
+    "cover": "{COVER_URL}/1605.png",
+    "url": "{HTML_URL}/1605-fix.html"
+  },
+  {
+    "id": 1606,
+    "name": "Icebreaker",
+    "cover": "{COVER_URL}/1606.png",
+    "url": "{HTML_URL}/1606-fix.html"
+  },
+  {
+    "id": 1607,
+    "name": "Golden Axe",
+    "cover": "{COVER_URL}/1607.png",
+    "url": "{HTML_URL}/1607-fix.html"
+  },
+  {
+    "id": 1608,
+    "name": "Famidash (Geometry Dash)",
+    "cover": "{COVER_URL}/1608.png",
+    "url": "{HTML_URL}/1608-fix.html"
+  },
+  {
+    "id": 1609,
+    "name": "Chisel",
+    "cover": "{COVER_URL}/1609.png",
+    "url": "{HTML_URL}/1609-fix.html"
+  },
+  {
+    "id": 1610,
+    "name": "Duke Nukem Advance",
+    "cover": "{COVER_URL}/1610.png",
+    "url": "{HTML_URL}/1610-fix.html"
+  },
+  {
+    "id": 1611,
+    "name": "Mario Paint",
+    "cover": "{COVER_URL}/1611.png",
+    "url": "{HTML_URL}/1611-fix.html"
+  },
+  {
+    "id": 1612,
+    "name": "Electric Man 2",
+    "cover": "{COVER_URL}/1612.png",
+    "url": "{HTML_URL}/1612-fix.html"
+  },
+  {
+    "id": 1613,
+    "name": "Diddy Kong Racing",
+    "cover": "{COVER_URL}/1613.png",
+    "url": "{HTML_URL}/1613-fix.html"
+  },
+  {
+    "id": 1614,
+    "name": "Final Ninja",
+    "cover": "{COVER_URL}/1614.png",
+    "url": "{HTML_URL}/1614-fix.html"
+  },
+  {
+    "id": 1615,
+    "name": "Control Craft 2",
+    "cover": "{COVER_URL}/1615.png",
+    "url": "{HTML_URL}/1615-fix.html"
+  },
+  {
+    "id": 1616,
+    "name": "Fire Fantasy: Tactics Advance",
+    "cover": "{COVER_URL}/1616.png",
+    "url": "{HTML_URL}/1616-fix.html"
+  },
+  {
+    "id": 1617,
+    "name": "Kirby's Dream Land 2",
+    "cover": "{COVER_URL}/1617.png",
+    "url": "{HTML_URL}/1617-fix.html"
+  },
+  {
+    "id": 1618,
+    "name": "Comix Zone",
+    "cover": "{COVER_URL}/1618.png",
+    "url": "{HTML_URL}/1618-fix.html"
+  },
+  {
+    "id": 1619,
+    "name": "Mario Kart 64",
+    "cover": "{COVER_URL}/1619.png",
+    "url": "{HTML_URL}/1619-fix.html"
+  },
+  {
+    "id": 1620,
+    "name": "Doodle Defender",
+    "cover": "{COVER_URL}/1620.png",
+    "url": "{HTML_URL}/1620-fix.html"
+  },
+  {
+    "id": 1621,
+    "name": "Castlevania",
+    "cover": "{COVER_URL}/1621.png",
+    "url": "{HTML_URL}/1621-fix.html"
+  },
+  {
+    "id": 1622,
+    "name": "Mario and Luigi: Partners in Time",
+    "cover": "{COVER_URL}/1622.png",
+    "url": "{HTML_URL}/1622-fix.html"
+  },
+  {
+    "id": 1623,
+    "name": "Frostbite 2",
+    "cover": "{COVER_URL}/1623.png",
+    "url": "{HTML_URL}/1623-fix.html"
+  },
+  {
+    "id": 1624,
+    "name": "Electric Box",
+    "cover": "{COVER_URL}/1624.png",
+    "url": "{HTML_URL}/1624-fix.html"
+  },
+  {
+    "id": 1625,
+    "name": "Famidash C-Sides (Geometry Dash)",
+    "cover": "{COVER_URL}/1625.png",
+    "url": "{HTML_URL}/1625-fix.html"
+  },
+  {
+    "id": 1626,
+    "name": "Mario and Luigi: Bowser's Inside Story",
+    "cover": "{COVER_URL}/1626.png",
+    "url": "{HTML_URL}/1626-fix.html"
+  },
+  {
+    "id": 1627,
+    "name": "Famidash D-Sides (Geometry Dash)",
+    "cover": "{COVER_URL}/1627.png",
+    "url": "{HTML_URL}/1627-fix.html"
+  },
+  {
+    "id": 1628,
+    "name": "Gunstar Heroes",
+    "cover": "{COVER_URL}/1628.png",
+    "url": "{HTML_URL}/1628-fix.html"
+  },
+  {
+    "id": 1629,
+    "name": "Epic Battle Fantasy 2",
+    "cover": "{COVER_URL}/1629.png",
+    "url": "{HTML_URL}/1629-fix.html"
+  },
+  {
+    "id": 1630,
+    "name": "Mario Tennis",
+    "cover": "{COVER_URL}/1630.png",
+    "url": "{HTML_URL}/1630-fix.html"
+  },
+  {
+    "id": 1631,
+    "name": "Excitebike 64",
+    "cover": "{COVER_URL}/1631.png",
+    "url": "{HTML_URL}/1631-fix.html"
+  },
+  {
+    "id": 1632,
+    "name": "Frostbite",
+    "cover": "{COVER_URL}/1632.png",
+    "url": "{HTML_URL}/1632-fix.html"
+  },
+  {
+    "id": 1633,
+    "name": "Harvest Moon 64",
+    "cover": "{COVER_URL}/1633.png",
+    "url": "{HTML_URL}/1633-fix.html"
+  },
+  {
+    "id": 1634,
+    "name": "Ecco the Dolphin",
+    "cover": "{COVER_URL}/1634.png",
+    "url": "{HTML_URL}/1634-fix.html"
+  },
+  {
+    "id": 1635,
+    "name": "Lego Batman",
+    "cover": "{COVER_URL}/1635.png",
+    "url": "{HTML_URL}/1635-fix.html"
+  },
+  {
+    "id": 1636,
+    "name": "Mario Party Advance",
+    "cover": "{COVER_URL}/1636.png",
+    "url": "{HTML_URL}/1636-fix.html"
+  },
+  {
+    "id": 1637,
+    "name": "Cave Chaos",
+    "cover": "{COVER_URL}/1637.png",
+    "url": "{HTML_URL}/1637-fix.html"
+  },
+  {
+    "id": 1638,
+    "name": "Harvest Moon",
+    "cover": "{COVER_URL}/1638.png",
+    "url": "{HTML_URL}/1638-fix.html"
+  },
+  {
+    "id": 1639,
+    "name": "Age of War 2",
+    "cover": "{COVER_URL}/1639.png",
+    "url": "{HTML_URL}/1639-fix.html"
+  },
+  {
+    "id": 1640,
+    "name": "Adventure",
+    "cover": "{COVER_URL}/1640.png",
+    "url": "{HTML_URL}/1640-fix.html"
   }
 ]

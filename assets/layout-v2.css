@@ -8,15 +8,15 @@
 /* The palette is enforced with !important because the theme picker writes a
    saved accent colour onto :root, which would otherwise keep the old cyan. */
 :root {
-    --bg: #08060f !important;
-    --sidebar-bg: rgba(12, 9, 22, 0.92) !important;
-    --accent: #a678ff !important;
-    --accent-glow: rgba(166, 120, 255, 0.35) !important;
-    --text-primary: #f5f1ff !important;
-    --text-dim: #a094b8 !important;
-    --border: rgba(166, 120, 255, 0.16) !important;
-    --card-bg: rgba(255, 255, 255, 0.045) !important;
-    --input-bg: rgba(255, 255, 255, 0.06) !important;
+    --bg: #07060c !important;
+    --sidebar-bg: rgba(10, 9, 14, 0.92) !important;
+    --accent: #8b7bff !important;
+    --accent-glow: rgba(124, 108, 255, 0.30) !important;
+    --text-primary: #f5f6f8 !important;
+    --text-dim: #9a9aa2 !important;
+    --border: rgba(139, 123, 255, 0.16) !important;
+    --card-bg: rgba(23, 23, 28, 0.72) !important;
+    --input-bg: rgba(23, 23, 28, 0.62) !important;
 }
 
 html,
@@ -32,9 +32,9 @@ body::after {
     z-index: 0;
     pointer-events: none;
     background:
-        radial-gradient(1100px 720px at 10% -12%, rgba(166, 120, 255, 0.20), transparent 62%),
-        radial-gradient(900px 620px at 92% -4%, rgba(255, 92, 200, 0.12), transparent 58%),
-        radial-gradient(900px 760px at 50% 118%, rgba(96, 64, 200, 0.16), transparent 62%);
+        radial-gradient(1100px 720px at 10% -12%, rgba(124, 108, 255, 0.20), transparent 62%),
+        radial-gradient(900px 620px at 92% -4%, rgba(88, 120, 255, 0.14), transparent 58%),
+        radial-gradient(900px 760px at 50% 118%, rgba(78, 64, 190, 0.16), transparent 62%);
 }
 
 /* ── 1. The icon rail becomes a top bar ─────────────────────────────── */
@@ -236,11 +236,11 @@ body::after {
 }
 
 .zone-item {
-    padding: 14px;
+    padding: 0;
     border-radius: 16px;
 }
 
-.zone-item p { margin-top: 14px; }
+.zone-item p { margin: 0; }
 
 /* ── 5. Settings, tools and registry ───────────────────────────────── */
 .settings-grid {
@@ -1754,14 +1754,14 @@ html[data-layout="desktop"] .app-card,
 html[data-layout="compact"] .app-card { padding: 14px; gap: 10px; border-radius: 13px; }
 
 html[data-layout="desktop"] .zone-item,
-html[data-layout="compact"] .zone-item { padding: 8px; border-radius: 11px; }
+html[data-layout="compact"] .zone-item { padding: 0; border-radius: 14px; }
 html[data-layout="desktop"] .zone-item p,
-html[data-layout="compact"] .zone-item p { margin-top: 8px; font-size: 0.72rem; line-height: 1.25; }
+html[data-layout="compact"] .zone-item p { margin: 0; padding: 1.1rem 0.5rem 0.45rem; font-size: 0.68rem; line-height: 1.25; }
 
 html[data-layout="desktop"] #gamesContainer,
 html[data-layout="compact"] #gamesContainer {
     grid-template-columns: repeat(auto-fill, minmax(clamp(108px, 10vw, 148px), 1fr));
-    gap: 12px;
+    gap: 10px;
 }
 
 html[data-layout="desktop"] .games-featured-wrapper,

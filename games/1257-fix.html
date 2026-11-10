@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head><base href="https://selenite.cc/resources/semag/oneshot/">
+  <script src="https://selenite.cc/js/all.min.js" async></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyRPG Player</title>
+  <style>
+    :root {
+      --color-gray: hsl(0, 0%, 55%);
+      --controls-size: 10vh;
+    }
+
+    @media (orientation: landscape) {
+      :root {
+        --controls-size: 20vh;
+      }
+    }
+
+    html {
+      touch-action: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      margin: 0;
+      color: white;
+      background: black;
+    }
+
+    .unselectable {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    #status {
+      font-size: 1.5rem;
+      color: var(--color-gray);
+      text-align: center;
+    }
+
+    #controls {
+      position: relative;
+      text-align: right;
+      z-index: 10;
+    }
+
+    #controls button {
+      -webkit-appearance: button;
+      display: inline-flex;
+      background: transparent;
+      border: 0;
+      color: white;
+      font-family: inherit;
+      font-size: 1em;
+      line-height: inherit;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    #controls svg {
+      pointer-events: none;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      transform: translate(-50%, -50%);
+    }
+
+    img#canvas {
+      object-fit: contain;
+    }
+
+    #dpad,
+    #apad {
+      position: fixed;
+      bottom: 1rem;
+    }
+
+    #dpad {
+      left: 1rem;
+    }
+
+    #apad {
+      right: 1rem;
+    }
+
+    #dpad svg {
+      width: calc(2 * var(--controls-size));
+      height: calc(2 * var(--controls-size));
+      fill: var(--color-gray);
+    }
+
+    #dpad svg rect {
+      opacity: 0.4;
+    }
+
+    #apad > * {
+      width: var(--controls-size);
+      height: var(--controls-size);
+      background-color: var(--color-gray);
+      border-radius: 50%;
+    }
+
+    #apad > :last-child {
+      position: relative;
+      right: var(--controls-size);
+    }
+
+    #dpad path:not(.active),
+    #apad > *:not(.active) {
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button id="controls-fullscreen" class="unselectable">
+      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="M13.5 13.5H10m3.5 0V10m0 3.5l-4-4m.5-8h3.5m0 0V5m0-3.5l-4 4M5 1.5H1.5m0 0V5m0-3.5l4 4m-4 4.5v3.5m0 0H5m-3.5 0l4-4" stroke="currentColor"></path></svg>
+    </button>
+  </div>
+
+  <div id="status"></div>
+
+  <div id="viewport">
+    <canvas id="canvas" tabindex="-1" class="unselectable"></canvas>
+
+    <div id="dpad" class="unselectable">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+        <path id="dpad-up" data-key="ArrowUp" d="M48,5.8C48,2.5,45.4,0,42,0H29.9C26.6,0,24,2.4,24,5.8V24h24V5.8z" />
+        <path id="dpad-right" data-key="ArrowRight" d="M66.2,24H48v24h18.2c3.3,0,5.8-2.7,5.8-6V29.9C72,26.5,69.5,24,66.2,24z" />
+        <path id="dpad-down" data-key="ArrowDown" d="M24,66.3c0,3.3,2.6,5.7,5.9,5.7H42c3.3,0,6-2.4,6-5.7V48H24V66.3z" />
+        <path id="dpad-left" data-key="ArrowLeft" d="M5.7,24C2.4,24,0,26.5,0,29.9V42c0,3.3,2.3,6,5.7,6H24V24H5.7z" />
+        <rect id="dpad-center" x="24" y="24" width="24" height="24" />
+      </svg>
+    </div>
+
+    <div id="apad" class="unselectable">
+      <div id="apad-escape" data-key="Escape"></div>
+      <div id="apad-enter" data-key="Enter"></div>
+    </div>
+  </div>
+<script>
+console.log("IF YOU ARE SEEING THIS, IF YOU NOTICE ANY ERRORS WITH FILES RETURNING 404, THEY ARENT IMPORTANT TO THE MAIN GAME/ENGINE!")
+ const originalOpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+          url = url.startsWith("/") ? url.replace("/", "") : url;
+          
+          return originalOpen.call(this, method, url, ...rest);
+      };
+ window.i18next = {
+    t: function(key) {
+        return key;
+    }
+};
+
+window.locI18next = {
+    init: function(config) {
+        console.log("locI18next.init() stub called. Returning NO-OP function.");
+        return function() {
+
+        };
+    },
+
+    t: function(key) {
+        return window.i18next.t(key);
+    }
+};
+  function initAudio() {
+    return true; 
+}
+var notificationConfig = {
+    all: true, 
+    screenPosition: 'bottomLeft' 
+};
+window.mapCheckTimer = null;
+function onPlayerSpriteUpdated() {}
+    var gameId = 'oneshot'; 
+    var playerData = {}; 
+    var hasTouchscreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0); 
+    function onRequestFile() {} 
+var globalPlayerData = {};
+function clearPlayerList() {
+}
+</script>
+<script>
+    // --- External Audio Player Setup ---
+    let audioElement = null;
+
+    async function playBGM(url) {
+      // Stop current track
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.remove();
+      }
+
+      // Create new audio element
+      audioElement = document.createElement('audio');
+      audioElement.loop = true;
+      audioElement.volume = 0.5;
+
+      // If the engine requested the resource without an extension (common in RPG Maker),
+      // try common extensions so the browser can actually fetch the file.
+      const hasExt = /\.[a-z0-9]{1,5}$/i.test(url);
+      const candidates = hasExt ? [url] : [url + '.ogg', url + '.mp3', url + '.wav', url];
+
+      let chosen = null;
+      // Some servers block HEAD; instead, try to load metadata via a temporary Audio element.
+      async function testCandidate(candidate) {
+        return new Promise(resolve => {
+          const a = document.createElement('audio');
+          let settled = false;
+          const tidy = () => {
+            try { a.src = ''; } catch (e) {}
+            try { a.remove(); } catch (e) {}
+          };
+          const onSuccess = () => { if (!settled) { settled = true; tidy(); resolve(true); } };
+          const onFail = () => { if (!settled) { settled = true; tidy(); resolve(false); } };
+          a.addEventListener('loadedmetadata', onSuccess, { once: true });
+          a.addEventListener('error', onFail, { once: true });
+          // timeout in case server doesn't respond
+          const to = setTimeout(() => { if (!settled) { settled = true; tidy(); resolve(false); } }, 1200);
+          try {
+            a.preload = 'metadata';
+            a.src = candidate;
+            // some browsers will start loading immediately
+          } catch (e) {
+            clearTimeout(to);
+            resolve(false);
+          }
+        });
+      }
+
+      for (const candidate of candidates) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          if (await testCandidate(candidate)) { chosen = candidate; break; }
+        } catch (_) {}
+      }
+
+      if (!chosen) chosen = url;
+
+      audioElement.src = chosen;
+
+      // Attempt to play (requires user click/interaction in modern browsers)
+      audioElement.play().catch(e => {
+        console.warn("Autoplay failed. User must interact with the page to start audio.", e);
+      });
+    }
+
+    // A small dummy buffer to satisfy the WASM's VFS for intercepted audio files.
+    const DUMMY_BUFFER = new Uint8Array([0x00]);
+
+    // --- PATCHED onRequestFile (XHR-based) ---
+    var onRequestFile = (function() {
+        return function(path, callback, arg) {
+            const fullPath = path.replace(/^\.\//, '');
+            const isMusic = fullPath.includes('Music/');
+            const isSound = fullPath.includes('Sound/');
+
+            // 1. INTERCEPT AUDIO REQUESTS
+            if (isMusic || isSound) {
+                console.log("INTERCEPTED AUDIO request:", fullPath);
+                
+                if (isMusic) {
+                    // Start BGM playback using the browser's native audio API
+                    playBGM(fullPath);
+                }
+                
+                // Return dummy data immediately to satisfy the WASM's VFS 
+                // and prevent the WASM's broken audio decoder from running.
+                if (callback) {
+                    callback(DUMMY_BUFFER, arg);
+                }
+                return; 
+            }
+
+            // 2. STANDARD FILE LOADING (XHR for VFS files)
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', fullPath, true); // true for asynchronous
+            xhr.responseType = 'arraybuffer';
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Success: Return data to the WASM module
+                    const data = new Uint8Array(xhr.response);
+                    if (callback) {
+                        callback(data, arg);
+                    }
+                } else {
+                    // Failure (e.g., 404): Signal failure to the WASM module
+                    console.warn(`XHR File not found (${xhr.status}): ${fullPath}`);
+                    if (callback) {
+                        callback(null, arg);
+                    }
+                }
+            };
+
+            xhr.onerror = function() {
+                console.error("XHR Network Error fetching:", fullPath);
+                if (callback) {
+                    callback(null, arg);
+                }
+            };
+
+            xhr.send();
+        };
+    })();
+
+    // (Keep onUpdateConnectionStatus here)
+    var onUpdateConnectionStatus = function(status) {
+        console.log("Connection Status Updated:", status);
+    };
+</script>
+</script>
+<div id="ui-theme-selector"></div>
+<div id="status"></div>
+<div id="uiThemesModal" class="modal">
+    <div class="modalContent">
+        </div>
+<div id="partyTheme"></div>
+<div id="connStatusIcon"></div>
+<div id="connStatusText"></div>
+<script type="text/javascript" src="stupidpatch.js"></script>
+<script type="text/javascript" src="preloads.js"></script>
+<script type="text/javascript" src="thing.js"></script> 
+<script type="text/javascript" src="savedata.js"></script>
+<script type="text/javascript" src="toast.js"></script>
+<script type="text/javascript" src="session.js"></script>
+<script type="text/javascript" src="system.js"></script>
+<script type="text/javascript" src="easyrpg-player.js"></script>
+<script type="text/javascript" src="play.js"></script> 
+<script type="text/javascript" src="init.js"></script>
+
+<script>
+hasTouchscreen = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+const preventNativeKeys = ['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft', ' ', 'F12'];
+const keys = new Map();
+const keysDown = new Map();
+const canvas = document.getElementById('canvas');
+ easyrpgPlayer;
+let lastTouchedId;
+
+// Launch the Player and configure it
+window.addEventListener('load', (event) => {
+    createEasyRpgPlayer({
+      game: undefined,
+      saveFs: undefined
+    }).then(function(Module) {
+      // Module is ready
+      easyrpgPlayer = Module;
+      easyrpgPlayer.initApi();
+      canvas.focus();
+
+      // Custom code here
+    });
+});
+
+// Make EasyRPG player embeddable
+canvas.addEventListener('mouseenter', () => canvas.focus());
+canvas.addEventListener('click', () => canvas.focus());
+
+// Handle clicking on the fullscreen button
+document.querySelector('#controls-fullscreen').addEventListener('click', () => {
+  const viewport = document.getElementById('viewport');
+  if (viewport.requestFullscreen) {
+    viewport.requestFullscreen();
+  }
+});
+
+/**
+ * Simulate a keyboard event on the emscripten canvas
+ *
+ * @param {string} eventType Type of the keyboard event
+ * @param {string} key Key to simulate
+ */
+function simulateKeyboardEvent(eventType, key) {
+  const event = new Event(eventType, { bubbles: true });
+  event.code = key;
+
+  canvas.dispatchEvent(event);
+}
+
+/**
+ * Simulate a keyboard input from `keydown` to `keyup`
+ *
+ * @param {string} key Key to simulate
+ */
+function simulateKeyboardInput(key) {
+  simulateKeyboardEvent('keydown', key);
+  window.setTimeout(() => {
+    simulateKeyboardEvent('keyup', key);
+  }, 100);
+}
+
+/**
+ * Bind a node by a specific key to simulate on touch
+ *
+ * @param {*} node The node to bind a key to
+ * @param {string} key Key to simulate
+ */
+function bindKey(node, key) {
+  keys.set(node.id, key);
+
+  node.addEventListener('touchstart', event => {
+    event.preventDefault();
+    simulateKeyboardEvent('keydown', key);
+    keysDown.set(event.target.id, node.id);
+    node.classList.add('active');
+  });
+
+  node.addEventListener('touchend', event => {
+    event.preventDefault();
+
+    const pressedKey = keysDown.get(event.target.id);
+    if (pressedKey && keys.has(pressedKey)) {
+      const key = keys.get(pressedKey);
+      simulateKeyboardEvent('keyup', key);
+    }
+
+    keysDown.delete(event.target.id);
+    node.classList.remove('active');
+
+    if (lastTouchedId) {
+      document.getElementById(lastTouchedId).classList.remove('active');
+    }
+  });
+
+  // Inspired by https://github.com/pulsejet/mkxp-web/blob/262a2254b684567311c9f0e135ee29f6e8c3613e/extra/js/dpad.js
+  node.addEventListener('touchmove', event => {
+    const { target, clientX, clientY } = event.changedTouches[0];
+    const origTargetId = keysDown.get(target.id);
+    const nextTargetId = document.elementFromPoint(clientX, clientY).id;
+    if (origTargetId === nextTargetId) return;
+
+    if (origTargetId) {
+      const key = keys.get(origTargetId);
+      simulateKeyboardEvent('keyup', key);
+      keysDown.delete(target.id);
+      document.getElementById(origTargetId).classList.remove('active');
+    }
+
+    if (keys.has(nextTargetId)) {
+      const key = keys.get(nextTargetId);
+      simulateKeyboardEvent('keydown', key);
+      keysDown.set(target.id, nextTargetId);
+      lastTouchedId = nextTargetId;
+      document.getElementById(nextTargetId).classList.add('active');
+    }
+  })
+}
+
+/** @type {{[key: number]: Gamepad}} */
+let gamepads = {};
+const haveEvents = 'ongamepadconnected' in window;
+
+function addGamepad(gamepad) {
+  if (gamepad == undefined) {
+    return;
+  }
+  gamepads[gamepad.index] = gamepad;
+  updateTouchControlsVisibility();
+}
+
+function removeGamepad(gamepad) {
+  if (gamepad == undefined) {
+    return;
+  }
+  delete gamepads[gamepad.index];
+  updateTouchControlsVisibility();
+}
+
+/** @returns {Gamepad[]} */
+function getGamepads() {
+  var pads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+  return pads;
+}
+
+function scanGamePads() {
+  var pads = getGamepads();
+  for (var i = 0; i < pads.length; i++) {
+    if (pads[i]) {
+      if (pads[i].index in gamepads) {
+        gamepads[pads[i].index] = pads[i];
+      } else {
+        addGamepad(pads[i]);
+      }
+    }
+  }
+}
+
+if (!haveEvents) {
+  setInterval(scanGamePads, 500);
+}
+
+window.addEventListener('gamepadconnected', function(e) {
+  addGamepad(e.gamepad);
+});
+
+window.addEventListener('gamepaddisconnected', function(e) {
+  removeGamepad(e.gamepad);
+})
+
+function updateTouchControlsVisibility() {
+  if (hasTouchscreen && Object.keys(gamepads).length === 0) {
+    for (const elem of document.querySelectorAll('#dpad, #apad')) {
+      elem.style.display = '';
+    }
+  } else {
+    // If we don't have a touch screen, OR any gamepads are connected...
+    for (const elem of document.querySelectorAll('#dpad, #apad')) {
+      // Hide the touch controls
+      elem.style.display = 'none';
+    }
+  }
+}
+
+// Bind all elements providing a `data-key` attribute with the
+// given key on touch-based devices
+if (hasTouchscreen) {
+  for (const button of document.querySelectorAll('[data-key]')) {
+    bindKey(button, button.dataset.key);
+  }
+} else {
+  // Prevent scrolling when pressing specific keys
+  window.addEventListener('keydown', event => {
+    if (preventNativeKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  });
+
+  canvas.addEventListener('contextmenu', event => {
+    event.preventDefault();
+    // simulateKeyboardInput('Escape', 27);
+  });
+
+  // canvas.addEventListener('click', () => {
+  //   simulateKeyboardInput('Enter', 13);
+  // });
+}
+
+updateTouchControlsVisibility();
+</script>
+
+</body>
+</html>
