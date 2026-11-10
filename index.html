@@ -7803,8 +7803,18 @@
             "data/zones.json"
         ];
         let zonesURL = zonesurls[0];
-        const coverURL = "https://immcrab.github.io/specter-games/covers";
-        let htmlURL = "https://immcrab.github.io/specter-games/games";
+        // The library lives in the specter-games repo and is served by jsDelivr,
+        // which school filters allow. Covers can be linked straight from there,
+        // but jsDelivr returns .html as text/plain (nosniff), so game documents
+        // are fetched and loaded as HTML blobs instead of being linked.
+        const GAMES_CDN = "https://cdn.jsdelivr.net/gh/immcrab/specter-games@main";
+        const coverRemotes = [
+            GAMES_CDN + "/covers",
+            "https://immcrab.github.io/specter-games/covers"
+        ];
+        const coverURL = coverRemotes[0];
+        const htmlURL = GAMES_CDN + "/games";
+        const htmlURLFallback = "https://immcrab.github.io/specter-games/games";
 
         let zones = [];
         let gamesFavorites = JSON.parse(localStorage.getItem('gn-favs') || '[]');
@@ -7972,11 +7982,10 @@
                 div.addEventListener('pointerenter', () => gamesPrefetch(file), { once: true, passive: true });
                 div.addEventListener('pointerdown', () => gamesPrefetch(file), { once: true, passive: true });
                 const img = document.createElement('img');
-                img.src = gamesCoverSrc(file);
+                gamesAttachCover(img, file);
                 img.alt = file.name;
                 img.decoding = 'async';
                 img.loading = index < itemsVisible * 2 ? 'eager' : 'lazy';
-                img.addEventListener('error', () => { img.src = GAMES_COVER_FALLBACK; }, { once: true });
                 const p = document.createElement('p');
                 p.textContent = file.name;
                 p.style.fontSize = "0.75rem";
@@ -8075,25 +8084,92 @@
             return (file.cover || '').replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
         }
 
+        // Covers are tried in order: the jsDelivr thumbnail, the origin host,
+        // then the placeholder tile.
+        function gamesCoverSources(file) {
+            const full = gamesCoverFull(file);
+            const match = full.match(/covers\/(.+)\.(png|jpe?g|gif)$/i);
+            if (!match) return [full, GAMES_COVER_FALLBACK];
+            const stem = match[1];
+            const ext = match[2].toLowerCase();
+            const sources = coverRemotes.map(base => `${base}/thumbs/${stem}.webp`);
+            // One cover upstream has no WebP thumbnail; its original is small.
+            if (ext === 'gif') sources.push(`${coverRemotes[0]}/${stem}.gif`);
+            sources.push(GAMES_COVER_FALLBACK);
+            return sources;
+        }
+
+        // Step through that list whenever a cover fails to decode.
+        function gamesAttachCover(img, file) {
+            const sources = gamesCoverSources(file);
+            let index = 0;
+            img.src = sources[0];
+            img.addEventListener('error', () => {
+                index = Math.min(index + 1, sources.length - 1);
+                if (sources[index] !== img.src) img.src = sources[index];
+            });
+        }
+
         // Grids use the ~15 KB WebP covers. The old multi-megabyte originals
         // are no longer shipped; non-local covers still use their direct URL.
         const GAMES_COVER_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#17171c"/><rect x="24" y="24" width="464" height="464" rx="36" fill="none" stroke="#e5e5e5" stroke-opacity=".35" stroke-width="4"/><text x="256" y="272" fill="#e5e5e5" font-family="monospace" font-size="38" text-anchor="middle" letter-spacing="4">AETHER</text></svg>');
 
         function gamesCoverSrc(file) {
-            const full = gamesCoverFull(file);
-            const match = full.match(/covers\/(.+)\.(?:png|jpe?g)$/i);
-            return match ? `${coverURL}/thumbs/${match[1]}.webp` : full;
+            return gamesCoverSources(file)[0];
         }
 
-        // Warm the HTTP cache as soon as a tile is hovered or pressed, so a
-        // multi-megabyte game starts downloading before the player opens.
+        // Warm the CDN cache as soon as a tile is hovered or pressed, so the
+        // game document is already downloaded when the player opens it.
         const gamesPrefetched = new Set();
         function gamesPrefetch(file) {
             if (!file || !file.url || file.url.startsWith('http')) return;
-            const url = file.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
-            if (gamesPrefetched.has(url)) return;
-            gamesPrefetched.add(url);
-            try { fetch(url, { cache: 'force-cache' }).catch(() => {}); } catch (e) {}
+            if (gamesPrefetched.has(file.id)) return;
+            gamesPrefetched.add(file.id);
+            try { fetch(gamesZoneCdn(file), { cache: 'force-cache' }).catch(() => {}); } catch (e) {}
+        }
+
+        // jsDelivr classes .html as text/plain and sends nosniff, so the frame
+        // cannot navigate to it (and a sandboxed frame refuses blob: URLs). Feed
+        // the document in as srcdoc instead; each game's own <base> tag keeps
+        // its assets on the CDN. Anything the CDN refuses (its 20 MB limit)
+        // falls back to the original host, which can be navigated directly.
+        const gamesZoneDocs = new Map();
+        let gamesZoneToken = 0;
+
+        function gamesZoneCdn(file) {
+            return (file.url || '').replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+        }
+
+        // srcdoc documents resolve relative paths against about:srcdoc, so pin
+        // them to the CDN directory the game came from; files that already ship
+        // their own <base> are left untouched.
+        function gamesZoneWithBase(html, file) {
+            if (/<base[\s>]/i.test(html)) return html;
+            const base = '<base href="' + gamesZoneCdn(file).replace(/[^/]*$/, '') + '">';
+            return /<head[^>]*>/i.test(html)
+                ? html.replace(/<head[^>]*>/i, tag => tag + base)
+                : base + html;
+        }
+
+        function gamesZoneContent(file) {
+            if (!file || !file.url) return Promise.resolve(null);
+            if (gamesZoneDocs.has(file.id)) return Promise.resolve(gamesZoneDocs.get(file.id));
+            return fetch(gamesZoneCdn(file))
+                .then(res => {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.text();
+                })
+                .then(html => {
+                    const content = { html: gamesZoneWithBase(html, file) };
+                    gamesZoneDocs.set(file.id, content);
+                    return content;
+                })
+                .catch(() => {
+                    const src = (file.url || '').replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURLFallback);
+                    const content = { src };
+                    gamesZoneDocs.set(file.id, content);
+                    return content;
+                });
         }
 
         function gamesMakeAdTile() {
@@ -8122,13 +8198,12 @@
             heart.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
             heart.onclick = (e) => gamesToggleHeart(e, file.id);
             const img = document.createElement('img');
-            img.src = gamesCoverSrc(file);
+            gamesAttachCover(img, file);
             img.alt = file.name;
             img.width = 300;
             img.height = 300;
             img.loading = 'lazy';
             img.decoding = 'async';
-            img.addEventListener('error', () => { img.src = GAMES_COVER_FALLBACK; }, { once: true });
             const p = document.createElement('p');
             p.textContent = file.name;
             div.append(heart, img, p);
@@ -8288,7 +8363,10 @@
 
         if (zoneFrame) {
             zoneFrame.addEventListener('load', () => {
-                if (zoneFrame.src && !zoneFrame.src.startsWith('about:')) gamesSetFrameLoading(false);
+                // srcdoc frames report no src, and about:blank is the reset state.
+                if (zoneFrame.hasAttribute('srcdoc') || (zoneFrame.src && !zoneFrame.src.startsWith('about:'))) {
+                    gamesSetFrameLoading(false);
+                }
             });
         }
 
@@ -8302,14 +8380,24 @@
                 return;
             }
 
-            const url = file.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
             if (!zoneFrame) zoneFrame = document.getElementById('zoneFrame');
             zoneFrame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-pointer-lock allow-orientation-lock allow-downloads');
             zoneFrame.setAttribute('allowfullscreen', '');
             zoneFrame.setAttribute('allow', 'fullscreen; autoplay; gamepad; accelerometer; gyroscope; pointer-lock');
             gamesSetFrameLoading(true);
-            zoneFrame.src = url;
             gamesPrefetch(file);
+            // Resolve first: the document still has to be fetched from the CDN.
+            const token = ++gamesZoneToken;
+            gamesZoneContent(file).then(content => {
+                if (token !== gamesZoneToken || !zoneFrame || !content) return;
+                if (content.src) {
+                    zoneFrame.removeAttribute('srcdoc');
+                    zoneFrame.src = content.src;
+                } else {
+                    zoneFrame.removeAttribute('src');
+                    zoneFrame.srcdoc = content.html;
+                }
+            });
 
             document.getElementById('zoneName').textContent = file.name;
             zoneViewer.dataset.zoneId = file.id;
@@ -8320,31 +8408,46 @@
         }
 
         function closeZone() {
+            gamesZoneToken++;
             gamesHidePreroll();
             exitZoneFullscreen();
             zoneViewer.hidden = true;
             zoneViewer.style.display = "none";
             document.body.classList.remove('zone-open');
             gamesSetFrameLoading(false);
-            if (zoneFrame) zoneFrame.src = 'about:blank';
+            if (zoneFrame) {
+                zoneFrame.removeAttribute('srcdoc');
+                zoneFrame.src = 'about:blank';
+            }
             const url = new URL(window.location);
             url.searchParams.delete('id');
             history.pushState(null, '', url.toString());
         }
 
-        function downloadZone() {
-            let zone = zones.find(zone => zone.id + '' === zoneViewer.dataset.zoneId);
-            fetch(zone.url.replace("{HTML_URL}", htmlURL) + "?t=" + Date.now()).then(res => res.text()).then(text => {
-                const blob = new Blob([text], { type: "text/html;charset=utf-8" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = zone.name + ".html";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
+        async function downloadZone() {
+            const zone = zones.find(zone => zone.id + '' === zoneViewer.dataset.zoneId);
+            if (!zone) return;
+            const sources = [
+                gamesZoneCdn(zone),
+                zone.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURLFallback)
+            ];
+            let text = null;
+            for (const base of sources) {
+                try {
+                    const res = await fetch(base + (base.includes('?') ? '&' : '?') + "t=" + Date.now());
+                    if (res.ok) { text = await res.text(); break; }
+                } catch (e) { /* try the next host */ }
+            }
+            if (!text) return;
+            const blob = new Blob([text], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = zone.name + ".html";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         // Fullscreen: the real Fullscreen API where it exists, plus a CSS
