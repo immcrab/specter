@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#07060c">
+    <meta name="theme-color" content="#0a0a0a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -169,17 +169,17 @@
     </script>
     <style>
         :root {
-            --bg: #07060c;
-            --sidebar-bg: rgba(10, 9, 14, 0.92);
-            --accent: #8b7bff;
-            --accent-glow: rgba(124, 108, 255, 0.30);
-            --text-primary: #f5f6f8;
-            --text-dim: #9a9aa2;
-            --border: rgba(139, 123, 255, 0.14);
+            --bg: #0a0a0a;
+            --sidebar-bg: rgba(16, 16, 16, 0.92);
+            --accent: #e5e5e5;
+            --accent-glow: rgba(255, 255, 255, 0.25);
+            --text-primary: #f5f5f5;
+            --text-dim: #9a9a9a;
+            --border: rgba(255, 255, 255, 0.14);
             --border-soft: rgba(255, 255, 255, 0.07);
-            --font: 'Courier New', monospace;
-            --card-bg: rgba(23, 23, 28, 0.72);
-            --input-bg: rgba(23, 23, 28, 0.62);
+            --font: Arial, Helvetica, sans-serif;
+            --card-bg: rgba(24, 24, 24, 0.72);
+            --input-bg: rgba(24, 24, 24, 0.62);
             --bg-image: none;
             --bg-blur: 0px;
             --bg-brightness: 100%;
@@ -206,10 +206,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Wallpaper first, then the soft violet ambient wash it sits over. */
+            /* Wallpaper first, then the soft neutral ambient wash it sits over. */
             background-image: var(--bg-image),
-                radial-gradient(58% 46% at 50% 0%, rgba(124, 108, 255, 0.18) 0%, rgba(124, 108, 255, 0) 70%),
-                radial-gradient(44% 38% at 88% 14%, rgba(56, 78, 190, 0.14) 0%, rgba(56, 78, 190, 0) 72%);
+                radial-gradient(58% 46% at 50% 0%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 70%),
+                radial-gradient(44% 38% at 88% 14%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 72%);
             background-size: cover, cover, cover;
             background-position: center, center, center;
             background-attachment: fixed;
@@ -605,7 +605,7 @@
             accent-color: var(--accent);
         }
         select option:checked {
-            background: var(--accent, #6ecbff);
+            background: var(--accent, #e5e5e5);
             color: #000000;
         }
         textarea { height: 150px; resize: none; font-size: 0.8rem; }
@@ -860,7 +860,7 @@
             font-family: var(--font);
             font-size: 0.7rem;
             color: var(--accent);
-            background: rgba(110,203,255,0.1);
+            background: rgba(255, 255, 255,0.1);
             padding: 2px 7px;
             border-radius: 4px;
             white-space: nowrap;
@@ -881,7 +881,7 @@
         .version-has-body {
             font-size: 0.65rem;
             color: var(--accent);
-            border: 1px solid rgba(110,203,255,0.4);
+            border: 1px solid rgba(255, 255, 255,0.4);
             border-radius: 3px;
             padding: 1px 5px;
             flex-shrink: 0;
@@ -1153,7 +1153,7 @@
         .games-carousel-viewport {
             overflow: hidden;
             border-radius: 20px;
-            background: rgba(110, 203, 255, 0.02);
+            background: rgba(229, 229, 229, 0.02);
             border: 1px solid var(--border);
             padding: 20px 0;
         }
@@ -1230,7 +1230,7 @@
         }
         .zone-item:hover {
             transform: translateY(-2px) scale(1.015);
-            border-color: rgba(139, 123, 255, 0.45);
+            border-color: rgba(255, 255, 255, 0.45);
             box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
         }
         .zone-item img {
@@ -2412,8 +2412,8 @@
             } catch (e) {}
         })();
     </script>
-    <link rel="stylesheet" href="assets/layout-v2.css?v=8">
-    <link rel="stylesheet" href="assets/desktop-os.css?v=8">
+    <link rel="stylesheet" href="assets/layout-v2.css?v=9">
+    <link rel="stylesheet" href="assets/desktop-os.css?v=9">
 </head>
 <body>
 
@@ -2750,8 +2750,8 @@
                     <h3>Visuals & Background</h3>
                     <div class="input-group">
                         <label>Accent Color</label>
-                        <input type="text" id="theme-color" value="#6ecbff" oninput="applyTheme()">
-                        <input type="color" id="theme-picker" value="#6ecbff" style="margin-top:10px; width:100%; border:none; height:35px; border-radius:8px; cursor:pointer; background: transparent;" oninput="syncColor(this.value)">
+                        <input type="text" id="theme-color" value="#e5e5e5" oninput="applyTheme()">
+                        <input type="color" id="theme-picker" value="#e5e5e5" style="margin-top:10px; width:100%; border:none; height:35px; border-radius:8px; cursor:pointer; background: transparent;" oninput="syncColor(this.value)">
                     </div>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                         <div class="input-group">
@@ -2760,7 +2760,7 @@
                         </div>
                         <div class="input-group">
                             <label>Secondary Text</label>
-                            <input type="color" id="text-dim-picker" value="#94a3b8" style="width:100%; border:none; height:35px; border-radius:8px; cursor:pointer; background:transparent;" oninput="applyTextColors()">
+                            <input type="color" id="text-dim-picker" value="#9a9a9a" style="width:100%; border:none; height:35px; border-radius:8px; cursor:pointer; background:transparent;" oninput="applyTextColors()">
                         </div>
                     </div>
                     <div class="input-group">
@@ -2789,6 +2789,7 @@
                     <div class="input-group">
                         <label>Font Family</label>
                         <select id="font-select" onchange="applyTheme(); if(window.__glAch) window.__glAch.onSettingChanged('font')">
+                            <option value="Arial, Helvetica, sans-serif">Arial</option>
                             <option value="'Courier New', monospace">Retro Mono</option>
                             <option value="'Inter', sans-serif">Modern Sans</option>
                             <option value="'Segoe UI', sans-serif">System UI</option>
@@ -3388,15 +3389,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg:            var(--nt-bg,             #07060c);
-      --accent:        var(--nt-accent,         #8b7bff);
-      --accent-glow:   var(--nt-accent-glow,    rgba(124, 108, 255, 0.30));
-      --text-primary:  var(--nt-text-primary,   #f5f6f8);
-      --text-dim:      var(--nt-text-dim,       #9a9aa2);
-      --border:        var(--nt-border,         rgba(139, 123, 255, 0.16));
-      --card-bg:       var(--nt-card-bg,        rgba(23, 23, 28, 0.72));
-      --input-bg:      var(--nt-input-bg,       rgba(23, 23, 28, 0.62));
-      --font:          var(--nt-font,           'Courier New', monospace);
+      --bg:            var(--nt-bg,             #0a0a0a);
+      --accent:        var(--nt-accent,         #e5e5e5);
+      --accent-glow:   var(--nt-accent-glow,    rgba(255, 255, 255, 0.25));
+      --text-primary:  var(--nt-text-primary,   #f5f5f5);
+      --text-dim:      var(--nt-text-dim,       #9a9a9a);
+      --border:        var(--nt-border,         rgba(255, 255, 255, 0.16));
+      --card-bg:       var(--nt-card-bg,        rgba(24, 24, 24, 0.72));
+      --input-bg:      var(--nt-input-bg,       rgba(24, 24, 24, 0.62));
+      --font:          var(--nt-font,           Arial, Helvetica, sans-serif);
       --bg-image:      var(--nt-bg-image,       none);
       --bg-blur:       var(--nt-bg-blur,        0px);
       --bg-brightness: var(--nt-bg-brightness,  100%);
@@ -5427,7 +5428,7 @@
             document.getElementById('cloak-title').value = '';
             document.getElementById('cloak-icon').value = '';
             document.title = 'Aether';
-            var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6ecbff';
+            var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#e5e5e5';
             setDefaultFaviconWithAccent(accent);
             saveConfig();
         }
@@ -5444,7 +5445,7 @@
             if (icon) {
                 setFaviconFromUrl(icon);
             } else {
-                var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6ecbff';
+                var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#e5e5e5';
                 setDefaultFaviconWithAccent(accent);
             }
             saveConfig();
@@ -5468,7 +5469,7 @@
 
         function applyTextColors() {
             const primary = document.getElementById('text-primary-picker')?.value || '#ffffff';
-            const dim = document.getElementById('text-dim-picker')?.value || '#94a3b8';
+            const dim = document.getElementById('text-dim-picker')?.value || '#9a9a9a';
             document.documentElement.style.setProperty('--text-primary', primary);
             document.documentElement.style.setProperty('--text-dim', dim);
             sendThemeToNtTabs();
@@ -5500,7 +5501,7 @@
                 clockFormat: document.getElementById('clock-format-select')?.value || '24h-s',
                 dateFormat: document.getElementById('date-format-select')?.value || 'full',
                 textPrimary: document.getElementById('text-primary-picker')?.value || '#ffffff',
-                textDim: document.getElementById('text-dim-picker')?.value || '#94a3b8'
+                textDim: document.getElementById('text-dim-picker')?.value || '#9a9a9a'
             }));
         }
 
@@ -5650,13 +5651,16 @@
             if (saved) {
                 document.getElementById('cloak-title').value = saved.title || "";
                 document.getElementById('cloak-icon').value = saved.icon || "";
-                document.getElementById('theme-color').value = saved.color || "#6ecbff";
-                document.getElementById('theme-picker').value = saved.color || "#6ecbff";
+                document.getElementById('theme-color').value = saved.color || "#e5e5e5";
+                document.getElementById('theme-picker').value = saved.color || "#e5e5e5";
                 document.getElementById('bg-picker').value = saved.bgColor || "#000000";
                 document.getElementById('bg-url').value = saved.bgUrl || "";
                 document.getElementById('bg-blur-input').value = saved.bgBlur || "0";
                 document.getElementById('bg-bright-input').value = saved.bgBright || "100";
-                document.getElementById('font-select').value = saved.font || "'Courier New', monospace";
+                const savedFont = (!saved.font || saved.font === "'Courier New', monospace")
+                    ? "Arial, Helvetica, sans-serif"
+                    : saved.font;
+                document.getElementById('font-select').value = savedFont;
                 // Restore custom fonts — use new array format, fall back to legacy single-font fields
                 const fontsToRestore = saved.customFonts?.length
                     ? saved.customFonts
@@ -5681,7 +5685,7 @@
                             sel.appendChild(opt);
                         }
                     });
-                    sel.value = saved.font || sel.value;
+                    sel.value = savedFont || sel.value;
                 }
                 if (saved.initTarget) document.getElementById('init-target-select').value = saved.initTarget;
                 if (saved.clockFormat) document.getElementById('clock-format-select').value = saved.clockFormat;
@@ -5709,7 +5713,7 @@
                 if (icon) {
                     setFaviconFromUrl(icon);
                 } else {
-                    var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#6ecbff';
+                    var accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#e5e5e5';
                     setDefaultFaviconWithAccent(accent);
                 }
             }, 1000);
@@ -5752,7 +5756,7 @@
                 const arc2 = document.getElementById('wifi-arc2');
                 const arc3 = document.getElementById('wifi-arc3');
                 if (!arc1) return;
-                const dim = 'rgba(110,203,255,0.2)';
+                const dim = 'rgba(255, 255, 255,0.2)';
                 const full = 'var(--accent)';
                 if (ms === null) {
                     // error state — only inner arc, dimmed
@@ -7548,7 +7552,7 @@
                     icon.textContent = '✓';
                     icon.style.borderColor = 'var(--accent)';
                     icon.style.color = 'var(--accent)';
-                    icon.style.background = 'rgba(110,203,255,0.12)';
+                    icon.style.background = 'rgba(255, 255, 255,0.12)';
                     if (bar) bar.style.width = (((idx + 1) / _piSteps.length) * 100) + '%';
                 }
             };
@@ -7593,7 +7597,7 @@
                 banner.id = 'pi-slow-banner';
                 banner.style.cssText = `
                     margin-top:18px; padding:14px 16px; border-radius:10px;
-                    background:rgba(110,203,255,0.06); border:1px solid var(--accent);
+                    background:rgba(255, 255, 255,0.06); border:1px solid var(--accent);
                     box-shadow:0 0 18px var(--accent-glow); text-align:left;`;
                 banner.innerHTML = `
                     <div style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;text-shadow:0 0 8px var(--accent-glow);">
@@ -7644,7 +7648,7 @@
                                 Something went wrong. Here&rsquo;s what to check:
                             </p>
                             <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;text-align:left;">
-                                <div style="background:rgba(110,203,255,0.04);border:1px solid var(--accent);
+                                <div style="background:rgba(255, 255, 255,0.04);border:1px solid var(--accent);
                                     border-radius:10px;padding:14px 16px;">
                                     <div style="color:var(--accent);font-size:0.8rem;font-weight:bold;margin-bottom:6px;
                                         text-shadow:0 0 8px var(--accent-glow);">
@@ -7660,7 +7664,7 @@
                                         or contact the site owner.
                                     </p>
                                 </div>
-                                <div style="background:rgba(110,203,255,0.04);border:1px solid var(--accent);
+                                <div style="background:rgba(255, 255, 255,0.04);border:1px solid var(--accent);
                                     border-radius:10px;padding:14px 16px;">
                                     <div style="color:var(--accent);font-size:0.8rem;font-weight:bold;margin-bottom:6px;
                                         text-shadow:0 0 8px var(--accent-glow);">
@@ -8043,7 +8047,7 @@
 
         // Grids use the ~15 KB WebP covers. The old multi-megabyte originals
         // are no longer shipped; non-local covers still use their direct URL.
-        const GAMES_COVER_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#17171c"/><rect x="24" y="24" width="464" height="464" rx="36" fill="none" stroke="#8b7bff" stroke-opacity=".35" stroke-width="4"/><text x="256" y="272" fill="#8b7bff" font-family="monospace" font-size="38" text-anchor="middle" letter-spacing="4">AETHER</text></svg>');
+        const GAMES_COVER_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#17171c"/><rect x="24" y="24" width="464" height="464" rx="36" fill="none" stroke="#e5e5e5" stroke-opacity=".35" stroke-width="4"/><text x="256" y="272" fill="#e5e5e5" font-family="monospace" font-size="38" text-anchor="middle" letter-spacing="4">AETHER</text></svg>');
 
         function gamesCoverSrc(file) {
             const full = gamesCoverFull(file);

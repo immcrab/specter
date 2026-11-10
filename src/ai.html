@@ -48,24 +48,24 @@
 
 <style>
     :root {
-        --accent-color: #6ecbff;
-        --accent-glow: rgba(110, 203, 255, 0.3);
+        --accent-color: #e5e5e5;
+        --accent-glow: rgba(229, 229, 229, 0.3);
         --bg-dark: #000000;
         --text-main: #ffffff;
         --sidebar-width: 240px;
         --bg-message: rgba(255, 255, 255, 0.03);
         --text-faded-75: rgba(255, 255, 255, 0.75);
         --text-muted: #aaa;
-        --accent-alpha-04: rgba(110, 203, 255, 0.04);
-        --accent-alpha-05: rgba(110, 203, 255, 0.05);
-        --accent-alpha-08: rgba(110, 203, 255, 0.08);
-        --accent-alpha-10: rgba(110, 203, 255, 0.10);
-        --accent-alpha-12: rgba(110, 203, 255, 0.12);
-        --accent-alpha-15: rgba(110, 203, 255, 0.15);
-        --accent-alpha-20: rgba(110, 203, 255, 0.20);
-        --accent-alpha-30: rgba(110, 203, 255, 0.30);
-        --accent-alpha-40: rgba(110, 203, 255, 0.40);
-        --accent-alpha-50: rgba(110, 203, 255, 0.50);
+        --accent-alpha-04: rgba(229, 229, 229, 0.04);
+        --accent-alpha-05: rgba(229, 229, 229, 0.05);
+        --accent-alpha-08: rgba(229, 229, 229, 0.08);
+        --accent-alpha-10: rgba(229, 229, 229, 0.10);
+        --accent-alpha-12: rgba(229, 229, 229, 0.12);
+        --accent-alpha-15: rgba(229, 229, 229, 0.15);
+        --accent-alpha-20: rgba(229, 229, 229, 0.20);
+        --accent-alpha-30: rgba(229, 229, 229, 0.30);
+        --accent-alpha-40: rgba(229, 229, 229, 0.40);
+        --accent-alpha-50: rgba(229, 229, 229, 0.50);
         --color-dot-inactive: #333;
         --color-error: #ff4e4e;
         --color-error-light: #ff8888;
@@ -82,7 +82,7 @@
     body, html {
         background-color: var(--bg-dark);
         color: var(--accent-color);
-        font-family: var(--font-family, 'Courier New', monospace);
+        font-family: var(--font-family, Arial, Helvetica, sans-serif);
         padding: 0; margin: 0;
         height: 100vh;
         overflow: hidden;
@@ -496,7 +496,7 @@
             <div id="tab-appearance" style="display:none;">
                 <div class="setting-field">
                     <label>Accent color</label>
-                    <input type="color" id="custom-color" value="#6ecbff" oninput="updateAccentColor(this.value)">
+                    <input type="color" id="custom-color" value="#e5e5e5" oninput="updateAccentColor(this.value)">
                 </div>
                 <div class="setting-field">
                     <label>Message text size</label>
@@ -645,7 +645,7 @@ const STARTERS = [
 ];
 
 const presets = {
-  ghost:  { color: '#6ecbff' },
+  ghost:  { color: '#e5e5e5' },
   draft:  { color: '#bc6eff' },
   glados: { color: '#ff4e4e' },
   learn:  { color: '#00ff41' }
