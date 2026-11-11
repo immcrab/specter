@@ -27,6 +27,10 @@
     <script defer src="https://cloud.umami.is/script.js" data-website-id="cd4687b2-c160-4e0c-8b26-5df67d4ea39a"></script>
     <!--- Supabase for total visits --->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://selenite.cc">
+    <link rel="dns-prefetch" href="https://rawcdn.githack.com">
+    <link rel="dns-prefetch" href="https://immcrab.github.io">
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
     <script src="vendor/scramjet.all.js" defer></script>
     <script type="module">
@@ -2412,7 +2416,7 @@
             } catch (e) {}
         })();
     </script>
-    <link rel="stylesheet" href="assets/layout-v2.css?v=11">
+    <link rel="stylesheet" href="assets/layout-v2.css?v=12">
     <link rel="stylesheet" href="assets/desktop-os.css?v=9">
 </head>
 <body>
@@ -3261,7 +3265,19 @@
                 <div class="zone-play">
                     <div class="zone-frame-wrap">
                         <iframe id="zoneFrame" allowfullscreen allow="fullscreen; autoplay; gamepad; accelerometer; gyroscope; pointer-lock"></iframe>
-                        <div class="zone-loading" id="zoneLoading" hidden><span class="zone-spinner" aria-hidden="true"></span></div>
+                        <div class="zone-loading" id="zoneLoading" hidden>
+                            <div class="zone-loading-card">
+                                <span class="zone-loading-kicker">Loading game</span>
+                                <div class="zone-loading-head">
+                                    <span class="zone-loading-name" id="zoneLoadingName">Game</span>
+                                    <span class="zone-loading-pct" id="zoneLoadingPct">0%</span>
+                                </div>
+                                <div class="zone-progress" id="zoneProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Game loading progress">
+                                    <div class="zone-progress-fill" id="zoneProgressFill"></div>
+                                </div>
+                                <div class="zone-loading-status" id="zoneLoadingStatus" aria-live="polite">Downloading game…</div>
+                            </div>
+                        </div>
                         <button type="button" class="zone-enter-fullscreen" id="zoneEnterFullscreen" onclick="fullscreenZone()" aria-label="Enter fullscreen">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/></svg>
                             <span>Enter fullscreen</span>
@@ -3285,6 +3301,13 @@
                         <span class="game-preroll-count" id="gamePrerollCount" aria-live="polite">2</span>
                     </div>
                     <div class="ad-slot ad-slot--preroll" id="gamePrerollSlot"></div>
+                    <div class="game-preroll-progress" id="gamePrerollProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Game loading progress">
+                        <div class="game-preroll-progress-fill" id="gamePrerollFill"></div>
+                    </div>
+                    <div class="game-preroll-progress-meta">
+                        <span id="gamePrerollStatus">Downloading game…</span>
+                        <span id="gamePrerollPct">0%</span>
+                    </div>
                     <div class="game-preroll-foot">
                         <span class="game-preroll-name" id="gamePrerollName"></span>
                         <button type="button" class="game-preroll-skip" id="gamePrerollSkip" onclick="gamesSkipPreroll()" disabled>Starting in 2s</button>
@@ -7896,6 +7919,7 @@
         }
 
         async function gamesListZones() {
+            gamesPrewarmHosts();
             const cached = gamesReadCache(GAMES_ZONES_CACHE);
             let painted = false;
             if (cached && Array.isArray(cached.zones) && cached.zones.length) {
@@ -8118,23 +8142,26 @@
             return gamesCoverSources(file)[0];
         }
 
-        // Warm the CDN cache as soon as a tile is hovered or pressed, so the
-        // game document is already downloaded when the player opens it.
-        const gamesPrefetched = new Set();
-        function gamesPrefetch(file) {
-            if (!file || !file.url || file.url.startsWith('http')) return;
-            if (gamesPrefetched.has(file.id)) return;
-            gamesPrefetched.add(file.id);
-            try { fetch(gamesZoneCdn(file), { cache: 'force-cache' }).catch(() => {}); } catch (e) {}
-        }
+        // ── Game document loader ──────────────────────────────────────────
+        // One shared request per game: hover prefetch and the click use the
+        // same download instead of racing each other. Documents are kept in
+        // memory and in Cache Storage, so returning to a game is instant even
+        // when the CDN is slow or blocked.
+        const GAMES_DOC_CACHE = 'aether-game-docs-v1';
+        const GAMES_DOC_INDEX_KEY = 'aether-game-docs-v1-index';
+        const GAMES_DOC_TTL = 7 * 24 * 60 * 60 * 1000;
+        const GAMES_DOC_MAX = 80;
+        const GAMES_FALLBACK_MS = 1300;
 
-        // jsDelivr classes .html as text/plain and sends nosniff, so the frame
-        // cannot navigate to it (and a sandboxed frame refuses blob: URLs). Feed
-        // the document in as srcdoc instead; each game's own <base> tag keeps
-        // its assets on the CDN. Anything the CDN refuses (its 20 MB limit)
-        // falls back to the original host, which can be navigated directly.
         const gamesZoneDocs = new Map();
+        const gamesDocInflight = new Map();
+        const gamesPreloadedUrls = new Set();
+        const gamesWarmedGames = new Set();
+        const gamesPrefetched = new Set();
+        const gamesPreconnectHosts = new Set();
+        let gamesPreloadCount = 0;
         let gamesZoneToken = 0;
+        let gamesDocCachePromise = null;
 
         function gamesZoneCdn(file) {
             return (file.url || '').replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
@@ -8151,25 +8178,305 @@
                 : base + html;
         }
 
-        function gamesZoneContent(file) {
+        // Cache Storage is optional: private mode and plain-http LAN tests
+        // simply fall back to the in-memory copy.
+        function gamesDocCache() {
+            if (!('caches' in window) || !window.isSecureContext) return Promise.resolve(null);
+            if (!gamesDocCachePromise) {
+                gamesDocCachePromise = caches.open(GAMES_DOC_CACHE).catch(() => null);
+            }
+            return gamesDocCachePromise;
+        }
+
+        // A same-origin cache key keeps Cache Storage away from cross-origin
+        // request matching rules.
+        function gamesDocCacheKey(url) {
+            return new URL('__aether/game-doc?u=' + encodeURIComponent(url), window.location.href).href;
+        }
+
+        async function gamesDocCacheRead(url) {
+            try {
+                const cache = await gamesDocCache();
+                if (!cache) return null;
+                const res = await cache.match(gamesDocCacheKey(url));
+                if (!res) return null;
+                const html = await res.text();
+                if (!html) return null;
+                return { html, at: Number(res.headers.get('x-aether-cached-at')) || 0 };
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function gamesDocCacheWrite(url, html) {
+            const key = gamesDocCacheKey(url);
+            gamesDocCache().then(cache => {
+                if (!cache) return null;
+                const res = new Response(html, {
+                    headers: {
+                        'content-type': 'text/html; charset=utf-8',
+                        'x-aether-cached-at': String(Date.now())
+                    }
+                });
+                return cache.put(key, res).then(() => {
+                    try {
+                        const list = JSON.parse(localStorage.getItem(GAMES_DOC_INDEX_KEY) || '[]');
+                        const next = list.filter(item => item && item.key !== key);
+                        next.push({ key, at: Date.now() });
+                        while (next.length > GAMES_DOC_MAX) {
+                            const old = next.shift();
+                            if (old && old.key) cache.delete(old.key).catch(() => {});
+                        }
+                        localStorage.setItem(GAMES_DOC_INDEX_KEY, JSON.stringify(next));
+                    } catch (e) { /* the index only exists to prune old entries */ }
+                });
+            }).catch(() => {});
+        }
+
+        // Stream the document instead of waiting for res.text(), so the bar can
+        // show real downloaded bytes while the game arrives.
+        async function gamesDocStream(url, signal, onProgress) {
+            const res = await fetch(url, { signal, mode: 'cors', credentials: 'omit', cache: 'default' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const total = Number(res.headers.get('content-length')) || 0;
+            if (!res.body || typeof res.body.getReader !== 'function') {
+                const text = await res.text();
+                if (onProgress) onProgress(text.length, text.length || 1);
+                return text;
+            }
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            const parts = [];
+            let loaded = 0;
+            for (;;) {
+                const step = await reader.read();
+                if (step.done) break;
+                if (step.value) {
+                    loaded += step.value.byteLength;
+                    parts.push(decoder.decode(step.value, { stream: true }));
+                    if (onProgress) onProgress(loaded, total);
+                }
+            }
+            parts.push(decoder.decode());
+            return parts.join('');
+        }
+
+        // jsDelivr first, GitHub Pages as a parallel safety net. The second
+        // host only starts after a short delay on a healthy CDN, so normal
+        // loads stay a single request while blocked or 403ing files no longer
+        // stall the player.
+        function gamesDocFetch(file, entry) {
+            const primary = gamesZoneCdn(file);
+            const fallback = (file.url || '').replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURLFallback);
+            const controller = new AbortController();
+            const canFallback = !!fallback && fallback !== primary;
+            let fallbackStarted = false;
+            let resolveFallback = null;
+            let rejectFallback = null;
+            const fallbackPromise = new Promise((resolve, reject) => {
+                resolveFallback = resolve;
+                rejectFallback = reject;
+            });
+            const startFallback = () => {
+                if (fallbackStarted || !canFallback) return;
+                fallbackStarted = true;
+                gamesDocStream(fallback, controller.signal, null).then(resolveFallback, rejectFallback);
+            };
+            const timer = setTimeout(startFallback, GAMES_FALLBACK_MS);
+            const primaryPromise = gamesDocStream(primary, controller.signal, (loaded, total) => {
+                entry.loaded = loaded;
+                entry.total = total;
+                if (typeof entry.onProgress === 'function') entry.onProgress(loaded, total);
+            }).catch(err => {
+                if (!canFallback) throw err;
+                clearTimeout(timer);
+                startFallback();
+                return fallbackPromise;
+            });
+            const winner = canFallback ? Promise.any([primaryPromise, fallbackPromise]) : primaryPromise;
+            return winner.finally(() => {
+                clearTimeout(timer);
+                try { controller.abort(); } catch (e) {}
+            });
+        }
+
+        function gamesLoadDoc(file, opts) {
             if (!file || !file.url) return Promise.resolve(null);
-            if (gamesZoneDocs.has(file.id)) return Promise.resolve(gamesZoneDocs.get(file.id));
-            return fetch(gamesZoneCdn(file))
-                .then(res => {
-                    if (!res.ok) throw new Error('HTTP ' + res.status);
-                    return res.text();
-                })
-                .then(html => {
-                    const content = { html: gamesZoneWithBase(html, file) };
-                    gamesZoneDocs.set(file.id, content);
+            const key = gamesZoneCdn(file);
+            const mem = gamesZoneDocs.get(file.id);
+            if (mem && Date.now() - mem.at < GAMES_DOC_TTL) {
+                if (opts && typeof opts.onProgress === 'function') opts.onProgress(1, 1);
+                return Promise.resolve(mem.content);
+            }
+            const pending = gamesDocInflight.get(key);
+            if (pending) {
+                if (opts && typeof opts.onProgress === 'function') {
+                    pending.onProgress = opts.onProgress;
+                    if (pending.loaded) opts.onProgress(pending.loaded, pending.total);
+                }
+                return pending.promise;
+            }
+            const entry = {
+                loaded: 0,
+                total: 0,
+                onProgress: opts && typeof opts.onProgress === 'function' ? opts.onProgress : null
+            };
+            entry.promise = (async () => {
+                const stored = await gamesDocCacheRead(key);
+                if (stored && Date.now() - stored.at < GAMES_DOC_TTL) {
+                    if (entry.onProgress) entry.onProgress(1, 1);
+                    const content = { html: gamesZoneWithBase(stored.html, file) };
+                    gamesZoneDocs.set(file.id, { content, at: stored.at });
                     return content;
-                })
-                .catch(() => {
+                }
+                try {
+                    const html = await gamesDocFetch(file, entry);
+                    gamesDocCacheWrite(key, html);
+                    const content = { html: gamesZoneWithBase(html, file) };
+                    gamesZoneDocs.set(file.id, { content, at: Date.now() });
+                    return content;
+                } catch (err) {
+                    if (stored && stored.html) {
+                        const content = { html: gamesZoneWithBase(stored.html, file) };
+                        gamesZoneDocs.set(file.id, { content, at: stored.at });
+                        return content;
+                    }
+                    // Last resort: let the frame navigate to the origin host
+                    // directly, exactly like the old loader did.
                     const src = (file.url || '').replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURLFallback);
                     const content = { src };
                     gamesZoneDocs.set(file.id, content);
                     return content;
-                });
+                } finally {
+                    gamesDocInflight.delete(key);
+                }
+            })();
+            gamesDocInflight.set(key, entry);
+            return entry.promise;
+        }
+
+        function gamesZoneContent(file, opts) {
+            return gamesLoadDoc(file, opts);
+        }
+
+        function gamesCanPrefetch() {
+            try {
+                const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                if (!conn) return true;
+                if (conn.saveData) return false;
+                const type = String(conn.effectiveType || '');
+                return type !== 'slow-2g' && type !== '2g';
+            } catch (e) {
+                return true;
+            }
+        }
+
+        // Warm DNS/TLS for a host a game will pull assets from, before the
+        // iframe starts. Most games use one of a handful of hosts.
+        function gamesPreconnect(origin) {
+            if (!origin || gamesPreconnectHosts.has(origin)) return;
+            gamesPreconnectHosts.add(origin);
+            try {
+                const link = document.createElement('link');
+                link.rel = 'preconnect';
+                link.href = origin;
+                document.head.appendChild(link);
+                const dns = document.createElement('link');
+                dns.rel = 'dns-prefetch';
+                dns.href = origin;
+                document.head.appendChild(dns);
+            } catch (e) {}
+        }
+
+        function gamesPrewarmHosts() {
+            ['https://selenite.cc', 'https://rawcdn.githack.com', 'https://cdn.jsdelivr.net', 'https://immcrab.github.io'].forEach(gamesPreconnect);
+            if (gamesCanPrefetch()) gamesScheduleIdlePrefetch();
+        }
+
+        function gamesBaseHref(html, file) {
+            const match = /<base\b[^>]*href\s*=\s*["']([^"']+)["']/i.exec(html || '');
+            return match ? match[1] : gamesZoneCdn(file).replace(/[^/]*$/, '');
+        }
+
+        // Preload just the head scripts/styles of a hovered game. They are on
+        // the critical path and usually a small fraction of the game, so this
+        // warms the HTTP cache without downloading whole asset sets.
+        function gamesWarmResources(html, file) {
+            if (!html || !gamesCanPrefetch()) return;
+            let baseUrl = null;
+            try { baseUrl = new URL(gamesBaseHref(html, file), gamesZoneCdn(file)); } catch (e) { return; }
+            gamesPreconnect(baseUrl.origin);
+            if (gamesPreloadCount >= 40) return;
+            let doc = null;
+            try { doc = new DOMParser().parseFromString(html, 'text/html'); } catch (e) { doc = null; }
+            if (!doc) return;
+            const urls = [];
+            doc.querySelectorAll('script[src], link[rel~="stylesheet"][href]').forEach(el => {
+                const raw = el.getAttribute('src') || el.getAttribute('href');
+                if (!raw || /^(data:|blob:|javascript:)/i.test(raw)) return;
+                try {
+                    const abs = new URL(raw, baseUrl).href;
+                    if (urls.indexOf(abs) === -1) urls.push(abs);
+                } catch (e) {}
+            });
+            urls.slice(0, 6).forEach(url => {
+                if (gamesPreloadedUrls.has(url) || gamesPreloadCount >= 40) return;
+                gamesPreloadedUrls.add(url);
+                gamesPreloadCount++;
+                try {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = /\.css(\?|#|$)/i.test(url) ? 'style' : 'script';
+                    link.href = url;
+                    document.head.appendChild(link);
+                    // The download stays in the HTTP cache after the tag goes.
+                    setTimeout(() => { try { link.remove(); } catch (e) {} }, 30000);
+                } catch (e) {}
+            });
+        }
+
+        // Warm the document on hover/press and its critical assets once the
+        // document arrives. Idle prefetch passes { assets: false }.
+        function gamesPrefetch(file, opts) {
+            if (!file || !file.url || file.url.startsWith('http')) return;
+            const warmAssets = !opts || opts.assets !== false;
+            if (gamesPrefetched.has(file.id) && (!warmAssets || gamesWarmedGames.has(file.id))) return;
+            gamesPrefetched.add(file.id);
+            gamesLoadDoc(file).then(content => {
+                if (!content || !content.html) return;
+                if (!warmAssets || gamesWarmedGames.has(file.id)) return;
+                gamesWarmedGames.add(file.id);
+                gamesWarmResources(content.html, file);
+            }).catch(() => {});
+        }
+
+        // Prefetch the next screenful of game documents while the player is
+        // idle, so opening one no longer waits on the CDN at all.
+        const GAMES_IDLE_PREFETCH_MAX = 8;
+        let gamesIdlePrefetchTimer = null;
+        let gamesIdlePrefetchToken = 0;
+
+        function gamesScheduleIdlePrefetch() {
+            clearTimeout(gamesIdlePrefetchTimer);
+            gamesIdlePrefetchToken++;
+            const token = gamesIdlePrefetchToken;
+            if (!gamesCanPrefetch()) return;
+            const run = () => {
+                if (token !== gamesIdlePrefetchToken || document.hidden) return;
+                const list = (gamesRenderQueue || []).filter(g => g && g.url && !g.url.startsWith('http')).slice(0, GAMES_IDLE_PREFETCH_MAX);
+                let index = 0;
+                const step = () => {
+                    if (token !== gamesIdlePrefetchToken || index >= list.length) return;
+                    gamesPrefetch(list[index++], { assets: false });
+                    gamesIdlePrefetchTimer = setTimeout(step, 180);
+                };
+                step();
+            };
+            if (typeof requestIdleCallback === 'function') {
+                gamesIdlePrefetchTimer = setTimeout(() => requestIdleCallback(run, { timeout: 2500 }), 500);
+            } else {
+                gamesIdlePrefetchTimer = setTimeout(run, 900);
+            }
         }
 
         function gamesMakeAdTile() {
@@ -8266,6 +8573,7 @@
             gamesStopSentinel();
             gamesContainer.innerHTML = "";
             gamesAppendChunk(gamesRenderToken);
+            gamesScheduleIdlePrefetch();
         }
 
         // --- Pre-game ad -------------------------------------------------
@@ -8276,9 +8584,230 @@
         let gamesPrerollRemaining = 0;
         let gamesPrerollOpen = false;
 
-        function gamesSetFrameLoading(on) {
-            if (zoneLoading) zoneLoading.hidden = !on;
+        // ── Loading progress ──────────────────────────────────────────────
+        // A real percentage from three sources: streamed document bytes, the
+        // asset counter injected into the game, and a parent-side paint
+        // watchdog for games whose CSP blocks injected scripts.
+        const zoneLoadName = document.getElementById('zoneLoadingName');
+        const zoneLoadPct = document.getElementById('zoneLoadingPct');
+        const zoneProgress = document.getElementById('zoneProgress');
+        const zoneProgressFill = document.getElementById('zoneProgressFill');
+        const zoneLoadStatus = document.getElementById('zoneLoadingStatus');
+        const zonePrerollPct = document.getElementById('gamePrerollPct');
+        const zonePrerollFill = document.getElementById('gamePrerollFill');
+        const zonePrerollBar = document.getElementById('gamePrerollProgress');
+        const zonePrerollStatus = document.getElementById('gamePrerollStatus');
+
+        const gameLoading = {
+            active: false,
+            finished: false,
+            token: 0,
+            trackerToken: '',
+            startedAt: 0,
+            shown: 0,
+            target: 0,
+            creepCap: 40,
+            lastReal: 0,
+            tickTimer: null,
+            finishTimer: null,
+            watchTimer: null
+        };
+
+        function gameLoadingRender() {
+            if (!gameLoading.active) return;
+            const pct = Math.max(0, Math.min(100, gameLoading.shown));
+            const rounded = Math.round(pct);
+            const width = pct.toFixed(1) + '%';
+            if (zoneProgressFill) zoneProgressFill.style.width = width;
+            if (zoneLoadPct) zoneLoadPct.textContent = rounded + '%';
+            if (zoneProgress) zoneProgress.setAttribute('aria-valuenow', String(rounded));
+            if (zonePrerollFill) zonePrerollFill.style.width = width;
+            if (zonePrerollPct) zonePrerollPct.textContent = rounded + '%';
+            if (zonePrerollBar) zonePrerollBar.setAttribute('aria-valuenow', String(rounded));
         }
+
+        function gameLoadingSetStatus(text) {
+            if (!text) return;
+            if (zoneLoadStatus && zoneLoadStatus.textContent !== text) zoneLoadStatus.textContent = text;
+            if (zonePrerollStatus && zonePrerollStatus.textContent !== text) zonePrerollStatus.textContent = text;
+        }
+
+        function gameLoadingSetTarget(value, real) {
+            if (!gameLoading.active) return;
+            if (real) gameLoading.lastReal = Date.now();
+            gameLoading.target = Math.max(gameLoading.target, Math.min(100, value));
+        }
+
+        function gameLoadingTick() {
+            if (!gameLoading.active) return;
+            if (Date.now() - gameLoading.lastReal > 700 && gameLoading.target < gameLoading.creepCap) {
+                gameLoading.target = Math.min(gameLoading.creepCap, gameLoading.target + 0.7);
+            }
+            if (gameLoading.shown < gameLoading.target) {
+                gameLoading.shown += Math.max((gameLoading.target - gameLoading.shown) * 0.18, 0.12);
+                if (gameLoading.shown > gameLoading.target) gameLoading.shown = gameLoading.target;
+                gameLoadingRender();
+            }
+        }
+
+        function gameLoadingDoc(ratio) {
+            if (!gameLoading.active) return;
+            gameLoadingSetTarget(5 + Math.max(0, Math.min(1, Number(ratio) || 0)) * 35, true);
+            if (!gameLoading.finished) gameLoadingSetStatus('Downloading game…');
+        }
+
+        function gameLoadingDocDone() {
+            if (!gameLoading.active || gameLoading.finished) return;
+            gameLoadingSetTarget(46, true);
+            gameLoading.creepCap = 92;
+            gameLoadingSetStatus('Starting game…');
+        }
+
+        function gameLoadingReport(pct, phase) {
+            if (!gameLoading.active) return;
+            const value = Math.max(0, Math.min(100, Number(pct) || 0));
+            gameLoadingSetTarget(46 + value * 0.5, true);
+            if (phase === 'ready' || phase === 'loaded') {
+                gameLoadingFinish();
+            } else if (phase === 'assets' && !gameLoading.finished) {
+                gameLoadingSetStatus(value >= 60 ? 'Finishing touches…' : 'Loading game assets…');
+            }
+        }
+
+        function gameLoadingFinish() {
+            if (!gameLoading.active || gameLoading.finished) return;
+            gameLoading.finished = true;
+            clearInterval(gameLoading.tickTimer);
+            gameLoading.tickTimer = null;
+            clearInterval(gameLoading.watchTimer);
+            gameLoading.watchTimer = null;
+            gameLoading.target = 100;
+            gameLoading.shown = 100;
+            gameLoadingRender();
+            gameLoadingSetStatus('Ready');
+            const finishToken = gameLoading.token;
+            const wait = Math.max(0, 320 - (Date.now() - gameLoading.startedAt));
+            clearTimeout(gameLoading.finishTimer);
+            gameLoading.finishTimer = setTimeout(() => {
+                if (finishToken !== gameLoading.token) return;
+                gameLoading.active = false;
+                if (zoneLoading) zoneLoading.hidden = true;
+            }, wait);
+        }
+
+        function gameLoadingAbort() {
+            gameLoading.active = false;
+            gameLoading.finished = false;
+            gameLoading.token++;
+            clearInterval(gameLoading.tickTimer);
+            gameLoading.tickTimer = null;
+            clearInterval(gameLoading.watchTimer);
+            gameLoading.watchTimer = null;
+            clearTimeout(gameLoading.finishTimer);
+            if (zoneLoading) zoneLoading.hidden = true;
+        }
+
+        function gamesTrackerToken() {
+            return Math.random().toString(36).slice(2) + Date.now().toString(36);
+        }
+
+        // Parent-side watchdog: srcdoc frames are same-origin, so once the game
+        // has painted (canvas or real body content) the overlay can clear even
+        // if the game's CSP refused the injected tracker.
+        function gameLoadingWatchFrame(token) {
+            clearInterval(gameLoading.watchTimer);
+            let checks = 0;
+            gameLoading.watchTimer = setInterval(() => {
+                if (token !== gameLoading.token || !gameLoading.active || gameLoading.finished) {
+                    clearInterval(gameLoading.watchTimer);
+                    gameLoading.watchTimer = null;
+                    return;
+                }
+                if (++checks > 150) {
+                    clearInterval(gameLoading.watchTimer);
+                    gameLoading.watchTimer = null;
+                    return;
+                }
+                let doc = null;
+                let win = null;
+                try {
+                    doc = zoneFrame && zoneFrame.contentDocument;
+                    win = zoneFrame && zoneFrame.contentWindow;
+                } catch (e) {
+                    doc = null;
+                }
+                if (!doc || doc.readyState === 'loading') return;
+                let painted = true;
+                try { painted = !!win && win.performance.getEntriesByType('paint').length > 0; } catch (e) { painted = true; }
+                const canvas = doc.querySelector('canvas');
+                const body = doc.body;
+                if (painted && (canvas || (body && body.children.length > 0))) gameLoadingFinish();
+            }, 220);
+        }
+
+        function gameLoadingStart(file) {
+            gameLoading.token++;
+            gameLoading.trackerToken = gamesTrackerToken();
+            gameLoading.active = true;
+            gameLoading.finished = false;
+            gameLoading.startedAt = Date.now();
+            gameLoading.lastReal = Date.now();
+            gameLoading.shown = 2;
+            gameLoading.target = 4;
+            gameLoading.creepCap = 40;
+            gameLoadingSetStatus('Downloading game…');
+            if (zoneLoadName) zoneLoadName.textContent = (file && file.name) || 'Game';
+            if (zoneLoading) zoneLoading.hidden = false;
+            gameLoadingRender();
+            clearInterval(gameLoading.tickTimer);
+            gameLoading.tickTimer = setInterval(gameLoadingTick, 120);
+        }
+
+        function gamesTrackerSource(token) {
+            return [
+                '(function(){try{',
+                'var TOKEN=' + JSON.stringify(token) + ';',
+                'var KEY="__aetherGameProgress";',
+                'if(window[KEY])return;window[KEY]=1;',
+                'var started=Date.now(),done=0,total=0,last=-1,ready=false,counted=new WeakSet(),timer=null;',
+                'function post(pct,phase){try{parent.postMessage({aetherGame:TOKEN,pct:Math.max(0,Math.min(100,pct)),phase:phase},"*");}catch(e){}}',
+                'function track(){',
+                'var nodes=document.querySelectorAll(\'img[src],script[src],link[rel~="stylesheet"][href],video[src],audio[src],source[src],iframe[src]\');',
+                'for(var i=0;i<nodes.length;i++){var n=nodes[i];if(counted.has(n))continue;counted.add(n);total++;',
+                'var finish=function(){if(this.__aetherDone)return;this.__aetherDone=1;done++;send();};',
+                'n.addEventListener("load",finish,{once:true});n.addEventListener("error",finish,{once:true});',
+                'if(n.tagName==="IMG"&&n.complete)finish.call(n);',
+                'else if(n.tagName==="SCRIPT"&&(n.readyState==="loaded"||n.readyState==="complete"))finish.call(n);',
+                'else if(n.tagName==="LINK"&&n.sheet)finish.call(n);',
+                '}}',
+                'function send(){var p=total?Math.min(96,10+(done/total)*86):12;if(p>=last){last=p;post(p,"assets");}}',
+                'function hasPaint(){try{if(performance.getEntriesByType("paint").length)return true;}catch(e){}return !!document.querySelector("canvas,img,video");}',
+                'function checkReady(){if(ready||document.readyState==="loading")return;if(Date.now()-started<250)return;if(!hasPaint())return;ready=true;post(100,"ready");}',
+                'function boot(){track();requestAnimationFrame(function(){requestAnimationFrame(function(){setTimeout(checkReady,80);track();});});}',
+                'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",boot,{once:true});}else{boot();}',
+                'try{new MutationObserver(track).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}',
+                'timer=setInterval(send,400);',
+                'window.addEventListener("load",function(){ready=true;if(timer)clearInterval(timer);post(100,"loaded");},{once:true});',
+                'track();',
+                '}catch(e){}})();'
+            ].join('\n');
+        }
+
+        function gamesZoneInjectTracker(html, token) {
+            if (!html || !token) return html;
+            const script = '<script data-aether-game-progress>' + gamesTrackerSource(token) + '<\/script>';
+            if (/<head[^>]*>/i.test(html)) return html.replace(/<head[^>]*>/i, tag => tag + script);
+            if (/<html[^>]*>/i.test(html)) return html.replace(/<html[^>]*>/i, tag => tag + script);
+            return script + html;
+        }
+
+        window.addEventListener('message', (event) => {
+            const data = event && event.data;
+            if (!data || typeof data.aetherGame !== 'string') return;
+            if (!gameLoading.active || data.aetherGame !== gameLoading.trackerToken) return;
+            if (zoneFrame && event.source !== zoneFrame.contentWindow) return;
+            gameLoadingReport(Number(data.pct) || 0, String(data.phase || 'assets'));
+        });
 
         function gamesHidePreroll() {
             if (gamesPrerollTimer) {
@@ -8365,7 +8894,7 @@
             zoneFrame.addEventListener('load', () => {
                 // srcdoc frames report no src, and about:blank is the reset state.
                 if (zoneFrame.hasAttribute('srcdoc') || (zoneFrame.src && !zoneFrame.src.startsWith('about:'))) {
-                    gamesSetFrameLoading(false);
+                    gameLoadingFinish();
                 }
             });
         }
@@ -8384,18 +8913,31 @@
             zoneFrame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-pointer-lock allow-orientation-lock allow-downloads');
             zoneFrame.setAttribute('allowfullscreen', '');
             zoneFrame.setAttribute('allow', 'fullscreen; autoplay; gamepad; accelerometer; gyroscope; pointer-lock');
-            gamesSetFrameLoading(true);
-            gamesPrefetch(file);
-            // Resolve first: the document still has to be fetched from the CDN.
             const token = ++gamesZoneToken;
-            gamesZoneContent(file).then(content => {
+            gameLoadingStart(file);
+            gamesPrefetch(file);
+
+            gamesZoneContent(file, {
+                onProgress: (loaded, total) => {
+                    if (token !== gamesZoneToken) return;
+                    const ratio = total > 0 ? loaded / total : Math.min(1, loaded / 240000);
+                    gameLoadingDoc(ratio);
+                }
+            }).then(content => {
                 if (token !== gamesZoneToken || !zoneFrame || !content) return;
                 if (content.src) {
                     zoneFrame.removeAttribute('srcdoc');
                     zoneFrame.src = content.src;
                 } else {
                     zoneFrame.removeAttribute('src');
-                    zoneFrame.srcdoc = content.html;
+                    zoneFrame.srcdoc = gamesZoneInjectTracker(content.html, gameLoading.trackerToken);
+                }
+                gameLoadingDocDone();
+                gameLoadingWatchFrame(gameLoading.token);
+            }).catch(() => {
+                if (token === gamesZoneToken) {
+                    gameLoadingDocDone();
+                    gameLoadingWatchFrame(gameLoading.token);
                 }
             });
 
@@ -8414,7 +8956,7 @@
             zoneViewer.hidden = true;
             zoneViewer.style.display = "none";
             document.body.classList.remove('zone-open');
-            gamesSetFrameLoading(false);
+            gameLoadingAbort();
             if (zoneFrame) {
                 zoneFrame.removeAttribute('srcdoc');
                 zoneFrame.src = 'about:blank';
