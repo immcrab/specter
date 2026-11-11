@@ -31,11 +31,35 @@
     <link rel="dns-prefetch" href="https://selenite.cc">
     <link rel="dns-prefetch" href="https://rawcdn.githack.com">
     <link rel="dns-prefetch" href="https://immcrab.github.io">
-    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
-    <script src="vendor/scramjet.all.js" defer></script>
-    <script type="module">
-        import * as BareMux from "./vendor/bare-mux.mjs";
-        window.BareMux = BareMux;
+    <script>
+        // The visit counter and the proxy engine each serve one screen, but
+        // their bundles used to download and parse on every single page load.
+        // Load them on demand so the homepage and games library stay on a much
+        // smaller critical path.
+        window.aetherLoadScript = function (src, asModule) {
+            const key = '__aetherScript_' + src;
+            if (window[key]) return window[key];
+            window[key] = new Promise((resolve, reject) => {
+                const el = document.createElement('script');
+                if (asModule) el.type = 'module';
+                el.src = src;
+                el.onload = () => resolve();
+                el.onerror = () => { delete window[key]; reject(new Error('Failed to load ' + src)); };
+                document.head.appendChild(el);
+            });
+            return window[key];
+        };
+        window.aetherSupabaseReady = function () {
+            return window.supabase
+                ? Promise.resolve(window.supabase)
+                : window.aetherLoadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js');
+        };
+        window.aetherProxyEngineReady = function () {
+            return Promise.all([
+                window.aetherLoadScript('vendor/scramjet.all.js'),
+                import('./vendor/bare-mux.mjs').then(m => { window.BareMux = m; return m; })
+            ]);
+        };
     </script>
     <link rel="icon" type="image/png" href="assets/favicon.png">
         
@@ -2421,7 +2445,7 @@
 </head>
 <body>
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.0</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.1</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -3230,7 +3254,7 @@
             <div class="games-search-container">
                 <div class="games-search-input-wrapper">
                     <span class="games-search-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-                    <input type="text" id="gamesSearchInput" placeholder="Search for a game..." oninput="gamesHandleSearch()">
+                    <input type="text" id="gamesSearchInput" placeholder="Search for a game..." oninput="gamesScheduleSearch()">
                 </div>
                 <select id="gamesSortSelect" onchange="gamesHandleSearch()" style="padding:14px 12px; cursor:pointer;">
                     <option value="popular">Popular</option>
@@ -4132,6 +4156,7 @@
         }
 
         async function initTotalVisits() {
+            try { await window.aetherSupabaseReady(); } catch (e) { return; }
             const client = getSupabaseClient();
             if (!client) return;
             const el = document.getElementById('total-visits');
@@ -6414,6 +6439,7 @@
 
         async function getSharedScramjet() {
             if (sharedScramjet) return sharedScramjet;
+            await window.aetherProxyEngineReady();
 
             if (typeof $scramjetLoadController === 'undefined') {
                 throw new Error("Scramjet not loaded. The CDN script may have failed to load.");
@@ -6459,6 +6485,7 @@
 
         async function getSharedConnection() {
             if (sharedConnectionReady) return sharedConnection;
+            await window.aetherProxyEngineReady();
 
             const wispUrl = localStorage.getItem("proxServer") ?? DEFAULT_WISP;
             
@@ -7923,13 +7950,17 @@
         async function gamesListZones() {
             gamesPrewarmHosts();
             const cached = gamesReadCache(GAMES_ZONES_CACHE);
+            const cachedPopularity = gamesReadCache(GAMES_POP_CACHE);
+            let cachedSig = '0';
             let painted = false;
             if (cached && Array.isArray(cached.zones) && cached.zones.length) {
                 zones = cached.zones;
+                cachedSig = cached.sig || gamesZonesSignature(zones);
                 if (cached.popularity) gamesPopularityData = cached.popularity;
+                if (cachedPopularity && typeof cachedPopularity === 'object') gamesPopularityData = cachedPopularity;
                 gamesUpdateCount(gamesCountTotal(zones));
                 gamesSetupFeatured();
-                gamesHandleSearch();
+                gamesHandleSearch(true);
                 painted = true;
             }
             try {
@@ -7943,14 +7974,21 @@
                 if (popularityRes && popularityRes.ok) {
                     try { freshPopularity = await popularityRes.json(); } catch (e) {}
                 }
-                const changed = gamesZonesSignature(freshZones) !== gamesZonesSignature(zones);
+                const freshSig = gamesZonesSignature(freshZones);
+                const changed = freshSig !== cachedSig;
                 zones = freshZones;
                 gamesPopularityData = freshPopularity || {};
                 gamesUpdateCount(gamesCountTotal(zones));
-                gamesWriteCache(GAMES_ZONES_CACHE, { zones: freshZones, popularity: gamesPopularityData, saved: Date.now() });
+                // Rewriting the ~276 KB catalogue to localStorage on every visit
+                // was synchronous main-thread work for no benefit. Store it only
+                // when it changed, and keep rankings in their own 1 KB key.
+                if (changed) {
+                    gamesWriteCache(GAMES_ZONES_CACHE, { zones: freshZones, sig: freshSig, saved: Date.now() });
+                }
+                gamesWriteCache(GAMES_POP_CACHE, gamesPopularityData);
                 if (!painted || changed) {
                     gamesSetupFeatured();
-                    gamesHandleSearch();
+                    gamesHandleSearch(true);
                 }
             } catch (error) {
                 if (!painted) gamesContainer.innerHTML = "Error: " + error;
@@ -8065,12 +8103,49 @@
             gamesPauseTimer = setTimeout(gamesStartCarousel, 4000);
         }
 
-        function gamesHandleSearch() {
+        // Typing used to tear down and rebuild the whole grid on every single
+        // keystroke. Coalesce input into one render, skip renders that would
+        // produce an identical grid, and remember each game name's lowercase
+        // form instead of re-lowercasing 1,485 names on every pass.
+        const gamesSearchNames = new WeakMap();
+        let gamesSearchTimer = null;
+        let gamesLastRenderKey = null;
+
+        function gamesSearchName(z) {
+            let name = gamesSearchNames.get(z);
+            if (name === undefined) {
+                name = String(z.name || '').toLowerCase();
+                gamesSearchNames.set(z, name);
+            }
+            return name;
+        }
+
+        function gamesSearchRenderKey() {
+            return JSON.stringify([
+                document.getElementById('gamesSearchInput').value,
+                document.getElementById('gamesSortSelect').value,
+                gamesShowFavsOnly
+            ]);
+        }
+
+        function gamesScheduleSearch() {
+            clearTimeout(gamesSearchTimer);
+            gamesSearchTimer = setTimeout(() => {
+                gamesSearchTimer = null;
+                gamesHandleSearch();
+            }, 120);
+        }
+
+        function gamesHandleSearch(force) {
+            const renderKey = gamesSearchRenderKey();
+            if (!force && renderKey === gamesLastRenderKey) return;
+            gamesLastRenderKey = renderKey;
             const query = document.getElementById('gamesSearchInput').value.toLowerCase();
             const sortBy = document.getElementById('gamesSortSelect').value;
+            const favs = gamesShowFavsOnly ? new Set(gamesFavorites) : null;
             let filtered = zones.filter(z => {
-                const matchesSearch = z.name.toLowerCase().includes(query);
-                const matchesFav = gamesShowFavsOnly ? gamesFavorites.includes(z.id) : true;
+                const matchesSearch = gamesSearchName(z).includes(query);
+                const matchesFav = favs ? favs.has(z.id) : true;
                 return matchesSearch && matchesFav;
             });
             if (sortBy === 'name') {

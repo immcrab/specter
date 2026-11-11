@@ -102,13 +102,29 @@ self.addEventListener("message", ({ data }) => {
 
 // THE CORRECT PATTERN: scramjet.fetch(event) handles everything internally.
 // BareMux transport is set on the client side — the SW does not manage connections.
+//
+// Only URLs under the proxy prefix belong to the engine. Everything else — the
+// site's own pages, covers and game documents — is left to the browser's native
+// network path instead of being routed through a JS handler first, and the
+// config is loaded once instead of on every intercepted request.
+let configPromise = null;
+function ensureConfig() {
+    if (!configPromise) {
+        configPromise = scramjet.loadConfig().catch(err => { configPromise = null; throw err; });
+    }
+    return configPromise;
+}
+
+const proxyPrefix = new URL(basePath + "scramjet/", self.location.href).href;
+
 self.addEventListener("fetch", event => {
     if (isAdBlocked(event.request.url)) {
         event.respondWith(new Response(null, { status: 204 }));
         return;
     }
+    if (!event.request.url.startsWith(proxyPrefix)) return;
     event.respondWith((async () => {
-        await scramjet.loadConfig();
+        await ensureConfig();
         if (scramjet.route(event)) return scramjet.fetch(event);
         return fetch(event.request);
     })());
