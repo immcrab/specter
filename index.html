@@ -2417,9 +2417,11 @@
         })();
     </script>
     <link rel="stylesheet" href="assets/layout-v2.css?v=12">
-    <link rel="stylesheet" href="assets/desktop-os.css?v=9">
+    <link rel="stylesheet" href="assets/desktop-os.css?v=10">
 </head>
 <body>
+
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.0</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -10377,6 +10379,24 @@
                     el.classList.toggle('active', el.dataset.page === 'home');
                 });
             });
+        })();
+    </script>
+
+    <script>
+        // The badge reflects version.json so a version bump shows up without a rebuild.
+        (function () {
+            var badge = document.getElementById('siteVersion');
+            if (!badge) return;
+            fetch('version.json?v=' + Date.now(), { cache: 'no-store' })
+                .then(function (res) { return res.ok ? res.json() : null; })
+                .then(function (data) {
+                    if (!data || !data.version) return;
+                    badge.textContent = 'v' + data.version;
+                    badge.title = 'Site version ' + data.version +
+                        (data.updated ? ' \u00b7 updated ' + data.updated : '') +
+                        ' \u00b7 click for commit history';
+                })
+                .catch(function () {});
         })();
     </script>
 </body>
