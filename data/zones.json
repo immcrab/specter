@@ -11791,5 +11791,95 @@
   "name": "LOLBeans",
   "cover": "{COVER_URL}/1655.png",
   "url": "https://bean.lol"
+ },
+ {
+  "id": 1656,
+  "name": "2048 Cupcakes",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1656.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1656-arctic/index.html"
+ },
+ {
+  "id": 1657,
+  "name": "ADOFAI",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1657.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1657-arctic/index.html"
+ },
+ {
+  "id": 1658,
+  "name": "Angry Birds Space",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1658.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1658-arctic/index.html"
+ },
+ {
+  "id": 1659,
+  "name": "Are We There Yet",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1659.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1659-arctic/index.html"
+ },
+ {
+  "id": 1660,
+  "name": "Big Shot Boxing",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1660.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1660-arctic/index.html"
+ },
+ {
+  "id": 1661,
+  "name": "Burrito Bison Revenge",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1661.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1661-arctic/index.html"
+ },
+ {
+  "id": 1662,
+  "name": "Creeper Craft",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1662.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1662-arctic/index.html"
+ },
+ {
+  "id": 1663,
+  "name": "CS 1.6",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1663.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1663-arctic/index.html"
+ },
+ {
+  "id": 1664,
+  "name": "Dad N' Me",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1664.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1664-arctic/index.html"
+ },
+ {
+  "id": 1665,
+  "name": "Doblox [Roblox Clone]",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1665.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1665-arctic/index.html"
+ },
+ {
+  "id": 1666,
+  "name": "Football Legends",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1666.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1666-arctic/index.html"
+ },
+ {
+  "id": 1667,
+  "name": "Harold's Bad Day",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1667.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1667-arctic/index.html"
+ },
+ {
+  "id": 1668,
+  "name": "Merge Rot",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1668.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1668-arctic/index.html"
+ },
+ {
+  "id": 1669,
+  "name": "Minecraft Wurst",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1669.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1669-arctic/index.html"
+ },
+ {
+  "id": 1670,
+  "name": "xx142-b2.exe",
+  "cover": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/art/1670.webp",
+  "url": "https://cdn.jsdelivr.net/gh/immcrab/specter@8649f70/games/1670-arctic/index.html"
  }
 ]
