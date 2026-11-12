@@ -11791,5 +11791,15 @@
   "name": "LOLBeans",
   "cover": "{COVER_URL}/1655.png",
   "url": "https://bean.lol"
+ },
+ {
+  "id": 1656,
+  "name": "Thorn and Balloons",
+  "cover": "https://www.hoodamath.com/large/300/thornandballoons_300.png",
+  "url": "https://www.hoodamath.com/mobile/games/thorn-and-balloons/game.html?nocheckorient=1",
+  "author": "Fun Space Limited",
+  "authorLink": "https://apps.apple.com/app/thorn-and-balloons/id1611756991",
+  "via": "Hooda Math",
+  "embed": true
  }
 ]
