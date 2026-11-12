@@ -1350,13 +1350,6 @@
             font-size: 1.2rem;
             letter-spacing: 1px;
         }
-        #zoneCredit {
-            display: block;
-            color: var(--text-dim);
-            font-size: 0.62rem;
-            letter-spacing: 1px;
-            margin-top: 3px;
-        }
         .zone-controls { display: flex; gap: 10px; }
         .zone-control-btn {
             background: var(--input-bg);
@@ -2452,7 +2445,7 @@
 </head>
 <body>
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.6</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.7</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -3284,7 +3277,6 @@
             <div class="zone-header">
                 <div>
                     <strong id="zoneName">Game</strong>
-                    <span id="zoneCredit"></span>
                 </div>
                 <div class="zone-controls">
                     <button class="zone-control-btn" id="zoneFullscreenBtn" onclick="fullscreenZone()">Enter fullscreen</button>
@@ -8989,7 +8981,7 @@
                 window.open("https://discord.com/invite/dKs2sUNUXd", "_blank");
                 return;
             }
-            if (file.url.startsWith("http") && !file.embed) {
+            if (file.url.startsWith("http")) {
                 window.open(file.url, "_blank");
                 return;
             }
@@ -9027,12 +9019,6 @@
             });
 
             document.getElementById('zoneName').textContent = file.name;
-            const zoneCredit = document.getElementById('zoneCredit');
-            if (zoneCredit) {
-                zoneCredit.textContent = file.author
-                    ? 'by ' + file.author + (file.via ? ' \u00b7 via ' + file.via : '')
-                    : '';
-            }
             zoneViewer.dataset.zoneId = file.id;
             zoneViewer.style.display = "flex";
             zoneViewer.hidden = false;
