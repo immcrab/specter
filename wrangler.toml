@@ -1,0 +1,18 @@
+# Aether Gate Proxy — Cloudflare Worker
+#
+# Deploy:
+#   npx wrangler deploy
+#   npx wrangler secret put AD_SECRET   # any long random string
+#
+# Optional ad-network creative for the sponsor slot:
+#   npx wrangler secret put AD_HTML     # paste Adsterra (or similar) markup
+#
+# Local development:
+#   npx wrangler dev
+
+name = "aether-gate-proxy"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# Uncomment to serve it on your own domain instead of workers.dev:
+# routes = [{ pattern = "proxy.example.com/*", custom_domain = true }]

@@ -643,6 +643,80 @@ a.btn-ghost {
 .build-list { margin: 0; padding-left: 20px; font-size: 0.84rem; line-height: 1.9; color: var(--text-dim); }
 .build-list strong { color: var(--text-primary); }
 
+.worker-code { margin: 18px 0 2px; }
+
+.worker-code summary {
+    padding: 10px 0;
+    list-style: none;
+    cursor: pointer;
+    font-size: 0.74rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.worker-code summary::-webkit-details-marker { display: none; }
+.worker-code summary::before { content: '▸ '; color: var(--accent); }
+.worker-code[open] summary::before { content: '▾ '; }
+.worker-code summary:hover { color: var(--text-primary); }
+
+.worker-code pre {
+    margin: 0 0 14px;
+    max-height: 320px;
+    overflow: auto;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.35);
+    color: #cfcfcf;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.7rem;
+    line-height: 1.55;
+    white-space: pre;
+}
+
+.worker-setup {
+    margin-top: 18px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.worker-setup label {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 0.7rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.worker-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.worker-row input {
+    flex: 1 1 240px;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font);
+    font-size: 0.8rem;
+}
+
+.worker-row input:focus { outline: none; border-color: var(--accent); }
+.worker-row .build-action { padding: 9px 14px; }
+
+.worker-status {
+    margin: 10px 0 0;
+    font-size: 0.76rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+}
+
+
 .build-foot {
     display: flex;
     flex-wrap: wrap;

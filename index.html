@@ -2159,6 +2159,56 @@
           min-width: 0;
         }
 
+        .worker-browser {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+          min-width: 0;
+          background: var(--bg);
+        }
+        .worker-browser-bar {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-shrink: 0;
+          padding: 7px 10px;
+          border-bottom: 1px solid var(--border);
+          background: var(--card-bg);
+          font-size: 0.72rem;
+          color: var(--text-dim);
+        }
+        .worker-live {
+          width: 7px;
+          height: 7px;
+          flex-shrink: 0;
+          border-radius: 50%;
+          background: #4ade80;
+          box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+        }
+        .worker-browser-label { letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-primary); }
+        .worker-browser-host {
+          padding: 2px 7px;
+          border-radius: 5px;
+          background: rgba(200, 200, 200, 0.14);
+          color: var(--text-primary);
+          font-size: 0.9em;
+        }
+        .worker-browser-spacer { flex: 1; }
+        .worker-browser-bar button {
+          border: 1px solid var(--border);
+          background: transparent;
+          color: var(--text-dim);
+          border-radius: 7px;
+          padding: 4px 9px;
+          font-family: inherit;
+          font-size: inherit;
+          cursor: pointer;
+          transition: 0.16s ease;
+        }
+        .worker-browser-bar button:hover { border-color: var(--accent); color: var(--accent); }
+        .worker-browser-frame { flex: 1; width: 100%; border: 0; background: #09090b; }
+
         /* ── REDESIGNED PROXY SETTINGS MODAL ── */
         .proxy-wisp-card {
           background: var(--card-bg);
@@ -3723,7 +3773,7 @@
 <!-- NORTHSTAR GATE:END -->
 
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.10</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.11</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -4503,6 +4553,36 @@
                             <li><strong>Domain</strong> — edit or delete <code>CNAME</code>, then point your host at the same domain.</li>
                         </ul>
                         <p class="build-note">Use your own Adsterra zones and your own Supabase project before making the site public — the originals are tied to the author's accounts and will not pay you.</p>
+                    </section>
+
+                    <section class="build-block">
+                        <div class="build-block-head"><span class="build-num">04</span><h3>Run your own proxy worker</h3></div>
+                        <p class="build-copy">The proxy browser loads pages through a Cloudflare Worker — that worker is also what plays the short sponsor break. Deploy your own copy so your fork is independent, then save its address below and this browser will use <em>your</em> worker instead of the default one.</p>
+                        <div class="build-actions">
+                            <button class="build-action primary" type="button" onclick="copyProxyWorkerCode(this)">Copy worker code</button>
+                            <a class="build-action" href="worker.js" download>Download worker.js</a>
+                            <a class="build-action" href="https://dash.cloudflare.com/?to=/:account/workers-and-pages" target="_blank" rel="noopener">Create a worker</a>
+                        </div>
+                        <ol class="build-steps">
+                            <li>In the Cloudflare dashboard create a <strong>Worker</strong> and paste the copied code, or deploy this folder with <code>npx wrangler deploy</code> — the settings are already in <code>wrangler.toml</code>.</li>
+                            <li>Add a signing secret for the sponsor break: <code>npx wrangler secret put AD_SECRET</code>. Optionally paste a real ad snippet with <code>npx wrangler secret put AD_HTML</code>.</li>
+                            <li>Copy the address Cloudflare gives you (for example <code>https://your-worker.you.workers.dev</code>) into the field below and press <strong>Save</strong>.</li>
+                        </ol>
+                        <details class="worker-code" ontoggle="if(this.open)previewProxyWorker()">
+                            <summary>Preview the worker code</summary>
+                            <pre id="proxy-worker-preview">Open this to load worker.js…</pre>
+                        </details>
+                        <div class="worker-setup">
+                            <label for="proxy-worker-url">Your worker address</label>
+                            <div class="worker-row">
+                                <input id="proxy-worker-url" type="url" placeholder="https://your-worker.workers.dev" spellcheck="false" autocomplete="off">
+                                <button class="build-action primary" type="button" onclick="saveProxyWorkerUrl()">Save</button>
+                                <button class="build-action" type="button" onclick="resetProxyWorkerUrl()">Use default</button>
+                            </div>
+                            <p class="worker-status" id="proxy-worker-status"></p>
+                            <p class="worker-status">Saved in this browser. To ship your worker to every visitor of a fork, set the same address as <code>DEFAULT_PROXY_WORKER</code> in <code>index.html</code>.</p>
+                        </div>
+                        <p class="build-note">One short break buys 30 minutes: the worker keeps a signed pass cookie, so scrolling a feed or clicking links inside a site does not replay the ad.</p>
                     </section>
                 </div>
 
@@ -6313,6 +6393,7 @@
             if (o.parentElement !== document.body) document.body.appendChild(o);
             o.classList.add('open');
             document.body.classList.add('build-open');
+            renderProxyWorkerPanel();
         }
 
         function closeBuildModal() {
@@ -7593,6 +7674,10 @@
             if (window.__glAch) window.__glAch.onGhostNetwork();
         }
 
+        // Paste the deployed worker address here (see "Make your own Aether" → 04).
+        // Leave it empty to fall back to the built-in engine until a worker is saved.
+        const DEFAULT_PROXY_WORKER = '';
+
         let proxyBrowserInitialized = false;
         let WISP_SERVERS = [];
         let DEFAULT_WISP = window.SITE_CONFIG?.defaultWisp ?? null;
@@ -8851,8 +8936,165 @@
         }
 
 
+        // ── CLOUDFLARE WORKER PROXY ──
+        // The proxy browser can run on a Cloudflare Worker instead of the
+        // built-in engine. Forkers deploy worker.js and save their own address
+        // in "Make your own Aether" → 04, which replaces the default worker.
+
+        function escapeProxyText(value) {
+            return String(value).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        }
+
+        function normalizeProxyWorkerUrl(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return '';
+            const withScheme = /^[a-z]+:\/\//i.test(raw) ? raw : 'https://' + raw;
+            let url;
+            try { url = new URL(withScheme); } catch (e) { return ''; }
+            if (url.protocol !== 'https:' && url.protocol !== 'http:') return '';
+            return url.origin + url.pathname.replace(/\/+$/, '');
+        }
+
+        function getProxyWorkerUrl() {
+            const custom = normalizeProxyWorkerUrl(localStorage.getItem('aetherWorkerUrl'));
+            return custom || normalizeProxyWorkerUrl(DEFAULT_PROXY_WORKER);
+        }
+
+        function proxyWorkerActive() {
+            return Boolean(getProxyWorkerUrl()) && localStorage.getItem('aetherProxyEngine') !== 'scramjet';
+        }
+
+        function renderProxyWorkerPanel() {
+            const input = document.getElementById('proxy-worker-url');
+            const status = document.getElementById('proxy-worker-status');
+            if (!input || !status) return;
+            input.value = localStorage.getItem('aetherWorkerUrl') || '';
+            input.placeholder = DEFAULT_PROXY_WORKER || 'https://your-worker.workers.dev';
+
+            const active = getProxyWorkerUrl();
+            if (!active) {
+                status.innerHTML = 'No worker is saved yet, so the proxy uses its built-in engine. Paste your worker address to switch over.';
+            } else if (!proxyWorkerActive()) {
+                status.innerHTML = 'A worker is saved, but the built-in engine is selected. Press <strong>Save</strong> to switch back to <code>' + escapeProxyText(active) + '</code>.';
+            } else {
+                status.innerHTML = 'The proxy browser is using <code>' + escapeProxyText(active) + '</code>.';
+            }
+        }
+
+        function saveProxyWorkerUrl() {
+            const input = document.getElementById('proxy-worker-url');
+            const status = document.getElementById('proxy-worker-status');
+            if (!input) return;
+            const normalized = normalizeProxyWorkerUrl(input.value);
+            if (!normalized) {
+                if (status) status.innerHTML = 'That does not look like a worker address. It should start with <code>https://</code>.';
+                return;
+            }
+            localStorage.setItem('aetherWorkerUrl', normalized);
+            localStorage.removeItem('aetherProxyEngine');
+            input.value = normalized;
+            refreshProxyEngine();
+            renderProxyWorkerPanel();
+            if (window.proxyNotify) proxyNotify('success', 'Worker Saved', 'The proxy browser now loads pages through ' + normalized);
+        }
+
+        function resetProxyWorkerUrl() {
+            localStorage.removeItem('aetherWorkerUrl');
+            localStorage.removeItem('aetherProxyEngine');
+            refreshProxyEngine();
+            renderProxyWorkerPanel();
+            if (window.proxyNotify) proxyNotify('info', 'Worker Reset', DEFAULT_PROXY_WORKER ? 'Back to the default worker.' : 'Back to the built-in engine.');
+        }
+
+        function useBuiltinProxy() {
+            localStorage.setItem('aetherProxyEngine', 'scramjet');
+            refreshProxyEngine();
+            if (window.proxyNotify) proxyNotify('info', 'Built-in Engine', 'Save a worker address in "Make your own Aether" to switch back.');
+        }
+
+        function refreshProxyEngine() {
+            proxyBrowserInitialized = false;
+            const view = document.getElementById('proxy-content');
+            if (view && view.style.display === 'flex') proxyInit();
+        }
+
+        function renderWorkerBrowser(workerUrl) {
+            const root = document.getElementById('proxy-app');
+            if (!root) return;
+            let host = workerUrl;
+            try { host = new URL(workerUrl).host; } catch (e) { /* keep the raw address */ }
+            root.innerHTML = `
+                <div class="worker-browser">
+                    <div class="worker-browser-bar">
+                        <span class="worker-live"></span>
+                        <span class="worker-browser-label">Cloudflare Worker</span>
+                        <code class="worker-browser-host">${escapeProxyText(host)}</code>
+                        <span class="worker-browser-spacer"></span>
+                        <button type="button" onclick="openBuildModal()">Change worker</button>
+                        <button type="button" onclick="useBuiltinProxy()">Built-in engine</button>
+                    </div>
+                    <iframe class="worker-browser-frame" src="${escapeProxyText(workerUrl)}/" title="Worker proxy browser"
+                        allow="clipboard-read; clipboard-write; fullscreen; autoplay; encrypted-media; picture-in-picture"></iframe>
+                </div>`;
+        }
+
+        async function getProxyWorkerSource() {
+            if (window.__proxyWorkerSource) return window.__proxyWorkerSource;
+            const res = await fetch('worker.js', { cache: 'no-store' });
+            if (!res.ok) throw new Error('worker.js is only available in the folder build.');
+            const code = await res.text();
+            window.__proxyWorkerSource = code;
+            return code;
+        }
+
+        async function writeToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return;
+            }
+            const area = document.createElement('textarea');
+            area.value = text;
+            area.style.cssText = 'position:fixed;top:-1000px;opacity:0;';
+            document.body.appendChild(area);
+            area.select();
+            document.execCommand('copy');
+            area.remove();
+        }
+
+        async function copyProxyWorkerCode(button) {
+            const label = button ? button.textContent : '';
+            try {
+                const code = await getProxyWorkerSource();
+                await writeToClipboard(code);
+                if (button) button.textContent = 'Copied ✓';
+                if (window.proxyNotify) proxyNotify('success', 'Worker Copied', 'Paste it into a Cloudflare Worker and deploy.');
+            } catch (error) {
+                if (window.proxyNotify) proxyNotify('error', 'Could Not Copy', error.message || String(error));
+                if (button) button.textContent = 'Open worker.js';
+                window.open('worker.js', '_blank');
+            }
+            if (button) setTimeout(() => { button.textContent = label; }, 2200);
+        }
+
+        async function previewProxyWorker() {
+            const pre = document.getElementById('proxy-worker-preview');
+            if (!pre || pre.dataset.loaded === 'true') return;
+            pre.textContent = 'Loading worker.js…';
+            try {
+                pre.textContent = await getProxyWorkerSource();
+                pre.dataset.loaded = 'true';
+            } catch (error) {
+                pre.textContent = 'worker.js is not next to this page. Use the folder build (or the download link above) to copy the worker.';
+            }
+        }
+
         async function proxyInit() {
             const root = document.getElementById('proxy-app');
+            const workerUrl = getProxyWorkerUrl();
+            if (workerUrl && localStorage.getItem('aetherProxyEngine') !== 'scramjet') {
+                renderWorkerBrowser(workerUrl);
+                return;
+            }
             const _piSteps = [
                 { id: 'pi-s1', label: 'Fetching server list' },
                 { id: 'pi-s2', label: 'Selecting fastest server' },

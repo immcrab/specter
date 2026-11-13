@@ -110,6 +110,7 @@ const embeddedFiles = {
     'assets/legal/dmca.md': { type: 'text/markdown; charset=utf-8', path: 'assets/legal/dmca.md' },
     'src/ai.html': { type: 'text/html; charset=utf-8', path: 'src/ai.html' },
     'version.json': { type: 'application/json', path: 'version.json' },
+    'worker.js': { type: 'text/javascript; charset=utf-8', path: 'worker.js' },
 };
 
 const bundle = { version: version.version, hosted: HOSTED_SITE, files: {} };

@@ -6,3 +6,6 @@
 
 # Legacy sync workflow would overwrite the rebuilt site with the old CDN copy
 .github/workflows/
+
+# Wrangler local state and caches
+.wrangler/
