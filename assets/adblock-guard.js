@@ -196,6 +196,12 @@
   }
 
   function boot() {
+    // The Northstar tutoring screens are deliberately ad-free, so the guard
+    // waits until the launcher itself is on screen.
+    if (window.__northstarGateActive) {
+      window.addEventListener("northstar:gate-closed", boot, { once: true });
+      return;
+    }
     adsEnabled().then(function (on) {
       if (!on) return;
       evaluate();

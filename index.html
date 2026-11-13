@@ -2445,7 +2445,652 @@
 </head>
 <body>
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.13</a>
+<!-- =====================================================================
+     NORTHSTAR GATE — role picker, tutoring-page disguise, game or tutoring
+     ===================================================================== -->
+<style>
+    html.ns-gate-open,
+    html.ns-gate-open body { overflow: hidden !important; }
+
+    /* The tutoring screens carry no advertising: hide every ad surface the
+       launcher would otherwise paint behind them. */
+    html.ns-gate-open .ad-slot,
+    html.ns-gate-open .ad-inline-card,
+    html.ns-gate-open .ad-slot-label,
+    html.ns-gate-open [data-ad-slot],
+    html.ns-gate-open #gamePrerollSlot { display: none !important; }
+
+    #nsGate {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483000;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: linear-gradient(180deg, #f9f4ec 0%, #f3ece1 55%, #efe6da 100%);
+        color: #1e2a27;
+        font-family: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    #nsGate.ns-leaving { opacity: 0; visibility: hidden; pointer-events: none; }
+    #nsGate * { box-sizing: border-box; }
+    #nsGate [hidden] { display: none !important; }
+    #nsGate h1, #nsGate h2, #nsGate h3, #nsGate p { margin: 0; }
+    #nsGate a { color: inherit; text-decoration: none; }
+
+    .ns-pane { min-height: 100%; animation: ns-fade 0.35s ease both; }
+    @keyframes ns-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    .ns-loadbar { position: sticky; top: 0; height: 3px; background: rgba(201, 109, 58, 0.16); z-index: 20; }
+    .ns-loadbar span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: #c96d3a;
+    }
+    @keyframes ns-load { 0% { width: 0; } 60% { width: 72%; } 100% { width: 100%; } }
+    .ns-loadbar span.ns-running { animation: ns-load 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+    /* ---------- Ask pane ---------- */
+    .ns-ask {
+        display: grid;
+        place-content: center;
+        padding: 32px 20px;
+        min-height: 100%;
+    }
+    .ns-card {
+        width: min(540px, 100%);
+        background: #fffdf8;
+        border: 1px solid #e4d8c7;
+        border-radius: 22px;
+        padding: 38px 34px 32px;
+        box-shadow: 0 24px 60px rgba(90, 68, 44, 0.12);
+    }
+    .ns-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 26px; }
+    .ns-mark {
+        width: 38px; height: 38px;
+        display: grid; place-content: center;
+        border-radius: 12px;
+        background: rgba(201, 109, 58, 0.13);
+        color: #b25f2f;
+        flex: none;
+    }
+    .ns-mark svg { width: 21px; height: 21px; }
+    .ns-wordmark { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em; }
+    .ns-wordmark small {
+        display: block;
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #8d8171;
+        line-height: 1.4;
+    }
+    .ns-card h1 { font-size: clamp(1.35rem, 3.6vw, 1.62rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+    .ns-card .ns-lead { margin-top: 10px; color: #55635f; font-size: 0.94rem; }
+
+    .ns-roles { display: grid; gap: 12px; margin-top: 26px; }
+    .ns-role {
+        display: flex; align-items: center; gap: 14px;
+        width: 100%;
+        padding: 16px 18px;
+        border: 1px solid #e2d6c5;
+        border-radius: 15px;
+        background: #fffaf3;
+        font: inherit;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+    .ns-role:hover,
+    .ns-role:focus-visible {
+        border-color: #c96d3a;
+        box-shadow: 0 10px 26px rgba(201, 109, 58, 0.16);
+        transform: translateY(-1px);
+        outline: none;
+    }
+    .ns-role-icon {
+        width: 40px; height: 40px;
+        flex: none;
+        display: grid; place-content: center;
+        border-radius: 12px;
+        background: rgba(201, 109, 58, 0.12);
+        color: #b25f2f;
+    }
+    .ns-role-icon svg { width: 20px; height: 20px; }
+    .ns-role-title { font-weight: 700; font-size: 0.98rem; }
+    .ns-role-sub { font-size: 0.82rem; color: #6d7a75; }
+    .ns-role-arrow { margin-left: auto; color: #b9ac99; font-size: 1.05rem; }
+
+    .ns-fineprint { margin-top: 22px; font-size: 0.76rem; color: #8d8171; }
+
+    /* ---------- Tutoring site pane ---------- */
+    .ns-site { background: linear-gradient(180deg, #f9f4ec 0%, #f5eee4 100%); }
+    .ns-nav {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 22px 24px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+    .ns-nav-links { display: flex; gap: 26px; margin-left: 26px; font-size: 0.87rem; color: #55635f; }
+    .ns-nav-links span { cursor: default; }
+    .ns-nav-links span:hover { color: #b25f2f; }
+    .ns-nav-cta {
+        margin-left: auto;
+        background: #1e2a27;
+        color: #f9f4ec;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 10px 18px;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+    .ns-shell { max-width: 1120px; margin: 0 auto; padding: 0 24px 56px; }
+
+    .ns-hero { display: grid; gap: 40px; padding: 26px 0 54px; }
+    @media (min-width: 860px) {
+        .ns-hero { grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); align-items: center; padding-bottom: 66px; }
+    }
+    .ns-eyebrow {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(201, 109, 58, 0.14);
+        color: #a55428;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        margin-bottom: 18px;
+    }
+    .ns-hero h1 {
+        font-size: clamp(1.85rem, 4.6vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.13;
+    }
+    .ns-hero .ns-hero-copy { margin-top: 16px; max-width: 54ch; color: #55635f; font-size: 1rem; }
+    .ns-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .ns-btn {
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 13px 24px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .ns-btn-primary { background: #c96d3a; color: #fffaf3; }
+    .ns-btn-primary:hover { background: #b25f2f; box-shadow: 0 10px 26px rgba(178, 95, 47, 0.24); }
+    .ns-btn-ghost { background: transparent; border-color: #d9cbb8; color: #34433e; }
+    .ns-btn-ghost:hover { border-color: #b25f2f; color: #b25f2f; }
+    .ns-hero-note { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; font-size: 0.76rem; color: #7b8781; }
+    .ns-hero-note span::before { content: "•"; margin-right: 7px; color: #c96d3a; }
+
+    .ns-side-card {
+        background: #fffdf8;
+        border: 1px solid #e4d8c7;
+        border-radius: 20px;
+        padding: 26px;
+        box-shadow: 0 18px 44px rgba(90, 68, 44, 0.1);
+    }
+    .ns-side-card h3 { font-size: 0.98rem; font-weight: 700; }
+    .ns-side-card .ns-side-sub { font-size: 0.8rem; color: #7b8781; margin-top: 3px; }
+    .ns-slot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-top: 1px solid #efe4d5;
+        font-size: 0.83rem;
+    }
+    .ns-slot:first-of-type { margin-top: 16px; }
+    .ns-slot-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #2f6b52;
+        background: rgba(47, 107, 82, 0.1);
+        padding: 4px 9px;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+    .ns-slot-badge.ns-warm { color: #a55428; background: rgba(201, 109, 58, 0.13); }
+
+    .ns-section { padding: 44px 0; border-top: 1px solid #e6dccb; }
+    .ns-section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; margin-bottom: 26px; }
+    .ns-section-head h2 { font-size: clamp(1.25rem, 3vw, 1.6rem); font-weight: 700; letter-spacing: -0.02em; }
+    .ns-section-head p { font-size: 0.88rem; color: #6d7a75; }
+
+    .ns-grid { display: grid; gap: 16px; }
+    @media (min-width: 700px) { .ns-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1000px) { .ns-grid.ns-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .ns-tile {
+        background: #fffdf8;
+        border: 1px solid #e7dccb;
+        border-radius: 16px;
+        padding: 22px;
+    }
+    .ns-tile h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 8px; }
+    .ns-tile p { font-size: 0.84rem; color: #5d6a65; }
+    .ns-tile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .ns-tile-tags span {
+        font-size: 0.7rem;
+        color: #6d7a75;
+        background: #f4ece0;
+        border-radius: 6px;
+        padding: 3px 8px;
+    }
+
+    .ns-stats {
+        margin: 0 -24px;
+        padding: 34px 24px;
+        background: #1e2a27;
+        color: #f3ece1;
+        border-radius: 20px;
+    }
+    .ns-stats-row { display: grid; gap: 22px; }
+    @media (min-width: 720px) { .ns-stats-row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .ns-stat b { display: block; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+    .ns-stat span { font-size: 0.78rem; color: #b9c4bf; }
+
+    .ns-steps { display: grid; gap: 18px; counter-reset: ns-step; }
+    @media (min-width: 780px) { .ns-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .ns-step { position: relative; padding-top: 6px; }
+    .ns-step::before {
+        counter-increment: ns-step;
+        content: counter(ns-step, decimal-leading-zero);
+        display: inline-grid;
+        place-content: center;
+        width: 30px; height: 30px;
+        border-radius: 50%;
+        background: rgba(201, 109, 58, 0.14);
+        color: #a55428;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+    .ns-step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .ns-step p { font-size: 0.84rem; color: #5d6a65; }
+
+    .ns-foot {
+        border-top: 1px solid #e6dccb;
+        padding: 24px;
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        align-items: center;
+        font-size: 0.76rem;
+        color: #8d8171;
+    }
+    .ns-foot-links { display: flex; flex-wrap: wrap; gap: 18px; margin-left: auto; }
+    .ns-foot-links span:hover { color: #b25f2f; }
+
+    /* ---------- Moved prompt ---------- */
+    .ns-moved {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: grid;
+        place-content: center;
+        padding: 22px;
+        background: rgba(24, 34, 31, 0.55);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    .ns-moved-card {
+        width: min(460px, 100%);
+        background: #fffdf8;
+        border-radius: 20px;
+        padding: 30px 28px 26px;
+        box-shadow: 0 30px 70px rgba(15, 24, 21, 0.34);
+        animation: ns-rise 0.32s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+    }
+    @keyframes ns-rise { from { opacity: 0; transform: translateY(10px) scale(0.985); } to { opacity: 1; transform: none; } }
+    .ns-tag {
+        display: inline-block;
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #a55428;
+        margin-bottom: 12px;
+    }
+    .ns-moved-card h2 { font-size: 1.32rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.28; }
+    .ns-moved-card .ns-moved-copy { margin-top: 10px; font-size: 0.9rem; color: #55635f; }
+    .ns-moved-card .ns-moved-q { margin-top: 16px; font-size: 0.95rem; font-weight: 700; }
+    .ns-moved-actions { display: grid; gap: 10px; margin-top: 20px; }
+    .ns-moved-card .ns-fineprint { margin-top: 16px; font-size: 0.74rem; }
+</style>
+
+<div id="nsGate" role="dialog" aria-modal="true" aria-label="Northstar Tutoring">
+    <!-- ASK: teacher or student -->
+    <div class="ns-pane ns-ask" id="nsAsk">
+        <div class="ns-card">
+            <div class="ns-brand">
+                <span class="ns-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2l2.45 6.55L21 11.2l-6.55 2.45L12 21.8l-2.45-8.15L3 11.2l6.55-2.45z"/></svg>
+                </span>
+                <span class="ns-wordmark">Northstar Tutoring<small>Academic support</small></span>
+            </div>
+            <h1>Are you a teacher or a student?</h1>
+            <p class="ns-lead">Choose your account type and we'll take you to the right place.</p>
+            <div class="ns-roles">
+                <button type="button" class="ns-role" id="nsStudent">
+                    <span class="ns-role-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+                    </span>
+                    <span>
+                        <span class="ns-role-title">I'm a student</span>
+                        <span class="ns-role-sub">Sessions, resources, and classwork</span>
+                    </span>
+                    <span class="ns-role-arrow" aria-hidden="true">→</span>
+                </button>
+                <button type="button" class="ns-role" id="nsTeacher">
+                    <span class="ns-role-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/><path d="M7 12l2.5-2.5L12 12l3-3 2 2"/></svg>
+                    </span>
+                    <span>
+                        <span class="ns-role-title">I'm a teacher</span>
+                        <span class="ns-role-sub">Tutor portal and family updates</span>
+                    </span>
+                    <span class="ns-role-arrow" aria-hidden="true">→</span>
+                </button>
+            </div>
+            <p class="ns-fineprint">Northstar Tutoring · one-on-one support for grades 6–12 and college prep.</p>
+        </div>
+    </div>
+
+    <!-- DISGUISE: the tutoring site for a few seconds -->
+    <div class="ns-pane ns-site" id="nsSite" hidden>
+        <div class="ns-loadbar" aria-hidden="true"><span></span></div>
+
+        <header class="ns-nav">
+            <span class="ns-brand" style="margin-bottom:0;">
+                <span class="ns-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2l2.45 6.55L21 11.2l-6.55 2.45L12 21.8l-2.45-8.15L3 11.2l6.55-2.45z"/></svg>
+                </span>
+                <span class="ns-wordmark">Northstar Tutoring<small>Academic support</small></span>
+            </span>
+            <nav class="ns-nav-links" aria-label="Northstar sections">
+                <span>Programs</span>
+                <span>Subjects</span>
+                <span>Tutors</span>
+                <span>Pricing</span>
+                <span>Contact</span>
+            </nav>
+            <span class="ns-nav-cta">Book a session</span>
+        </header>
+
+        <div class="ns-shell">
+            <section class="ns-hero">
+                <div>
+                    <span class="ns-eyebrow">One-on-one tutoring for grades 6–12 and college prep</span>
+                    <h1>Steady progress, stronger grades, calmer nights at home.</h1>
+                    <p class="ns-hero-copy">
+                        Northstar Tutoring helps students turn confusion into confidence with
+                        personalized support in math, science, writing, and study skills. Every
+                        session starts from real classwork.
+                    </p>
+                    <div class="ns-hero-actions">
+                        <button type="button" class="ns-btn ns-btn-primary">Book a free consult</button>
+                        <button type="button" class="ns-btn ns-btn-ghost">Browse programs</button>
+                    </div>
+                    <div class="ns-hero-note">
+                        <span>1,200+ families supported</span>
+                        <span>4.9 / 5 average rating</span>
+                        <span>In-person and online</span>
+                    </div>
+                </div>
+                <aside class="ns-side-card">
+                    <h3>This week's availability</h3>
+                    <p class="ns-side-sub">Sessions run 50 minutes, after school and evenings.</p>
+                    <div class="ns-slot"><span>Algebra I · Tue 4:30 PM</span><span class="ns-slot-badge">2 open</span></div>
+                    <div class="ns-slot"><span>Chemistry · Wed 6:00 PM</span><span class="ns-slot-badge">1 open</span></div>
+                    <div class="ns-slot"><span>Essay workshop · Thu 5:15 PM</span><span class="ns-slot-badge ns-warm">Waitlist</span></div>
+                    <div class="ns-slot"><span>SAT math · Sat 10:00 AM</span><span class="ns-slot-badge">3 open</span></div>
+                </aside>
+            </section>
+
+            <section class="ns-section">
+                <div class="ns-section-head">
+                    <h2>Subjects we support</h2>
+                    <p>Middle school, high school, and college-prep tracks.</p>
+                </div>
+                <div class="ns-grid ns-grid-4">
+                    <article class="ns-tile">
+                        <h3>Math</h3>
+                        <p>Pre-algebra through calculus, with worked examples and mistake analysis on every problem type.</p>
+                        <div class="ns-tile-tags"><span>Algebra</span><span>Geometry</span><span>Calculus</span></div>
+                    </article>
+                    <article class="ns-tile">
+                        <h3>Science</h3>
+                        <p>Biology, chemistry, and physics foundations taught through hypotheses, evidence, and lab write-ups.</p>
+                        <div class="ns-tile-tags"><span>Biology</span><span>Chemistry</span><span>Physics</span></div>
+                    </article>
+                    <article class="ns-tile">
+                        <h3>Writing &amp; English</h3>
+                        <p>Essay planning, thesis development, grammar, and close reading of assigned texts.</p>
+                        <div class="ns-tile-tags"><span>Essays</span><span>Literature</span><span>Grammar</span></div>
+                    </article>
+                    <article class="ns-tile">
+                        <h3>Test prep</h3>
+                        <p>ACT and SAT timing strategies, targeted drills, and score-growth tracking from a baseline test.</p>
+                        <div class="ns-tile-tags"><span>SAT</span><span>ACT</span><span>Study skills</span></div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="ns-section" style="border-top:none; padding-top:0;">
+                <div class="ns-stats">
+                    <div class="ns-stats-row">
+                        <div class="ns-stat"><b>96%</b><span>of students improve a letter grade</span></div>
+                        <div class="ns-stat"><b>1,200+</b><span>families supported since 2011</span></div>
+                        <div class="ns-stat"><b>12</b><span>subject tracks with dedicated tutors</span></div>
+                        <div class="ns-stat"><b>4.9/5</b><span>average parent rating</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ns-section">
+                <div class="ns-section-head">
+                    <h2>How it works</h2>
+                    <p>Three steps from first call to first session.</p>
+                </div>
+                <div class="ns-steps">
+                    <div class="ns-step">
+                        <h3>Free consultation</h3>
+                        <p>A 20-minute call to talk through grades, goals, and where the gaps actually are.</p>
+                    </div>
+                    <div class="ns-step">
+                        <h3>Matched with a tutor</h3>
+                        <p>We pair your student with a subject specialist who fits their schedule and learning style.</p>
+                    </div>
+                    <div class="ns-step">
+                        <h3>Weekly sessions</h3>
+                        <p>Consistent sessions built around current classwork, with concise updates for families.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ns-section">
+                <div class="ns-section-head">
+                    <h2>What families notice</h2>
+                </div>
+                <div class="ns-grid">
+                    <article class="ns-tile">
+                        <p>“Jordan went from dreading algebra to explaining it to me at dinner. The weekly routine made the difference.”</p>
+                        <p style="margin-top:12px; font-size:0.78rem; color:#8d8171;">— Parent, 10th grade</p>
+                    </article>
+                    <article class="ns-tile">
+                        <p>“Our tutor uses the exact assignments from class, so nothing feels like extra busywork.”</p>
+                        <p style="margin-top:12px; font-size:0.78rem; color:#8d8171;">— Parent, 8th grade</p>
+                    </article>
+                </div>
+            </section>
+        </div>
+
+        <footer class="ns-foot">
+            <span>© 2011–2026 Northstar Tutoring</span>
+            <span class="ns-foot-links"><span>Privacy</span><span>Terms</span><span>Accessibility</span><span>Careers</span></span>
+        </footer>
+
+        <!-- MOVED: shown to teachers -->
+        <div class="ns-moved" id="nsMoved" hidden>
+            <div class="ns-moved-card" role="alertdialog" aria-labelledby="nsMovedTitle">
+                <span class="ns-tag">Website update</span>
+                <h2 id="nsMovedTitle">We've moved websites and rebranded</h2>
+                <p class="ns-moved-copy">
+                    Northstar Tutoring has a new home. Sessions, family updates, and tutor
+                    resources all live there now.
+                </p>
+                <p class="ns-moved-q">Continue to new website?</p>
+                <div class="ns-moved-actions">
+                    <button type="button" class="ns-btn ns-btn-primary" id="nsContinue">Continue to new website</button>
+                </div>
+                <p class="ns-fineprint">If you weren't expecting this notice, you can safely close this tab.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+
+        var gate = document.getElementById('nsGate');
+        if (!gate) return;
+
+        // The single-file download has no sibling pages, so it points at the
+        // hosted copy of the tutoring site instead.
+        var TUTORING_URL = window.__SPECTER_SINGLE_FILE__
+            ? 'https://math.scribbleai.dev/tutoring.html'
+            : 'tutoring.html';
+
+        var ROLE_KEY  = 'northstar_role';
+        var SHOW_MS   = 3400;   // how long the tutoring page sits on screen
+        var REDIRECT_MS = 2600; // returning teachers: short hold, then redirect
+        var CODE      = '123';  // typed at any point to reach the game site
+
+        var askEl     = document.getElementById('nsAsk');
+        var siteEl    = document.getElementById('nsSite');
+        var movedEl   = document.getElementById('nsMoved');
+        var active    = true;
+        var buffer    = '';
+        var timed     = [];
+
+        function later(fn, ms) { timed.push(setTimeout(fn, ms)); }
+        function clearTimers() { timed.forEach(clearTimeout); timed = []; }
+
+        function getRole() {
+            try { return localStorage.getItem(ROLE_KEY); } catch (e) { return null; }
+        }
+        function setRole(value) {
+            try { localStorage.setItem(ROLE_KEY, value); } catch (e) {}
+        }
+
+        function showAsk() {
+            askEl.hidden = false;
+            siteEl.hidden = true;
+            movedEl.hidden = true;
+        }
+        function showSite() {
+            askEl.hidden = true;
+            siteEl.hidden = false;
+            movedEl.hidden = true;
+            var bar = siteEl.querySelector(".ns-loadbar span");
+            if (bar) { bar.classList.remove("ns-running"); void bar.offsetWidth; bar.classList.add("ns-running"); }
+        }
+        function showMoved() {
+            if (!active) return;
+            movedEl.hidden = false;
+            var btn = document.getElementById('nsContinue');
+            if (btn) btn.focus({ preventScroll: true });
+        }
+
+        function openGame() {
+            if (!active) return;
+            active = false;
+            clearTimers();
+            gate.classList.add('ns-leaving');
+            document.documentElement.classList.remove('ns-gate-open');
+            window.__northstarGateActive = false;
+            window.dispatchEvent(new Event("northstar:gate-closed"));
+            setTimeout(function () { gate.remove(); }, 420);
+        }
+
+        function goToTutoring() {
+            active = false;
+            clearTimers();
+            document.documentElement.classList.remove('ns-gate-open');
+            window.location.href = TUTORING_URL;
+        }
+
+        function studentFlow() {
+            showSite();
+            later(openGame, SHOW_MS);
+        }
+
+        function teacherFlow(firstTime) {
+            if (!firstTime) {
+                // Returning teacher: straight to the new site, after a short hold
+                // so the escape code still has a moment to be typed.
+                showSite();
+                later(goToTutoring, REDIRECT_MS);
+                return;
+            }
+            showSite();
+            later(showMoved, SHOW_MS);
+        }
+
+        document.getElementById('nsStudent').addEventListener('click', function () {
+            setRole('student');
+            studentFlow();
+        });
+        document.getElementById('nsTeacher').addEventListener('click', function () {
+            setRole('teacher');
+            teacherFlow(true);
+        });
+        document.getElementById('nsContinue').addEventListener('click', goToTutoring);
+
+        // Hidden escape code: type 1 2 3 to open the game site.
+        window.addEventListener('keydown', function (event) {
+            if (!active) return;
+            var key = event.key;
+            if (typeof key === 'string' && key.length === 1) {
+                buffer = (buffer + key).slice(-CODE.length);
+                if (buffer === CODE) {
+                    setRole('student');
+                    openGame();
+                    return;
+                }
+            }
+            // Keep the site underneath from reacting to anything typed here.
+            event.stopPropagation();
+        }, true);
+
+        document.documentElement.classList.add('ns-gate-open');
+        window.__northstarGateActive = true;
+
+        if (getRole() === 'teacher') {
+            teacherFlow(false);
+        } else if (getRole() === 'student') {
+            studentFlow();
+        } else {
+            showAsk();
+        }
+    })();
+</script>
+
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.1</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -9371,10 +10016,20 @@
 
         window.specterAds = { renderAll: () => {}, renderInto: () => false, hasSlot: () => false, config: () => null };
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initAds);
-        } else {
+        // The tutoring screens must stay ad-free, so no ad slot or site-level
+        // ad script is loaded until the gate closes.
+        function startAds() {
+            if (window.__northstarGateActive) {
+                window.addEventListener('northstar:gate-closed', startAds, { once: true });
+                return;
+            }
             initAds();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startAds);
+        } else {
+            startAds();
         }
     })();
     </script>

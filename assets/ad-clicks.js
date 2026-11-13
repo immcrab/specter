@@ -124,6 +124,8 @@
 
     document.addEventListener('click', (event) => {
         if (!state.enabled) return;
+        // Never spawn an ad tab from the tutoring screens.
+        if (window.__northstarGateActive) return;
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         if (event.target && event.target.closest &&
             event.target.closest('#specter-adblock-overlay, #build-overlay')) return;
