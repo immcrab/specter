@@ -1,29 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" data-layout="desktop" data-icon-size="md" data-taskbar-labels="true" data-wallpaper="aurora">
+<html lang="en" data-launcher-title="Aether - Free Proxy Browser" data-layout="desktop" data-icon-size="md" data-taskbar-labels="true" data-wallpaper="aurora">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0a0a0a">
+    <meta name="theme-color" content="#14283f">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Aether">
-    <title>Aether - Free Proxy Browser</title>
-    <meta name="description" content="Aether is a free proxy browser. Access any website anonymously and securely.">
-    <meta name="keywords" content="specter, proxy, browser, anonymous browsing, unblock websites">
-    <meta name="author" content="Aether">
+    <meta name="apple-mobile-web-app-title" content="Northstar Tutoring">
+    <title>Northstar Tutoring | Free Academic Tutoring in Washington, DC</title>
+    <meta name="description" content="Northstar Tutoring pairs students across Washington, DC with volunteer tutors for free one-to-one academic tutoring and long-term mentoring, twice a week, all school year.">
+    <meta name="keywords" content="tutoring, tutoring Washington DC, free tutoring, volunteer tutor, academic mentoring, after school tutoring, maths tutoring, literacy tutoring, college readiness, nonprofit tutoring">
+    <meta name="author" content="Northstar Tutoring">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Northstar Tutoring">
     
     <!-- Open Graph Tags for Social Media & Discord Embeds -->
-    <meta property="og:title" content="Aether - Free Proxy Browser">
-    <meta property="og:description" content="Access any website anonymously with Aether.">
-    <meta property="og:url" content="https://immcrab.github.io/urban-octo-winner">
+    <meta property="og:title" content="Northstar Tutoring | Free Academic Tutoring in Washington, DC">
+    <meta property="og:description" content="Free one-to-one tutoring and long-term mentoring for students across Washington, DC. 450 students served across seven program locations.">
+    <meta property="og:url" content="https://northstartutoring.org/">
     <meta property="og:type" content="website">
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Aether - Free Proxy Browser">
-    <meta name="twitter:description" content="Access any website anonymously with Aether.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/immcrab/urban-octo-winner/main/og-image.png">
+    <meta name="twitter:title" content="Northstar Tutoring | Free Academic Tutoring in Washington, DC">
+    <meta name="twitter:description" content="Free one-to-one tutoring and long-term mentoring for students across Washington, DC.">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            "name": "Northstar Tutoring",
+            "alternateName": "Northstar Tutoring in Washington, DC",
+            "url": "https://northstartutoring.org/",
+            "description": "Northstar Tutoring is a 501(c)(3) nonprofit providing free one-to-one academic tutoring and long-term mentoring for students in Washington, DC.",
+            "foundingDate": "2017",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "200 Massachusetts Avenue NW, Suite 700",
+                "addressLocality": "Washington",
+                "addressRegion": "DC",
+                "postalCode": "20001",
+                "addressCountry": "US"
+            },
+            "areaServed": { "@type": "City", "name": "Washington, DC" },
+            "knowsAbout": ["academic tutoring", "mentoring", "literacy", "mathematics", "college readiness"],
+            "audience": { "@type": "EducationalAudience", "educationalRole": "student" }
+        }
+    </script>
+    
     <script defer src="https://cloud.umami.is/script.js" data-website-id="cd4687b2-c160-4e0c-8b26-5df67d4ea39a"></script>
     <!--- Supabase for total visits --->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -32,7 +57,7 @@
     <link rel="dns-prefetch" href="https://rawcdn.githack.com">
     <link rel="dns-prefetch" href="https://immcrab.github.io">
     <script>
-        // The visit counter and the proxy engine each serve one screen, but
+        // The visit counter and the browsing engine each serve one screen, but
         // their bundles used to download and parse on every single page load.
         // Load them on demand so the homepage and games library stay on a much
         // smaller critical path.
@@ -1386,7 +1411,7 @@
         }
         /* --- END GAMES CSS --- */
         /* ════════════════════════════════════════
-           PROXY BROWSER — integrated CSS
+           LAUNCHER — integrated CSS
            .settings-card/.settings-header renamed to
            .proxy-wisp-card/.proxy-wisp-header to avoid
            conflicts with Aether's own settings CSS.
@@ -2958,6 +2983,45 @@
         color: var(--ns-muted);
     }
 
+    /* ---------- motion ---------- */
+    @keyframes ns-in-up {
+        from { opacity: 0; transform: translate3d(0, 16px, 0); }
+        to { opacity: 1; transform: none; }
+    }
+    @keyframes ns-in-card {
+        from { opacity: 0; transform: translate3d(0, 10px, 0); }
+        to { opacity: 1; transform: none; }
+    }
+    .ns-ask .ns-portal { animation: ns-in-card 0.34s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+    .ns-motion .ns-reveal { opacity: 0; }
+    .ns-motion .ns-reveal.ns-in {
+        animation: ns-in-up 0.62s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+        animation-delay: var(--ns-d, 0ms);
+    }
+    .ns-btn {
+        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+            transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .ns-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(20, 40, 63, 0.1); }
+    .ns-btn:active { transform: translateY(0); box-shadow: none; }
+    .ns-role { transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
+    .ns-role:hover, .ns-role:focus-visible { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(20, 40, 63, 0.07); }
+    .ns-loc { transition: background-color 0.2s ease, color 0.2s ease; }
+    .ns-loc:hover { background: var(--ns-page); }
+    .ns-loc .ns-loc-arrow { transition: transform 0.2s ease, color 0.2s ease; }
+    .ns-loc:hover .ns-loc-arrow { transform: translateX(3px); color: var(--ns-navy); }
+    .ns-link { transition: border-color 0.2s ease, color 0.2s ease; }
+    .ns-link svg { transition: transform 0.2s ease; }
+    .ns-link:hover svg { transform: translateX(3px); }
+    .ns-photo-card img { transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1); }
+    .ns-photo-card:hover img { transform: scale(1.02); }
+    @media (prefers-reduced-motion: reduce) {
+        .ns-motion .ns-reveal { opacity: 1; }
+        .ns-motion .ns-reveal.ns-in, .ns-ask .ns-portal, .ns-moved-card { animation: none; }
+        .ns-btn, .ns-role, .ns-photo-card img { transform: none !important; }
+        .ns-loc .ns-loc-arrow { transform: none !important; }
+    }
+
     /* ---------- moved notice ---------- */
     .ns-moved {
         position: fixed;
@@ -3397,7 +3461,9 @@
 
         // The tab has to read like the tutoring site while the gate is up.
         var TITLE = 'Northstar Tutoring in Washington, DC';
-        var pageTitle = document.title;
+        // index.html now carries the tutoring title, so the launcher's own
+        // title is kept on <html> for the moment the gate closes.
+        var pageTitle = document.documentElement.getAttribute('data-launcher-title') || document.title;
         var disguiseIcon = 'data:image/svg+xml,' + encodeURIComponent(
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">' +
             '<rect width="32" height="32" rx="7" fill="#14283f"/>' +
@@ -3480,6 +3546,71 @@
             try { localStorage.setItem(ROLE_KEY, value); } catch (e) {}
         }
 
+        // ---------- motion ----------
+        var reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+        var revealObs = null;
+
+        function countStat(el) {
+            if (el.dataset.nsCounted) return;
+            var raw = (el.textContent || "").trim();
+            var parts = raw.match(/^(\d+)(%?)$/);
+            if (!parts) return;
+            el.dataset.nsCounted = "1";
+            var target = parseInt(parts[1], 10);
+            var suffix = parts[2];
+            var start = 0;
+            el.textContent = "0" + suffix;
+            function frame(now) {
+                if (!start) start = now;
+                var t = Math.min(1, (now - start) / 780);
+                var eased = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(target * eased) + suffix;
+                if (t < 1) requestAnimationFrame(frame);
+                else el.textContent = raw;
+            }
+            requestAnimationFrame(frame);
+        }
+
+        function primeMotion() {
+            if (reduceMotion || !window.IntersectionObserver) return;
+            var groups = [
+                [".ns-hero > div > *", 65],
+                [".ns-hero > figure", 170],
+                [".ns-section-head > *", 70],
+                [".ns-stat", 85],
+                [".ns-split", 0],
+                [".ns-loc", 40],
+                [".ns-quote-band .ns-wrap > *", 80],
+                [".ns-foot-grid > *", 55]
+            ];
+            if (!revealObs) {
+                revealObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add("ns-in");
+                        if (entry.target.classList.contains("ns-stat")) {
+                            var num = entry.target.querySelector("b");
+                            if (num) countStat(num);
+                        }
+                        revealObs.unobserve(entry.target);
+                    });
+                }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+            }
+            siteEl.querySelectorAll(".ns-reveal").forEach(function (el) {
+                el.classList.remove("ns-in");
+                revealObs.unobserve(el);
+            });
+            siteEl.classList.add("ns-motion");
+            void siteEl.offsetHeight;
+            groups.forEach(function (group) {
+                siteEl.querySelectorAll(group[0]).forEach(function (el, index) {
+                    if (!el.classList.contains("ns-reveal")) el.classList.add("ns-reveal");
+                    el.style.setProperty("--ns-d", Math.min(index * group[1], 340) + "ms");
+                    revealObs.observe(el);
+                });
+            });
+        }
+
         function showAsk() {
             askEl.hidden = false;
             siteEl.hidden = true;
@@ -3489,6 +3620,7 @@
             askEl.hidden = true;
             siteEl.hidden = false;
             movedEl.hidden = true;
+            primeMotion();
             var bar = siteEl.querySelector(".ns-loadbar span");
             if (bar) { bar.classList.remove("ns-running"); void bar.offsetWidth; bar.classList.add("ns-running"); }
         }
@@ -3591,7 +3723,7 @@
 <!-- NORTHSTAR GATE:END -->
 
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.8</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.10</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
