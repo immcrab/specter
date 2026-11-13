@@ -11795,91 +11795,88 @@
  {
   "id": 1656,
   "name": "Eggy Car",
-  "cover": "covers/1656.webp",
-  "url": "games/1656/index.html"
+  "cover": "{COVER_URL}/1656.png",
+  "url": "{HTML_URL}/1656/index.html"
  },
  {
   "id": 1657,
   "name": "Angry Birds Space",
-  "cover": "covers/1657.webp",
-  "url": "games/1657/index.html"
+  "cover": "{COVER_URL}/1657.png",
+  "url": "{HTML_URL}/1657/index.html",
+  "direct": true
  },
  {
   "id": 1658,
   "name": "Blumgi Slime",
-  "cover": "covers/1658.webp",
-  "url": "games/1658/index.html"
+  "cover": "{COVER_URL}/1658.png",
+  "url": "{HTML_URL}/1658/index.html",
+  "direct": true
  },
  {
   "id": 1659,
   "name": "Blumgi Ball",
-  "cover": "covers/1659.webp",
-  "url": "games/1659/index.html"
+  "cover": "{COVER_URL}/1659.png",
+  "url": "{HTML_URL}/1659/index.html",
+  "direct": true
  },
  {
   "id": 1660,
   "name": "Blumgi Castle",
-  "cover": "covers/1660.webp",
-  "url": "games/1660/index.html"
+  "cover": "{COVER_URL}/1660.png",
+  "url": "{HTML_URL}/1660/index.html",
+  "direct": true
  },
  {
   "id": 1661,
   "name": "Blumgi Merge",
-  "cover": "covers/1661.webp",
-  "url": "games/1661/index.html"
+  "cover": "{COVER_URL}/1661.png",
+  "url": "{HTML_URL}/1661/index.html",
+  "direct": true
  },
  {
   "id": 1662,
   "name": "Blumgi Soccer",
-  "cover": "covers/1662.webp",
-  "url": "games/1662/index.html"
+  "cover": "{COVER_URL}/1662.png",
+  "url": "{HTML_URL}/1662/index.html",
+  "direct": true
  },
  {
   "id": 1663,
   "name": "Blumgi Bounce",
-  "cover": "covers/1663.webp",
-  "url": "games/1663/index.html"
+  "cover": "{COVER_URL}/1663.png",
+  "url": "{HTML_URL}/1663/index.html",
+  "direct": true
  },
  {
   "id": 1664,
   "name": "Blumgi Racers",
-  "cover": "covers/1664.webp",
-  "url": "games/1664/index.html"
+  "cover": "{COVER_URL}/1664.png",
+  "url": "{HTML_URL}/1664/index.html",
+  "direct": true
  },
  {
   "id": 1665,
   "name": "Blumgi Paintball",
-  "cover": "covers/1665.webp",
-  "url": "games/1665/index.html"
- },
- {
-  "id": 1666,
-  "name": "Pokemon Pearl",
-  "cover": "{COVER_URL}/1666.png",
-  "url": "games/1666/index.html"
+  "cover": "{COVER_URL}/1665.png",
+  "url": "{HTML_URL}/1665/index.html",
+  "direct": true
  },
  {
   "id": 1667,
   "name": "Pokemon Black",
   "cover": "{COVER_URL}/1667.png",
-  "url": "games/1667/index.html"
- },
- {
-  "id": 1668,
-  "name": "Pokemon White",
-  "cover": "{COVER_URL}/1668.png",
-  "url": "games/1668/index.html"
+  "url": "{HTML_URL}/1667/index.html"
  },
  {
   "id": 1669,
   "name": "Pokemon Black 2",
   "cover": "{COVER_URL}/1669.png",
-  "url": "games/1669/index.html"
+  "url": "{HTML_URL}/1669/index.html"
  },
  {
   "id": 1670,
   "name": "Pokemon White 2",
   "cover": "{COVER_URL}/1670.png",
-  "url": "games/1670/index.html"
+  "url": "{HTML_URL}/1670/index.html"
  }
 ]

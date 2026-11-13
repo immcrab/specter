@@ -2445,7 +2445,7 @@
 </head>
 <body>
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.9</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.0.10</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -8249,7 +8249,13 @@
         // their own <base> are left untouched.
         function gamesZoneWithBase(html, file) {
             if (/<base[\s>]/i.test(html)) return html;
-            const base = '<base href="' + gamesZoneCdn(file).replace(/[^/]*$/, '') + '">';
+            let gamesBaseDir;
+            try {
+                gamesBaseDir = new URL(gamesZoneCdn(file).replace(/[^/]*$/, ''), window.location.href).href;
+            } catch (e) {
+                gamesBaseDir = gamesZoneCdn(file).replace(/[^/]*$/, '');
+            }
+            const base = '<base href="' + gamesBaseDir + '">';
             return /<head[^>]*>/i.test(html)
                 ? html.replace(/<head[^>]*>/i, tag => tag + base)
                 : base + html;
@@ -8433,6 +8439,14 @@
         }
 
         function gamesZoneContent(file, opts) {
+            // Construct 3 exports that boot from ES modules cannot run inside a
+            // srcdoc document: their worker and import paths resolve against an
+            // opaque base and fail. Those games carry "direct": true and load as a
+            // normal document from the page host instead.
+            if (file && file.direct === true) {
+                const src = (file.url || "").replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURLFallback);
+                return Promise.resolve(src ? { src } : null);
+            }
             return gamesLoadDoc(file, opts);
         }
 
