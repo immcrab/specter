@@ -3351,6 +3351,69 @@
         // hosted copy of the tutoring site instead.
         var TUTORING_URL = 'https://northstartutoring.org/';
 
+        // The tab has to read like the tutoring site while the gate is up.
+        var TITLE = 'Northstar Tutoring in Washington, DC';
+        var pageTitle = document.title;
+        var disguiseIcon = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">' +
+            '<rect width="32" height="32" rx="7" fill="#14283f"/>' +
+            '<path d="M16 6.6l2.9 7 7.05.6-5.35 4.75 1.6 6.95L16 22l-6.2 3.9 1.6-6.95L6.05 14.2l7.05-.6z" fill="#faf9f6"/>' +
+            '</svg>'
+        );
+        var faviconLink = null;
+        var titleWatch = null;
+        var hiddenIcons = [];
+
+        // Hold a single tutoring icon in the tab: the launcher's cloak swaps
+        // its own icon in on boot, so anything else is parked until we close.
+        function holdFavicon() {
+            if (!faviconLink) {
+                faviconLink = document.createElement('link');
+                faviconLink.id = 'nsFavicon';
+                faviconLink.rel = 'icon';
+                faviconLink.type = 'image/svg+xml';
+                faviconLink.href = disguiseIcon;
+            }
+            document.querySelectorAll('link[rel~="icon"]').forEach(function (link) {
+                if (link === faviconLink) return;
+                hiddenIcons.push(link);
+                link.remove();
+            });
+            if (!faviconLink.isConnected || document.head.lastElementChild !== faviconLink) {
+                document.head.appendChild(faviconLink);
+            }
+        }
+
+        function disguiseMetaOn() {
+            document.title = TITLE;
+            holdFavicon();
+            if (window.MutationObserver && !titleWatch) {
+                titleWatch = new MutationObserver(function () {
+                    if (document.title !== TITLE) document.title = TITLE;
+                    var stray = false;
+                    document.querySelectorAll('link[rel~="icon"]').forEach(function (link) {
+                        if (link !== faviconLink) stray = true;
+                    });
+                    if (stray || !faviconLink || !faviconLink.isConnected) holdFavicon();
+                });
+                titleWatch.observe(document.head, { childList: true, subtree: true, characterData: true });
+            }
+        }
+
+        function disguiseMetaOff() {
+            if (titleWatch) { titleWatch.disconnect(); titleWatch = null; }
+            document.title = pageTitle;
+            if (faviconLink) { faviconLink.remove(); faviconLink = null; }
+            var seen = {};
+            hiddenIcons.forEach(function (link) {
+                var key = (link.getAttribute('rel') || '') + '|' + (link.getAttribute('href') || '');
+                if (seen[key]) return;
+                seen[key] = true;
+                document.head.appendChild(link);
+            });
+            hiddenIcons = [];
+        }
+
         var ROLE_KEY  = 'northstar_role';
         var SHOW_MS   = 3400;   // how long the tutoring page sits on screen
         var CODE       = '123'; // typed at any point to reach the game site
@@ -3400,6 +3463,7 @@
             document.documentElement.classList.remove('ns-gate-open');
             window.__northstarGateActive = false;
             window.dispatchEvent(new Event("northstar:gate-closed"));
+            disguiseMetaOff();
             setTimeout(function () { gate.remove(); }, 420);
         }
 
@@ -3467,6 +3531,7 @@
 
         document.documentElement.classList.add('ns-gate-open');
         window.__northstarGateActive = true;
+        disguiseMetaOn();
 
         if (getRole() === 'teacher') {
             teacherFlow();
@@ -3480,7 +3545,7 @@
 <!-- NORTHSTAR GATE:END -->
 
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.6</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.7</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
