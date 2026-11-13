@@ -422,6 +422,15 @@ body::after {
     box-shadow: 0 0 18px var(--accent-glow);
 }
 
+/* Anchor form of the ghost button (the single-file download). */
+a.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
 /* ── 10. Make-your-own guide overlay ──────────────────────────────── */
 .build-overlay {
     position: fixed;

@@ -14,3 +14,13 @@ node scripts/bump-version.mjs 2.4.0    # exact version
 ```
 
 Commit `version.json` and `index.html` together with the change. Never edit only one of them by hand; the script keeps both in sync. A code change without a version bump is incomplete.
+
+## Single-file build
+
+`specter.html` is generated: `index.html` plus every stylesheet, script, game catalogue, legal page and image it needs, inlined into one downloadable document. Regenerate it whenever the page, its CSS, JS, data or assets change:
+
+```sh
+node scripts/build-single-file.mjs
+```
+
+Commit `specter.html` with the change so the download link in the "Make your own Aether" panel keeps working.
