@@ -2445,23 +2445,548 @@
 </head>
 <body>
 
-<!-- =====================================================================
-     NORTHSTAR GATE — role picker, tutoring-page disguise, game or tutoring
-     ===================================================================== -->
+<!-- NORTHSTAR GATE:START -->
 <style>
+    /* ------------------------------------------------------------------
+       Northstar Tutoring gate. The tutoring screens mirror the real site
+       (northstartutoring.org): navy + warm paper, hairline rules, tight
+       editorial type. Class names are prefixed ns- to stay clear of the
+       launcher's own styles.
+       ------------------------------------------------------------------ */
+    #nsGate,
+    .ns-root {
+        --ns-navy: #14283f;
+        --ns-navy-deep: #0d1b2c;
+        --ns-ink: #16202a;
+        --ns-body: #4a5a66;
+        --ns-muted: #79868f;
+        --ns-line: #e3e0d8;
+        --ns-line-soft: #eeebe3;
+        --ns-paper: #ffffff;
+        --ns-page: #faf9f6;
+        --ns-page-2: #f3f1ea;
+        --ns-gold: #b5893c;
+        --ns-gold-soft: rgba(181, 137, 60, 0.12);
+        --ns-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        --ns-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --ns-pad: 26px;
+        --ns-radius: 8px;
+    }
+
+    #nsGate {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483000;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: var(--ns-page);
+        color: var(--ns-ink);
+        font-family: var(--ns-sans);
+        font-size: 15px;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #nsGate.ns-leaving { opacity: 0; visibility: hidden; pointer-events: none; }
+    #nsGate *, .ns-root * { box-sizing: border-box; }
+    #nsGate [hidden] { display: none !important; }
+    #nsGate h1, #nsGate h2, #nsGate h3, #nsGate p,
+    .ns-root h1, .ns-root h2, .ns-root h3, .ns-root p { margin: 0; }
+    :where(#nsGate, .ns-root) a { color: inherit; text-decoration: none; }
+    #nsGate svg, .ns-root svg { display: block; }
+    #nsGate ul, .ns-root ul { margin: 0; padding: 0; list-style: none; }
+
+    .ns-i { width: 18px; height: 18px; flex: none; }
+    .ns-i-sm { width: 15px; height: 15px; flex: none; }
+    .ns-wrap { max-width: 1160px; margin: 0 auto; padding: 0 var(--ns-pad); }
+
+    /* ---------- micro type ---------- */
+    .ns-kicker {
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ns-muted);
+    }
+    .ns-kicker-gold { color: var(--ns-gold); }
+
+    /* ---------- utility bar ---------- */
+    .ns-utility {
+        background: var(--ns-navy-deep);
+        color: #c8d3dd;
+        font-size: 0.74rem;
+        letter-spacing: 0.02em;
+    }
+    .ns-utility .ns-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 18px;
+        min-height: 36px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .ns-utility .ns-utility-links { margin-left: auto; display: flex; gap: 18px; }
+    .ns-utility a:hover { color: #fff; }
+
+    /* ---------- header ---------- */
+    .ns-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.97);
+        border-bottom: 1px solid var(--ns-line);
+    }
+    .ns-header .ns-wrap {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        min-height: 74px;
+    }
+    .ns-brand { display: flex; align-items: center; gap: 11px; }
+    .ns-mark {
+        width: 34px;
+        height: 34px;
+        flex: none;
+        display: grid;
+        place-content: center;
+        border: 1px solid var(--ns-navy);
+        border-radius: 50%;
+        color: var(--ns-navy);
+    }
+    .ns-mark svg { width: 17px; height: 17px; }
+    .ns-wordmark {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        line-height: 1.15;
+    }
+    .ns-wordmark small {
+        display: block;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ns-muted);
+        margin-top: 3px;
+    }
+    .ns-nav { display: none; gap: 26px; margin-left: 8px; font-size: 0.84rem; color: var(--ns-body); }
+    .ns-nav a { padding: 4px 0; border-bottom: 1px solid transparent; }
+    .ns-nav a:hover { color: var(--ns-navy); border-bottom-color: var(--ns-navy); }
+    .ns-header-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    @media (min-width: 960px) { .ns-nav { display: flex; } }
+    @media (max-width: 620px) { .ns-header-actions .ns-btn-ghost { display: none; } }
+
+    /* ---------- buttons ---------- */
+    .ns-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: var(--ns-sans);
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        padding: 11px 18px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .ns-btn-primary { background: var(--ns-navy); color: #fff; }
+    .ns-btn-primary:hover { background: var(--ns-navy-deep); }
+    .ns-btn-ghost { background: transparent; border-color: var(--ns-line); color: var(--ns-ink); }
+    .ns-btn-ghost:hover { border-color: var(--ns-navy); color: var(--ns-navy); }
+    .ns-btn-outline { background: transparent; border-color: rgba(255, 255, 255, 0.38); color: #fff; }
+    .ns-btn-outline:hover { background: rgba(255, 255, 255, 0.1); }
+    .ns-btn-sm { padding: 9px 15px; font-size: 0.78rem; }
+    .ns-btn-block { width: 100%; }
+    .ns-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--ns-navy);
+        border-bottom: 1px solid rgba(20, 40, 63, 0.25);
+        padding-bottom: 1px;
+    }
+    .ns-link:hover { border-bottom-color: var(--ns-navy); }
+
+    /* ---------- hero ---------- */
+    .ns-hero { display: grid; gap: 40px; padding: 56px 0 52px; }
+    @media (min-width: 980px) {
+        .ns-hero { grid-template-columns: minmax(0, 1.18fr) minmax(340px, 0.82fr); gap: 56px; align-items: start; padding: 64px 0 56px; }
+    }
+    .ns-hero h1 {
+        font-size: clamp(2rem, 4.2vw, 3.25rem);
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 1.08;
+        color: var(--ns-ink);
+        text-wrap: balance;
+    }
+    .ns-hero-copy {
+        margin-top: 20px;
+        max-width: 52ch;
+        font-size: 1.02rem;
+        line-height: 1.7;
+        color: var(--ns-body);
+    }
+    .ns-hero-copy strong { color: var(--ns-ink); font-weight: 600; }
+    .ns-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .ns-hero-since {
+        margin-top: 26px;
+        padding-top: 18px;
+        border-top: 1px solid var(--ns-line);
+        font-size: 0.78rem;
+        color: var(--ns-muted);
+    }
+
+    .ns-quote-panel {
+        background: var(--ns-navy);
+        color: #e8eef4;
+        border-radius: var(--ns-radius);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+    .ns-quote-panel .ns-kicker { color: #9fb2c4; }
+    .ns-quote-panel blockquote {
+        margin: 0;
+        font-family: var(--ns-serif);
+        font-size: 1.12rem;
+        line-height: 1.62;
+        color: #fff;
+    }
+    .ns-quote-panel figcaption {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.76rem;
+        color: #b7c6d4;
+    }
+    .ns-quote-panel figcaption::before {
+        content: "";
+        width: 22px;
+        height: 1px;
+        background: var(--ns-gold);
+        flex: none;
+    }
+    .ns-panel-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: auto;
+        padding-top: 22px;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .ns-panel-stats b {
+        display: block;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #fff;
+        font-variant-numeric: tabular-nums;
+    }
+    .ns-panel-stats span { display: block; margin-top: 4px; font-size: 0.7rem; line-height: 1.45; color: #9fb2c4; }
+
+    /* ---------- sections ---------- */
+    .ns-band { padding: 64px 0; border-top: 1px solid var(--ns-line); }
+    .ns-band-white { background: var(--ns-paper); }
+    .ns-section-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 30px; margin-bottom: 32px; }
+    .ns-section-head > div { max-width: 62ch; }
+    .ns-section-head h2 {
+        font-size: clamp(1.45rem, 2.6vw, 1.95rem);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.22;
+        margin-top: 8px;
+    }
+    .ns-section-head p { margin-top: 10px; font-size: 0.93rem; color: var(--ns-body); }
+    .ns-section-head .ns-link { margin-left: auto; }
+
+    .ns-grid { display: grid; gap: 0; }
+    @media (min-width: 760px) { .ns-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (min-width: 940px) { .ns-grid-loc { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; } }
+
+    .ns-loc {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--ns-line);
+        font-size: 0.9rem;
+    }
+    .ns-loc:first-child { border-top: 1px solid var(--ns-line); }
+    @media (min-width: 940px) {
+        .ns-loc:nth-child(2) { border-top: 1px solid var(--ns-line); }
+    }
+    .ns-loc .ns-i { color: var(--ns-gold); }
+    .ns-loc-name { font-weight: 600; color: var(--ns-ink); }
+    .ns-loc-meta { display: block; font-size: 0.76rem; font-weight: 400; color: var(--ns-muted); }
+    .ns-loc-arrow { margin-left: auto; color: var(--ns-muted); }
+
+    .ns-stat-row { display: grid; gap: 32px; }
+    @media (min-width: 820px) { .ns-stat-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; } }
+    .ns-stat { padding: 0; }
+    @media (min-width: 820px) {
+        .ns-stat { padding: 0 34px; border-left: 1px solid var(--ns-line); }
+        .ns-stat:first-child { padding-left: 0; border-left: 0; }
+        .ns-stat:last-child { padding-right: 0; }
+    }
+    .ns-stat b {
+        display: block;
+        font-size: clamp(2.2rem, 4vw, 2.9rem);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        color: var(--ns-navy);
+        font-variant-numeric: tabular-nums;
+    }
+    .ns-stat span {
+        display: block;
+        margin-top: 12px;
+        max-width: 26ch;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--ns-body);
+    }
+    .ns-stat span em { font-style: normal; color: var(--ns-ink); font-weight: 600; }
+
+    .ns-step { padding-top: 20px; border-top: 1px solid var(--ns-line); }
+    @media (min-width: 760px) { .ns-grid-3 .ns-step + .ns-step { margin-left: 0; } }
+    .ns-step-num {
+        display: block;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        color: var(--ns-gold);
+        margin-bottom: 10px;
+    }
+    .ns-step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .ns-step p { font-size: 0.86rem; line-height: 1.7; color: var(--ns-body); }
+    .ns-grid-3 .ns-step { margin-right: 32px; }
+
+    /* ---------- wide quote ---------- */
+    .ns-quote-band { background: var(--ns-page-2); border-top: 1px solid var(--ns-line); }
+    .ns-quote-band .ns-wrap { padding-top: 62px; padding-bottom: 62px; max-width: 900px; text-align: center; }
+    .ns-quote-band blockquote {
+        margin: 16px auto 0;
+        font-family: var(--ns-serif);
+        font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+        line-height: 1.55;
+        letter-spacing: -0.01em;
+        color: var(--ns-ink);
+        text-wrap: balance;
+    }
+    .ns-quote-band figcaption { margin-top: 20px; font-size: 0.78rem; color: var(--ns-muted); }
+
+    /* ---------- footer ---------- */
+    .ns-foot { background: var(--ns-navy-deep); color: #b7c6d4; }
+    .ns-foot .ns-wrap { padding-top: 52px; padding-bottom: 28px; }
+    .ns-foot-grid { display: grid; gap: 32px; }
+    @media (min-width: 720px) { .ns-foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1000px) { .ns-foot-grid { grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr)); gap: 44px; } }
+    .ns-foot-brand .ns-wordmark { color: #fff; }
+    .ns-foot-brand .ns-wordmark small { color: #8fa3b5; }
+    .ns-foot-brand .ns-mark { border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+    .ns-foot-brand p { margin-top: 16px; font-size: 0.82rem; line-height: 1.7; max-width: 34ch; color: #9fb2c4; }
+    .ns-foot h4 {
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
+        color: #8fa3b5;
+        margin-bottom: 14px;
+    }
+    .ns-foot ul { display: grid; gap: 9px; font-size: 0.83rem; }
+    .ns-foot ul a:hover { color: #fff; }
+    .ns-foot-bottom {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 24px;
+        align-items: center;
+        font-size: 0.74rem;
+        color: #8fa3b5;
+    }
+    .ns-foot-legal { display: flex; flex-wrap: wrap; gap: 16px; margin-left: auto; }
+    .ns-foot-legal a:hover { color: #fff; }
+
+    /* ---------- load bar ---------- */
+    .ns-loadbar { position: sticky; top: 0; height: 2px; background: rgba(20, 40, 63, 0.1); z-index: 30; }
+    .ns-loadbar span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: var(--ns-gold);
+        transform: scaleX(0);
+        transform-origin: left center;
+    }
+    .ns-loadbar span.ns-running { animation: ns-load 3.4s cubic-bezier(0.35, 0, 0.2, 1) forwards; }
+    @keyframes ns-load { 0% { transform: scaleX(0.04); } 55% { transform: scaleX(0.7); } 100% { transform: scaleX(1); } }
+
+    .ns-pane { min-height: 100%; animation: ns-fade 0.25s ease both; }
+    @keyframes ns-fade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ---------- role picker ---------- */
     html.ns-gate-open,
     html.ns-gate-open body { overflow: hidden !important; }
 
-    /* The tutoring screens carry no advertising: hide every ad surface the
-       launcher would otherwise paint behind them. */
+    .ns-ask {
+        display: grid;
+        place-content: center;
+        padding: 30px 20px;
+        background: var(--ns-page);
+    }
+    .ns-portal {
+        width: min(880px, 100%);
+        display: grid;
+        background: var(--ns-paper);
+        border: 1px solid var(--ns-line);
+        border-radius: 10px;
+        box-shadow: 0 20px 56px rgba(16, 32, 42, 0.1);
+        overflow: hidden;
+    }
+    @media (min-width: 820px) { .ns-portal { grid-template-columns: 320px minmax(0, 1fr); } }
+    .ns-portal-brand {
+        background: var(--ns-navy);
+        color: #c8d3dd;
+        padding: 34px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    .ns-portal-brand .ns-brand { gap: 12px; }
+    .ns-portal-brand .ns-mark { border-color: rgba(255, 255, 255, 0.32); color: #fff; }
+    .ns-portal-brand .ns-wordmark { color: #fff; }
+    .ns-portal-brand .ns-wordmark small { color: #8fa3b5; }
+    .ns-portal-list { display: grid; gap: 16px; font-size: 0.83rem; line-height: 1.55; color: #c8d3dd; }
+    .ns-portal-list li { display: flex; gap: 11px; align-items: flex-start; }
+    .ns-portal-list .ns-i-sm { color: var(--ns-gold); margin-top: 2px; }
+    .ns-portal-foot {
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+        font-size: 0.72rem;
+        line-height: 1.7;
+        color: #8fa3b5;
+    }
+    .ns-portal-main { padding: 40px 36px 34px; }
+    .ns-portal-main h1 {
+        font-size: clamp(1.4rem, 3vw, 1.78rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.18;
+        margin-top: 10px;
+    }
+    .ns-portal-main .ns-lead { margin-top: 10px; font-size: 0.9rem; line-height: 1.7; color: var(--ns-body); }
+    .ns-roles { display: grid; gap: 10px; margin-top: 26px; }
+    .ns-role {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+        padding: 16px 16px;
+        border: 1px solid var(--ns-line);
+        border-radius: 6px;
+        background: var(--ns-paper);
+        font: inherit;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .ns-role:hover, .ns-role:focus-visible { border-color: var(--ns-navy); background: #fcfcfa; outline: none; }
+    .ns-role-icon {
+        width: 40px;
+        height: 40px;
+        flex: none;
+        display: grid;
+        place-content: center;
+        border-radius: 4px;
+        border: 1px solid var(--ns-line);
+        color: var(--ns-navy);
+    }
+    .ns-role-body { display: grid; gap: 2px; }
+    .ns-role-title { font-size: 0.94rem; font-weight: 700; letter-spacing: -0.01em; }
+    .ns-role-sub { font-size: 0.79rem; color: var(--ns-muted); }
+    .ns-role-arrow { margin-left: auto; color: var(--ns-muted); }
+    .ns-role:hover .ns-role-arrow { color: var(--ns-navy); }
+    .ns-portal-fine {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--ns-line-soft);
+        font-size: 0.76rem;
+        color: var(--ns-muted);
+    }
+
+    /* ---------- moved notice ---------- */
+    .ns-moved {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 22px;
+        background: rgba(9, 18, 27, 0.99);
+    }
+    .ns-moved-card {
+        width: min(470px, 100%);
+        background: var(--ns-paper);
+        border-radius: 10px;
+        padding: 32px 32px 28px;
+        box-shadow: 0 30px 70px rgba(6, 14, 21, 0.4);
+        animation: ns-rise 0.28s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+    }
+    @keyframes ns-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .ns-moved-card .ns-brand { margin-bottom: 22px; }
+    .ns-moved-card h2 {
+        font-size: 1.36rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.22;
+        margin-top: 10px;
+    }
+    .ns-moved-copy { margin-top: 12px; font-size: 0.88rem; line-height: 1.7; color: var(--ns-body); }
+    .ns-moved-url {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 18px;
+        padding: 8px 11px;
+        border: 1px solid var(--ns-line);
+        border-radius: 4px;
+        font-size: 0.78rem;
+        color: var(--ns-body);
+        background: var(--ns-page);
+    }
+    .ns-moved-q { margin-top: 22px; font-size: 0.92rem; font-weight: 700; }
+    .ns-moved-actions { display: grid; gap: 10px; margin-top: 14px; }
+    .ns-moved-note {
+        display: flex;
+        gap: 9px;
+        align-items: flex-start;
+        margin-top: 16px;
+        font-size: 0.74rem;
+        line-height: 1.6;
+        color: var(--ns-muted);
+    }
+    .ns-moved-note .ns-i-sm { margin-top: 3px; color: var(--ns-muted); }
+
+    /* ---------- keep the launcher out of the way ---------- */
     html.ns-gate-open .ad-slot,
     html.ns-gate-open .ad-inline-card,
     html.ns-gate-open .ad-slot-label,
     html.ns-gate-open [data-ad-slot],
     html.ns-gate-open #gamePrerollSlot { display: none !important; }
-
-    /* The launcher stays hidden - not just covered - while the tutoring
-       screens are up, so nothing behind the gate is painted each frame. */
     html.ns-gate-open .sidebar,
     html.ns-gate-open .main-view,
     html.ns-gate-open .status-hud,
@@ -2470,509 +2995,351 @@
     html.ns-gate-open #app-frame,
     html.ns-gate-open .readme-overlay,
     html.ns-gate-open .update-overlay { visibility: hidden !important; }
-
-    #nsGate {
-        position: fixed;
-        inset: 0;
-        z-index: 2147483000;
-        overflow-y: auto;
-        overflow-x: hidden;
-        background: linear-gradient(180deg, #f9f4ec 0%, #f3ece1 55%, #efe6da 100%);
-        color: #1e2a27;
-        font-family: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        transition: opacity 0.35s ease, visibility 0.35s ease;
-    }
-    #nsGate.ns-leaving { opacity: 0; visibility: hidden; pointer-events: none; }
-    #nsGate * { box-sizing: border-box; }
-    #nsGate [hidden] { display: none !important; }
-    #nsGate h1, #nsGate h2, #nsGate h3, #nsGate p { margin: 0; }
-    #nsGate a { color: inherit; text-decoration: none; }
-
-    .ns-pane { min-height: 100%; animation: ns-fade 0.35s ease both; }
-    @keyframes ns-fade { from { opacity: 0; } to { opacity: 1; } }
-
-    .ns-loadbar { position: sticky; top: 0; height: 3px; background: rgba(201, 109, 58, 0.16); z-index: 20; }
-    .ns-loadbar span {
-        display: block;
-        height: 100%;
-        width: 100%;
-        background: #c96d3a;
-        transform: scaleX(0);
-        transform-origin: left center;
-    }
-    @keyframes ns-load { 0% { transform: scaleX(0.04); } 55% { transform: scaleX(0.7); } 100% { transform: scaleX(1); } }
-    .ns-loadbar span.ns-running { animation: ns-load 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-
-    /* ---------- Ask pane ---------- */
-    .ns-ask {
-        display: grid;
-        place-content: center;
-        padding: 32px 20px;
-        min-height: 100%;
-    }
-    .ns-card {
-        width: min(540px, 100%);
-        background: #fffdf8;
-        border: 1px solid #e4d8c7;
-        border-radius: 22px;
-        padding: 38px 34px 32px;
-        box-shadow: 0 24px 60px rgba(90, 68, 44, 0.12);
-    }
-    .ns-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 26px; }
-    .ns-mark {
-        width: 38px; height: 38px;
-        display: grid; place-content: center;
-        border-radius: 12px;
-        background: rgba(201, 109, 58, 0.13);
-        color: #b25f2f;
-        flex: none;
-    }
-    .ns-mark svg { width: 21px; height: 21px; }
-    .ns-wordmark { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em; }
-    .ns-wordmark small {
-        display: block;
-        font-size: 0.66rem;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #8d8171;
-        line-height: 1.4;
-    }
-    .ns-card h1 { font-size: clamp(1.35rem, 3.6vw, 1.62rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
-    .ns-card .ns-lead { margin-top: 10px; color: #55635f; font-size: 0.94rem; }
-
-    .ns-roles { display: grid; gap: 12px; margin-top: 26px; }
-    .ns-role {
-        display: flex; align-items: center; gap: 14px;
-        width: 100%;
-        padding: 16px 18px;
-        border: 1px solid #e2d6c5;
-        border-radius: 15px;
-        background: #fffaf3;
-        font: inherit;
-        color: inherit;
-        text-align: left;
-        cursor: pointer;
-        transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-    }
-    .ns-role:hover,
-    .ns-role:focus-visible {
-        border-color: #c96d3a;
-        box-shadow: 0 10px 26px rgba(201, 109, 58, 0.16);
-        transform: translateY(-1px);
-        outline: none;
-    }
-    .ns-role-icon {
-        width: 40px; height: 40px;
-        flex: none;
-        display: grid; place-content: center;
-        border-radius: 12px;
-        background: rgba(201, 109, 58, 0.12);
-        color: #b25f2f;
-    }
-    .ns-role-icon svg { width: 20px; height: 20px; }
-    .ns-role-title { font-weight: 700; font-size: 0.98rem; }
-    .ns-role-sub { font-size: 0.82rem; color: #6d7a75; }
-    .ns-role-arrow { margin-left: auto; color: #b9ac99; font-size: 1.05rem; }
-
-    .ns-fineprint { margin-top: 22px; font-size: 0.76rem; color: #8d8171; }
-
-    /* ---------- Tutoring site pane ---------- */
-    .ns-site { background: linear-gradient(180deg, #f9f4ec 0%, #f5eee4 100%); }
-    .ns-nav {
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 22px 24px;
-        display: flex;
-        align-items: center;
-        gap: 18px;
-    }
-    .ns-nav-links { display: flex; gap: 26px; margin-left: 26px; font-size: 0.87rem; color: #55635f; }
-    .ns-nav-links span { cursor: default; }
-    .ns-nav-links span:hover { color: #b25f2f; }
-    .ns-nav-cta {
-        margin-left: auto;
-        background: #1e2a27;
-        color: #f9f4ec;
-        font-size: 0.8rem;
-        font-weight: 600;
-        padding: 10px 18px;
-        border-radius: 999px;
-        white-space: nowrap;
-    }
-    .ns-shell { max-width: 1120px; margin: 0 auto; padding: 0 24px 56px; }
-
-    .ns-hero { display: grid; gap: 40px; padding: 26px 0 54px; }
-    @media (min-width: 860px) {
-        .ns-hero { grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); align-items: center; padding-bottom: 66px; }
-    }
-    .ns-eyebrow {
-        display: inline-block;
-        padding: 6px 14px;
-        border-radius: 999px;
-        background: rgba(201, 109, 58, 0.14);
-        color: #a55428;
-        font-size: 0.78rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        margin-bottom: 18px;
-    }
-    .ns-hero h1 {
-        font-size: clamp(1.85rem, 4.6vw, 3rem);
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        line-height: 1.13;
-    }
-    .ns-hero .ns-hero-copy { margin-top: 16px; max-width: 54ch; color: #55635f; font-size: 1rem; }
-    .ns-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-    .ns-btn {
-        font: inherit;
-        font-size: 0.9rem;
-        font-weight: 600;
-        padding: 13px 24px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-        cursor: pointer;
-        transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-    }
-    .ns-btn-primary { background: #c96d3a; color: #fffaf3; }
-    .ns-btn-primary:hover { background: #b25f2f; box-shadow: 0 10px 26px rgba(178, 95, 47, 0.24); }
-    .ns-btn-ghost { background: transparent; border-color: #d9cbb8; color: #34433e; }
-    .ns-btn-ghost:hover { border-color: #b25f2f; color: #b25f2f; }
-    .ns-hero-note { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; font-size: 0.76rem; color: #7b8781; }
-    .ns-hero-note span::before { content: "•"; margin-right: 7px; color: #c96d3a; }
-
-    .ns-side-card {
-        background: #fffdf8;
-        border: 1px solid #e4d8c7;
-        border-radius: 20px;
-        padding: 26px;
-        box-shadow: 0 18px 44px rgba(90, 68, 44, 0.1);
-    }
-    .ns-side-card h3 { font-size: 0.98rem; font-weight: 700; }
-    .ns-side-card .ns-side-sub { font-size: 0.8rem; color: #7b8781; margin-top: 3px; }
-    .ns-slot {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 0;
-        border-top: 1px solid #efe4d5;
-        font-size: 0.83rem;
-    }
-    .ns-slot:first-of-type { margin-top: 16px; }
-    .ns-slot-badge {
-        font-size: 0.68rem;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #2f6b52;
-        background: rgba(47, 107, 82, 0.1);
-        padding: 4px 9px;
-        border-radius: 999px;
-        white-space: nowrap;
-    }
-    .ns-slot-badge.ns-warm { color: #a55428; background: rgba(201, 109, 58, 0.13); }
-
-    .ns-section { padding: 44px 0; border-top: 1px solid #e6dccb; }
-    .ns-section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; margin-bottom: 26px; }
-    .ns-section-head h2 { font-size: clamp(1.25rem, 3vw, 1.6rem); font-weight: 700; letter-spacing: -0.02em; }
-    .ns-section-head p { font-size: 0.88rem; color: #6d7a75; }
-
-    .ns-grid { display: grid; gap: 16px; }
-    @media (min-width: 700px) { .ns-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1000px) { .ns-grid.ns-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-    .ns-tile {
-        background: #fffdf8;
-        border: 1px solid #e7dccb;
-        border-radius: 16px;
-        padding: 22px;
-    }
-    .ns-tile h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 8px; }
-    .ns-tile p { font-size: 0.84rem; color: #5d6a65; }
-    .ns-tile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-    .ns-tile-tags span {
-        font-size: 0.7rem;
-        color: #6d7a75;
-        background: #f4ece0;
-        border-radius: 6px;
-        padding: 3px 8px;
-    }
-
-    .ns-stats {
-        margin: 0 -24px;
-        padding: 34px 24px;
-        background: #1e2a27;
-        color: #f3ece1;
-        border-radius: 20px;
-    }
-    .ns-stats-row { display: grid; gap: 22px; }
-    @media (min-width: 720px) { .ns-stats-row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-    .ns-stat b { display: block; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
-    .ns-stat span { font-size: 0.78rem; color: #b9c4bf; }
-
-    .ns-steps { display: grid; gap: 18px; counter-reset: ns-step; }
-    @media (min-width: 780px) { .ns-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    .ns-step { position: relative; padding-top: 6px; }
-    .ns-step::before {
-        counter-increment: ns-step;
-        content: counter(ns-step, decimal-leading-zero);
-        display: inline-grid;
-        place-content: center;
-        width: 30px; height: 30px;
-        border-radius: 50%;
-        background: rgba(201, 109, 58, 0.14);
-        color: #a55428;
-        font-size: 0.72rem;
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-    .ns-step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
-    .ns-step p { font-size: 0.84rem; color: #5d6a65; }
-
-    .ns-foot {
-        border-top: 1px solid #e6dccb;
-        padding: 24px;
-        max-width: 1120px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 22px;
-        align-items: center;
-        font-size: 0.76rem;
-        color: #8d8171;
-    }
-    .ns-foot-links { display: flex; flex-wrap: wrap; gap: 18px; margin-left: auto; }
-    .ns-foot-links span:hover { color: #b25f2f; }
-
-    /* ---------- Moved prompt ---------- */
-    .ns-moved {
-        position: fixed;
-        inset: 0;
-        z-index: 30;
-        display: grid;
-        place-content: center;
-        padding: 22px;
-        background: rgba(12, 24, 20, 0.94);
-    }
-    .ns-moved-card {
-        width: min(460px, 100%);
-        background: #fffdf8;
-        border-radius: 20px;
-        padding: 30px 28px 26px;
-        box-shadow: 0 30px 70px rgba(15, 24, 21, 0.34);
-        animation: ns-rise 0.32s cubic-bezier(0.2, 0.8, 0.3, 1) both;
-    }
-    @keyframes ns-rise { from { opacity: 0; transform: translateY(10px) scale(0.985); } to { opacity: 1; transform: none; } }
-    .ns-tag {
-        display: inline-block;
-        font-size: 0.66rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: #a55428;
-        margin-bottom: 12px;
-    }
-    .ns-moved-card h2 { font-size: 1.32rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.28; }
-    .ns-moved-card .ns-moved-copy { margin-top: 10px; font-size: 0.9rem; color: #55635f; }
-    .ns-moved-card .ns-moved-q { margin-top: 16px; font-size: 0.95rem; font-weight: 700; }
-    .ns-moved-actions { display: grid; gap: 10px; margin-top: 20px; }
-    .ns-moved-card .ns-fineprint { margin-top: 16px; font-size: 0.74rem; }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+        <symbol id="ns-i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3.2l2.3 5.6 6 .55-4.55 4 1.35 5.9L12 16.1l-5.1 3.15 1.35-5.9-4.55-4 6-.55z"/></symbol>
+        <symbol id="ns-i-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9.4L12 5 2 9.4l10 4.4 10-4.4z"/><path d="M6 11.3V16c0 1.5 2.7 2.7 6 2.7s6-1.2 6-2.7v-4.7"/><path d="M22 9.4v5.2"/></symbol>
+        <symbol id="ns-i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="1.6"/><path d="M8.5 7.5V5.6A1.6 1.6 0 0 1 10.1 4h3.8a1.6 1.6 0 0 1 1.6 1.6v1.9"/><path d="M3 12.6h18"/></symbol>
+        <symbol id="ns-i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h14"/><path d="M13 6.5l5.5 5.5-5.5 5.5"/></symbol>
+        <symbol id="ns-i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0 0 7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+        <symbol id="ns-i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="1.6"/><path d="M8 3.5v4M16 3.5v4M3.5 10.5h17"/></symbol>
+        <symbol id="ns-i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.6A2.6 2.6 0 0 1 6.6 3H19v18H6.6A2.6 2.6 0 0 1 4 18.4z"/><path d="M4 18.4A2.6 2.6 0 0 1 6.6 15.8H19"/></symbol>
+        <symbol id="ns-i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.4" r="3.2"/><path d="M2.9 19.8a6.1 6.1 0 0 1 12.2 0"/><path d="M16 5.6a3.2 3.2 0 0 1 0 5.7"/><path d="M17.7 14.3a6.1 6.1 0 0 1 3.4 5.5"/></symbol>
+        <symbol id="ns-i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M3.6 12h16.8"/><path d="M12 3.6c2.4 2.3 3.6 5.2 3.6 8.4S14.4 18.1 12 20.4c-2.4-2.3-3.6-5.2-3.6-8.4S9.6 5.9 12 3.6z"/></symbol>
+        <symbol id="ns-i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M12 11v5.4"/><circle cx="12" cy="7.9" r="0.85" fill="currentColor" stroke="none"/></symbol>
+        <symbol id="ns-i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8 16.5v-4.2M12.6 16.5V7.8M17.2 16.5v-6.6"/></symbol>
+    </defs>
+</svg>
+
 <div id="nsGate" role="dialog" aria-modal="true" aria-label="Northstar Tutoring">
-    <!-- ASK: teacher or student -->
+    <!-- ================= ROLE PICKER ================= -->
     <div class="ns-pane ns-ask" id="nsAsk">
-        <div class="ns-card">
-            <div class="ns-brand">
-                <span class="ns-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2l2.45 6.55L21 11.2l-6.55 2.45L12 21.8l-2.45-8.15L3 11.2l6.55-2.45z"/></svg>
-                </span>
-                <span class="ns-wordmark">Northstar Tutoring<small>Academic support</small></span>
+        <div class="ns-portal">
+            <aside class="ns-portal-brand">
+                <div class="ns-brand">
+                    <span class="ns-mark" aria-hidden="true"><svg viewBox="0 0 24 24" style="width:17px;height:17px"><use href="#ns-i-star"/></svg></span>
+                    <span class="ns-wordmark">Northstar Tutoring<small>Washington, DC</small></span>
+                </div>
+                <p class="ns-kicker" style="color:#8fa3b5">Family &amp; staff portal</p>
+                <ul class="ns-portal-list">
+                    <li><svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-calendar"/></svg><span>Session schedules and upcoming meetings</span></li>
+                    <li><svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-book"/></svg><span>Session notes and reading materials</span></li>
+                    <li><svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-chart"/></svg><span>Attendance and progress reporting</span></li>
+                </ul>
+                <p class="ns-portal-foot">
+                    Northstar Tutoring is a registered 501(c)(3)<br>
+                    organization serving Washington, DC.
+                </p>
+            </aside>
+            <div class="ns-portal-main">
+                <p class="ns-kicker ns-kicker-gold">Account type</p>
+                <h1>Are you a teacher or a student?</h1>
+                <p class="ns-lead">Select the option that matches your account and we'll open the right portal.</p>
+                <div class="ns-roles">
+                    <button type="button" class="ns-role" id="nsStudent">
+                        <span class="ns-role-icon" aria-hidden="true"><svg class="ns-i" viewBox="0 0 24 24"><use href="#ns-i-cap"/></svg></span>
+                        <span class="ns-role-body">
+                            <span class="ns-role-title">Student</span>
+                            <span class="ns-role-sub">Assignments, session notes, and reading lists</span>
+                        </span>
+                        <svg class="ns-i ns-role-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                    </button>
+                    <button type="button" class="ns-role" id="nsTeacher">
+                        <span class="ns-role-icon" aria-hidden="true"><svg class="ns-i" viewBox="0 0 24 24"><use href="#ns-i-briefcase"/></svg></span>
+                        <span class="ns-role-body">
+                            <span class="ns-role-title">Teacher</span>
+                            <span class="ns-role-sub">Tutor schedules, rosters, and family updates</span>
+                        </span>
+                        <svg class="ns-i ns-role-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                    </button>
+                </div>
+                <p class="ns-portal-fine">
+                    Trouble signing in? Contact the Northstar office and we'll help you get set up.
+                </p>
             </div>
-            <h1>Are you a teacher or a student?</h1>
-            <p class="ns-lead">Choose your account type and we'll take you to the right place.</p>
-            <div class="ns-roles">
-                <button type="button" class="ns-role" id="nsStudent">
-                    <span class="ns-role-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
-                    </span>
-                    <span>
-                        <span class="ns-role-title">I'm a student</span>
-                        <span class="ns-role-sub">Sessions, resources, and classwork</span>
-                    </span>
-                    <span class="ns-role-arrow" aria-hidden="true">→</span>
-                </button>
-                <button type="button" class="ns-role" id="nsTeacher">
-                    <span class="ns-role-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/><path d="M7 12l2.5-2.5L12 12l3-3 2 2"/></svg>
-                    </span>
-                    <span>
-                        <span class="ns-role-title">I'm a teacher</span>
-                        <span class="ns-role-sub">Tutor portal and family updates</span>
-                    </span>
-                    <span class="ns-role-arrow" aria-hidden="true">→</span>
-                </button>
-            </div>
-            <p class="ns-fineprint">Northstar Tutoring · one-on-one support for grades 6–12 and college prep.</p>
         </div>
     </div>
 
-    <!-- DISGUISE: the tutoring site for a few seconds -->
+    <!-- ================= TUTORING SITE ================= -->
     <div class="ns-pane ns-site" id="nsSite" hidden>
         <div class="ns-loadbar" aria-hidden="true"><span></span></div>
 
-        <header class="ns-nav">
-            <span class="ns-brand" style="margin-bottom:0;">
-                <span class="ns-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2l2.45 6.55L21 11.2l-6.55 2.45L12 21.8l-2.45-8.15L3 11.2l6.55-2.45z"/></svg>
+        <div class="ns-utility">
+            <div class="ns-wrap">
+                <span>Northstar Tutoring &middot; 501(c)(3) nonprofit &middot; Washington, DC</span>
+                <span class="ns-utility-links">
+                    <a href="#nsSite">Volunteers</a>
+                    <a href="#nsSite">Families</a>
+                    <a href="#nsSite">Contact</a>
                 </span>
-                <span class="ns-wordmark">Northstar Tutoring<small>Academic support</small></span>
-            </span>
-            <nav class="ns-nav-links" aria-label="Northstar sections">
-                <span>Programs</span>
-                <span>Subjects</span>
-                <span>Tutors</span>
-                <span>Pricing</span>
-                <span>Contact</span>
-            </nav>
-            <span class="ns-nav-cta">Book a session</span>
-        </header>
-
-        <div class="ns-shell">
-            <section class="ns-hero">
-                <div>
-                    <span class="ns-eyebrow">One-on-one tutoring for grades 6–12 and college prep</span>
-                    <h1>Steady progress, stronger grades, calmer nights at home.</h1>
-                    <p class="ns-hero-copy">
-                        Northstar Tutoring helps students turn confusion into confidence with
-                        personalized support in math, science, writing, and study skills. Every
-                        session starts from real classwork.
-                    </p>
-                    <div class="ns-hero-actions">
-                        <button type="button" class="ns-btn ns-btn-primary">Book a free consult</button>
-                        <button type="button" class="ns-btn ns-btn-ghost">Browse programs</button>
-                    </div>
-                    <div class="ns-hero-note">
-                        <span>1,200+ families supported</span>
-                        <span>4.9 / 5 average rating</span>
-                        <span>In-person and online</span>
-                    </div>
-                </div>
-                <aside class="ns-side-card">
-                    <h3>This week's availability</h3>
-                    <p class="ns-side-sub">Sessions run 50 minutes, after school and evenings.</p>
-                    <div class="ns-slot"><span>Algebra I · Tue 4:30 PM</span><span class="ns-slot-badge">2 open</span></div>
-                    <div class="ns-slot"><span>Chemistry · Wed 6:00 PM</span><span class="ns-slot-badge">1 open</span></div>
-                    <div class="ns-slot"><span>Essay workshop · Thu 5:15 PM</span><span class="ns-slot-badge ns-warm">Waitlist</span></div>
-                    <div class="ns-slot"><span>SAT math · Sat 10:00 AM</span><span class="ns-slot-badge">3 open</span></div>
-                </aside>
-            </section>
-
-            <section class="ns-section">
-                <div class="ns-section-head">
-                    <h2>Subjects we support</h2>
-                    <p>Middle school, high school, and college-prep tracks.</p>
-                </div>
-                <div class="ns-grid ns-grid-4">
-                    <article class="ns-tile">
-                        <h3>Math</h3>
-                        <p>Pre-algebra through calculus, with worked examples and mistake analysis on every problem type.</p>
-                        <div class="ns-tile-tags"><span>Algebra</span><span>Geometry</span><span>Calculus</span></div>
-                    </article>
-                    <article class="ns-tile">
-                        <h3>Science</h3>
-                        <p>Biology, chemistry, and physics foundations taught through hypotheses, evidence, and lab write-ups.</p>
-                        <div class="ns-tile-tags"><span>Biology</span><span>Chemistry</span><span>Physics</span></div>
-                    </article>
-                    <article class="ns-tile">
-                        <h3>Writing &amp; English</h3>
-                        <p>Essay planning, thesis development, grammar, and close reading of assigned texts.</p>
-                        <div class="ns-tile-tags"><span>Essays</span><span>Literature</span><span>Grammar</span></div>
-                    </article>
-                    <article class="ns-tile">
-                        <h3>Test prep</h3>
-                        <p>ACT and SAT timing strategies, targeted drills, and score-growth tracking from a baseline test.</p>
-                        <div class="ns-tile-tags"><span>SAT</span><span>ACT</span><span>Study skills</span></div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="ns-section" style="border-top:none; padding-top:0;">
-                <div class="ns-stats">
-                    <div class="ns-stats-row">
-                        <div class="ns-stat"><b>96%</b><span>of students improve a letter grade</span></div>
-                        <div class="ns-stat"><b>1,200+</b><span>families supported since 2011</span></div>
-                        <div class="ns-stat"><b>12</b><span>subject tracks with dedicated tutors</span></div>
-                        <div class="ns-stat"><b>4.9/5</b><span>average parent rating</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="ns-section">
-                <div class="ns-section-head">
-                    <h2>How it works</h2>
-                    <p>Three steps from first call to first session.</p>
-                </div>
-                <div class="ns-steps">
-                    <div class="ns-step">
-                        <h3>Free consultation</h3>
-                        <p>A 20-minute call to talk through grades, goals, and where the gaps actually are.</p>
-                    </div>
-                    <div class="ns-step">
-                        <h3>Matched with a tutor</h3>
-                        <p>We pair your student with a subject specialist who fits their schedule and learning style.</p>
-                    </div>
-                    <div class="ns-step">
-                        <h3>Weekly sessions</h3>
-                        <p>Consistent sessions built around current classwork, with concise updates for families.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="ns-section">
-                <div class="ns-section-head">
-                    <h2>What families notice</h2>
-                </div>
-                <div class="ns-grid">
-                    <article class="ns-tile">
-                        <p>“Jordan went from dreading algebra to explaining it to me at dinner. The weekly routine made the difference.”</p>
-                        <p style="margin-top:12px; font-size:0.78rem; color:#8d8171;">— Parent, 10th grade</p>
-                    </article>
-                    <article class="ns-tile">
-                        <p>“Our tutor uses the exact assignments from class, so nothing feels like extra busywork.”</p>
-                        <p style="margin-top:12px; font-size:0.78rem; color:#8d8171;">— Parent, 8th grade</p>
-                    </article>
-                </div>
-            </section>
+            </div>
         </div>
 
-        <footer class="ns-foot">
-            <span>© 2011–2026 Northstar Tutoring</span>
-            <span class="ns-foot-links"><span>Privacy</span><span>Terms</span><span>Accessibility</span><span>Careers</span></span>
-        </footer>
+        <header class="ns-header">
+            <div class="ns-wrap">
+                <a class="ns-brand" href="#nsSite">
+                    <span class="ns-mark" aria-hidden="true"><svg viewBox="0 0 24 24" style="width:17px;height:17px"><use href="#ns-i-star"/></svg></span>
+                    <span class="ns-wordmark">Northstar Tutoring<small>Washington, DC</small></span>
+                </a>
+                <nav class="ns-nav" aria-label="Northstar sections">
+                    <a href="#nsSite">Programming</a>
+                    <a href="#nsSite">Impact</a>
+                    <a href="#nsSite">Volunteers</a>
+                    <a href="#nsSite">Families</a>
+                    <a href="#nsSite">About</a>
+                </nav>
+                <div class="ns-header-actions">
+                    <a class="ns-btn ns-btn-ghost ns-btn-sm" href="#nsSite">Donate</a>
+                    <a class="ns-btn ns-btn-primary ns-btn-sm" href="#nsSite">Enroll</a>
+                </div>
+            </div>
+        </header>
 
-        <!-- MOVED: shown to teachers -->
+        <main>
+            <div class="ns-wrap">
+                <section class="ns-hero">
+                    <div>
+                        <p class="ns-kicker ns-kicker-gold">Empowering children through education since 2017</p>
+                        <h1>Tutoring and mentoring for students across Washington, DC.</h1>
+                        <p class="ns-hero-copy">
+                            We pair high-quality academic <strong>tutoring</strong> with long-term
+                            <strong>mentoring</strong> relationships to help underserved students navigate
+                            challenges both in and out of school.
+                        </p>
+                        <div class="ns-hero-actions">
+                            <a class="ns-btn ns-btn-primary" href="#nsSite">
+                                Enroll a student
+                                <svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                            </a>
+                            <a class="ns-btn ns-btn-ghost" href="#nsSite">Volunteer</a>
+                            <a class="ns-btn ns-btn-ghost" href="#nsSite">Donate</a>
+                        </div>
+                        <p class="ns-hero-since">
+                            450 students served in 2025 &middot; Seven program locations &middot; Free for families
+                        </p>
+                    </div>
+
+                    <figure class="ns-quote-panel">
+                        <p class="ns-kicker">From our families</p>
+                        <blockquote>
+                            &ldquo;The tutors are patient, consistent, and take the time to explain concepts
+                            clearly. This has not only improved the boys' academic skills but also created a
+                            safe and encouraging environment where they feel supported and motivated to learn.&rdquo;
+                        </blockquote>
+                        <figcaption>Northstar parent</figcaption>
+                        <div class="ns-panel-stats">
+                            <div><b>450</b><span>students served in 2025</span></div>
+                            <div><b>140</b><span>average minutes of tutoring each week</span></div>
+                            <div><b>100%</b><span>graduate and go on to four-year colleges</span></div>
+                        </div>
+                    </figure>
+                </section>
+            </div>
+
+            <section class="ns-band ns-band-white">
+                <div class="ns-wrap">
+                    <div class="ns-section-head">
+                        <div>
+                            <p class="ns-kicker">Our impact in numbers</p>
+                            <h2>Consistent relationships, measured over years.</h2>
+                            <p>Every student meets the same volunteer tutor each week for the length of the school year, and often for the years after it.</p>
+                        </div>
+                        <a class="ns-link" href="#nsSite">Read the impact report
+                            <svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                    </div>
+                    <div class="ns-stat-row">
+                        <div class="ns-stat">
+                            <b>450</b>
+                            <span><em>students served</em> in 2025 across our seven Washington, DC program locations.</span>
+                        </div>
+                        <div class="ns-stat">
+                            <b>140</b>
+                            <span><em>average minutes</em> of tutoring per student, per week, all year long.</span>
+                        </div>
+                        <div class="ns-stat">
+                            <b>100%</b>
+                            <span><em>Northstar students</em> graduate high school and go on to four-year colleges.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ns-band">
+                <div class="ns-wrap">
+                    <div class="ns-section-head">
+                        <div>
+                            <p class="ns-kicker">Programming</p>
+                            <h2>Where families meet us</h2>
+                            <p>Programs run at schools, libraries and community centers after the school day.</p>
+                        </div>
+                        <a class="ns-link" href="#nsSite">All locations
+                            <svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                    </div>
+                    <div class="ns-grid ns-grid-loc">
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Center City Charter</span><span class="ns-loc-meta">After school &middot; Grades 5&ndash;8</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Columbia Heights Village</span><span class="ns-loc-meta">Evenings &middot; Grades 4&ndash;8</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Hyattsville Teen Center</span><span class="ns-loc-meta">After school &middot; Grades 7&ndash;12</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Mt. Pleasant Library</span><span class="ns-loc-meta">Weeknights &middot; Grades K&ndash;8</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Oxon Hill Middle</span><span class="ns-loc-meta">After school &middot; Grades 6&ndash;8</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Reading All Stars</span><span class="ns-loc-meta">Literacy program &middot; Grades K&ndash;3</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                        <a class="ns-loc" href="#nsSite">
+                            <svg class="ns-i" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-pin"/></svg>
+                            <span><span class="ns-loc-name">Sasha Bruce</span><span class="ns-loc-meta">Evenings &middot; Grades 6&ndash;12</span></span>
+                            <svg class="ns-i-sm ns-loc-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ns-band ns-band-white">
+                <div class="ns-wrap">
+                    <div class="ns-section-head">
+                        <div>
+                            <p class="ns-kicker">How it works</p>
+                            <h2>One tutor, one student, every week.</h2>
+                        </div>
+                    </div>
+                    <div class="ns-grid ns-grid-3">
+                        <div class="ns-step">
+                            <span class="ns-step-num">01</span>
+                            <h3>Enroll or volunteer</h3>
+                            <p>Families enroll through the school or community site nearest them. Volunteers apply to a location and are interviewed and background-checked.</p>
+                        </div>
+                        <div class="ns-step">
+                            <span class="ns-step-num">02</span>
+                            <h3>Matched for the year</h3>
+                            <p>Each volunteer is matched with their own student, and that pair stays together for the school year and beyond if both continue.</p>
+                        </div>
+                        <div class="ns-step">
+                            <span class="ns-step-num">03</span>
+                            <h3>Weekly sessions</h3>
+                            <p>Twice-weekly tutoring and mentoring sessions run after school or in the evening, with materials and support provided.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ns-quote-band">
+                <div class="ns-wrap">
+                    <p class="ns-kicker">Our mission</p>
+                    <blockquote>
+                        We work to help low-income and underserved children in the Washington, DC area
+                        achieve their full potential, because every student should have the opportunity
+                        for a brighter future.
+                    </blockquote>
+                    <figcaption>Northstar Tutoring</figcaption>
+                </div>
+            </section>
+
+            <footer class="ns-foot">
+                <div class="ns-wrap">
+                    <div class="ns-foot-grid">
+                        <div class="ns-foot-brand">
+                            <a class="ns-brand" href="#nsSite">
+                                <span class="ns-mark" aria-hidden="true"><svg viewBox="0 0 24 24" style="width:17px;height:17px"><use href="#ns-i-star"/></svg></span>
+                                <span class="ns-wordmark">Northstar Tutoring<small>Washington, DC</small></span>
+                            </a>
+                            <p>Pairing academic tutoring with long-term mentoring for underserved students since 2017.</p>
+                        </div>
+                        <div>
+                            <h4>Programming</h4>
+                            <ul>
+                                <li><a href="#nsSite">Locations</a></li>
+                                <li><a href="#nsSite">Why Northstar</a></li>
+                                <li><a href="#nsSite">Impact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Get involved</h4>
+                            <ul>
+                                <li><a href="#nsSite">Volunteer</a></li>
+                                <li><a href="#nsSite">Donate</a></li>
+                                <li><a href="#nsSite">Families</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Contact</h4>
+                            <ul>
+                                <li>200 Massachusetts Avenue, NW</li>
+                                <li>Suite 700</li>
+                                <li>Washington, DC 20001</li>
+                                <li><a href="#nsSite">Contact us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ns-foot-bottom">
+                        <span>&copy; 2017&ndash;2026 Northstar Tutoring. A registered 501(c)(3) organization.</span>
+                        <span class="ns-foot-legal">
+                            <a href="#nsSite">Privacy</a>
+                            <a href="#nsSite">Terms</a>
+                            <a href="#nsSite">Accessibility</a>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+        <!-- ================= MOVED NOTICE ================= -->
         <div class="ns-moved" id="nsMoved" hidden>
             <div class="ns-moved-card" role="alertdialog" aria-labelledby="nsMovedTitle">
-                <span class="ns-tag">Website update</span>
+                <div class="ns-brand">
+                    <span class="ns-mark" aria-hidden="true"><svg viewBox="0 0 24 24" style="width:17px;height:17px"><use href="#ns-i-star"/></svg></span>
+                    <span class="ns-wordmark">Northstar Tutoring<small>Washington, DC</small></span>
+                </div>
+                <p class="ns-kicker ns-kicker-gold">Website update</p>
                 <h2 id="nsMovedTitle">We've moved websites and rebranded</h2>
                 <p class="ns-moved-copy">
-                    Northstar Tutoring has a new home. Sessions, family updates, and tutor
-                    resources all live there now.
+                    Northstar Tutoring has a new home. Programming, family resources, volunteer
+                    applications and donations all live on the new site now. This address stays
+                    available for a short transition period.
                 </p>
+                <span class="ns-moved-url">
+                    <svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-globe"/></svg>
+                    northstartutoring.org
+                </span>
                 <p class="ns-moved-q">Continue to new website?</p>
                 <div class="ns-moved-actions">
-                    <button type="button" class="ns-btn ns-btn-primary" id="nsContinue">Continue to new website</button>
+                    <button type="button" class="ns-btn ns-btn-primary ns-btn-block" id="nsContinue">
+                        Continue to new website
+                        <svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-arrow"/></svg>
+                    </button>
                 </div>
-                <p class="ns-fineprint">If you weren't expecting this notice, you can safely close this tab.</p>
+                <p class="ns-moved-note">
+                    <svg class="ns-i-sm" viewBox="0 0 24 24" aria-hidden="true"><use href="#ns-i-info"/></svg>
+                    If you weren't expecting this notice you can close this tab. Nothing has changed with your account.
+                </p>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     (function () {
         'use strict';
@@ -3110,8 +3477,10 @@
         }
     })();
 </script>
+<!-- NORTHSTAR GATE:END -->
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.4</a>
+
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.6</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
