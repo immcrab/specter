@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Advertisement</title>
+<style>
+    html, body { margin: 0; height: 100%; background: transparent; }
+    body { display: grid; place-items: center; overflow: hidden; }
+    #gate-ad { width: 300px; height: 250px; max-width: 100%; }
+    #gate-ad iframe { border: 0; max-width: 100%; }
+</style>
+</head>
+<body>
+    <!--
+        The sponsor slot shown by the Cloudflare Worker before a proxied page.
+        Keeping it on this domain means the ad network sees the site's own
+        referrer. Swap the snippet below for another unit or network.
+    -->
+    <div id="gate-ad">
+        <script>atOptions = {'key':'ad88936b92810709cc93375d38a05f02','format':'iframe','height':250,'width':300,'params':{}};</script>
+        <script src="https://www.highrevenueformat.com/ad88936b92810709cc93375d38a05f02/invoke.js"></script>
+    </div>
+</body>
+</html>

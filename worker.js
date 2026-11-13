@@ -270,70 +270,27 @@ function isPageNavigation(request) {
 /* Sponsor break page                                                         */
 /* -------------------------------------------------------------------------- */
 
-const HOUSE_ADS = [
-  {
-    kicker: "AETHER",
-    title: "One tab. Whole web.",
-    body: "Games, tools and a private browser. No installs, no accounts.",
-    accent: "#ffffff",
-  },
-  {
-    kicker: "AETHER",
-    title: "Blocked page? Not today.",
-    body: "Type any address and keep moving. A two second break keeps it free.",
-    accent: "#c7d2fe",
-  },
-  {
-    kicker: "AETHER",
-    title: "Built for the hallway.",
-    body: "Fast, quiet and always in your pocket. Bookmark the shell and go.",
-    accent: "#a7f3d0",
-  },
-];
+// The sponsor slot lives on the site so the ad network sees the site's own
+// referrer. Point AD_HTML at a different unit (or network) to override it.
+const GATE_AD_URL = "https://math.scribbleai.dev/ad-gate.html";
 
 function adDocument(env) {
   const custom = env && typeof env.AD_HTML === "string" ? env.AD_HTML.trim() : "";
-  if (custom) {
-    // Trusted markup supplied by the deployer (ad network snippet, etc.).
-    return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>html,body{margin:0;height:100%;background:transparent;color:#f4f4f5;font:13px/1.5 ui-sans-serif,system-ui,sans-serif;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center}img{max-width:100%;height:auto}</style>
-</head><body>${custom}
-<script>function ready(){try{parent.postMessage("aether-ad-ready","*")}catch(e){}}
-addEventListener("load",function(){setTimeout(ready,250)});setTimeout(ready,3000);</script>
-</body></html>`;
-  }
+  const slot = custom
+    ? custom
+    : `<iframe src="${GATE_AD_URL}" title="Advertisement" scrolling="no"></iframe>`;
 
-  const ad = HOUSE_ADS[Math.floor(Math.random() * HOUSE_ADS.length)];
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   html,body{margin:0;height:100%;background:transparent}
-  body{display:flex;align-items:center;justify-content:center;font:13px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#0c0c0e}
-  .ad{width:100%;height:100%;box-sizing:border-box;padding:22px;display:flex;flex-direction:column;justify-content:space-between;
-      background:radial-gradient(120% 120% at 0% 0%,#ffffff 0%,#ececf1 55%,#dedee6 100%);position:relative;overflow:hidden}
-  .ad::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border:1px solid rgba(12,12,14,.12);border-radius:50%}
-  .ad::before{content:"";position:absolute;right:6px;top:24px;width:100px;height:100px;border:1px solid rgba(12,12,14,.1);border-radius:50%}
-  .kicker{font-size:10px;letter-spacing:.22em;font-weight:700;opacity:.55}
-  .title{font-size:26px;line-height:1.05;font-weight:800;letter-spacing:-.02em;margin:10px 0 8px;max-width:220px;position:relative;z-index:1}
-  .body{font-size:12px;line-height:1.45;max-width:230px;opacity:.7;position:relative;z-index:1}
-  .cta{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;background:#0c0c0e;color:#fff;border-radius:999px;
-       padding:8px 14px;font-size:11px;font-weight:600;letter-spacing:.01em}
-  .mark{position:absolute;left:22px;bottom:20px;font-size:30px;line-height:1;opacity:.9}
+  body{display:grid;place-items:center;overflow:hidden}
+  iframe{width:300px;height:250px;max-width:100%;border:0}
 </style>
-</head><body>
-<div class="ad">
-  <div>
-    <div class="kicker">${htmlEscape(ad.kicker)}</div>
-    <div class="title">${htmlEscape(ad.title)}</div>
-    <div class="body">${htmlEscape(ad.body)}</div>
-  </div>
-  <div class="cta">Aether · proxy browser</div>
-</div>
-<script>addEventListener("load",function(){try{parent.postMessage("aether-ad-ready","*")}catch(e){}});</script>
+</head><body>${slot}
+<script>function ready(){try{parent.postMessage("aether-ad-ready","*")}catch(e){}}
+addEventListener("load",function(){setTimeout(ready,250)});setTimeout(ready,3000);</script>
 </body></html>`;
 }
 
