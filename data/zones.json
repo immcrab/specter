@@ -11854,31 +11854,31 @@
  },
  {
   "id": 1666,
-  "name": "Pokémon Pearl",
+  "name": "Pokemon Pearl",
   "cover": "{COVER_URL}/1666.png",
   "url": "games/1666/index.html"
  },
  {
   "id": 1667,
-  "name": "Pokémon Black",
+  "name": "Pokemon Black",
   "cover": "{COVER_URL}/1667.png",
   "url": "games/1667/index.html"
  },
  {
   "id": 1668,
-  "name": "Pokémon White",
+  "name": "Pokemon White",
   "cover": "{COVER_URL}/1668.png",
   "url": "games/1668/index.html"
  },
  {
   "id": 1669,
-  "name": "Pokémon Black 2",
+  "name": "Pokemon Black 2",
   "cover": "{COVER_URL}/1669.png",
   "url": "games/1669/index.html"
  },
  {
   "id": 1670,
-  "name": "Pokémon White 2",
+  "name": "Pokemon White 2",
   "cover": "{COVER_URL}/1670.png",
   "url": "games/1670/index.html"
  }
