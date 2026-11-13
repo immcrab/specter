@@ -2460,6 +2460,17 @@
     html.ns-gate-open [data-ad-slot],
     html.ns-gate-open #gamePrerollSlot { display: none !important; }
 
+    /* The launcher stays hidden - not just covered - while the tutoring
+       screens are up, so nothing behind the gate is painted each frame. */
+    html.ns-gate-open .sidebar,
+    html.ns-gate-open .main-view,
+    html.ns-gate-open .status-hud,
+    html.ns-gate-open .social-hud,
+    html.ns-gate-open .site-version,
+    html.ns-gate-open #app-frame,
+    html.ns-gate-open .readme-overlay,
+    html.ns-gate-open .update-overlay { visibility: hidden !important; }
+
     #nsGate {
         position: fixed;
         inset: 0;
@@ -2486,10 +2497,12 @@
     .ns-loadbar span {
         display: block;
         height: 100%;
-        width: 0;
+        width: 100%;
         background: #c96d3a;
+        transform: scaleX(0);
+        transform-origin: left center;
     }
-    @keyframes ns-load { 0% { width: 0; } 60% { width: 72%; } 100% { width: 100%; } }
+    @keyframes ns-load { 0% { transform: scaleX(0.04); } 55% { transform: scaleX(0.7); } 100% { transform: scaleX(1); } }
     .ns-loadbar span.ns-running { animation: ns-load 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
     /* ---------- Ask pane ---------- */
@@ -2742,9 +2755,7 @@
         display: grid;
         place-content: center;
         padding: 22px;
-        background: rgba(24, 34, 31, 0.55);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        background: rgba(12, 24, 20, 0.94);
     }
     .ns-moved-card {
         width: min(460px, 100%);
@@ -2971,9 +2982,7 @@
 
         // The single-file download has no sibling pages, so it points at the
         // hosted copy of the tutoring site instead.
-        var TUTORING_URL = window.__SPECTER_SINGLE_FILE__
-            ? 'https://math.scribbleai.dev/tutoring.html'
-            : 'tutoring.html';
+        var TUTORING_URL = 'https://www.northstartutoring.com/';
 
         var ROLE_KEY  = 'northstar_role';
         var SHOW_MS   = 3400;   // how long the tutoring page sits on screen
@@ -3090,7 +3099,7 @@
     })();
 </script>
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.1</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.2</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
