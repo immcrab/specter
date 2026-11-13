@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      window.kiwiStartingPage = new URLSearchParams(location.search).get('kiwi-start') === '1';
+      if (window.kiwiStartingPage) {
+        try { history.replaceState(null, '', '/'); } catch (_) {}
+      }
+    </script>
+    <script src="/goback-command.js" defer></script>
+    <script src="/game-sponsor-host.js?v=20261029-1"></script>
+    <script src="/learning-entry-metrics.js"></script>
+    <meta charset="utf-8">
+    <style id="kiwi-shell-critical">
+      html.kiwi-app-open,html.kiwi-app-open body{background:#000;margin:0;overflow:hidden}
+      html.kiwi-app-open body > :not(#kiwi-app-frame){display:none!important}
+      #kiwi-app-frame{display:none}
+      html.kiwi-app-open #kiwi-app-frame{display:block;position:fixed;inset:0;width:100vw;height:100vh;border:0;background:#000;z-index:2147483647}
+    </style>
+    <script>
+      (function () {
+        'use strict';
+
+        var seenKey = 'kiwi_education_seen';
+        if (window.kiwiStartingPage) return;
+
+        function openKiwi() {
+          document.documentElement.classList.add('kiwi-app-open');
+          function mount() {
+            var frame = document.getElementById('kiwi-app-frame');
+            if (!frame) return;
+            if (!frame.getAttribute('src')) frame.setAttribute('src', '/kiwi.html?kiwi-frame=1');
+            document.documentElement.classList.add('kiwi-app-open');
+            document.body.classList.add('kiwi-app-open');
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', mount, { once: true });
+          } else {
+            mount();
+          }
+        }
+
+        var seen = false;
+        try {
+          var pendingGame = JSON.parse(window.localStorage.getItem('kiwi-sponsor-pending-game'));
+          seen = !!(pendingGame && Number.isFinite(pendingGame.at) &&
+            /^\/_\/\d+\/(?:index\.html)?(?:\?|$)/.test(pendingGame.path));
+        } catch (error) {}
+        try { seen = seen || window.localStorage.getItem(seenKey) === '1'; } catch (error) {}
+        try { seen = seen || /(?:^|;\s*)kiwi_education_seen=1(?:;|$)/.test(document.cookie); } catch (error) {}
+        if (seen) {
+          if (window.kiwiLearningEntry) window.kiwiLearningEntry('returned');
+          openKiwi();
+          return;
+        }
+
+        try { window.localStorage.setItem(seenKey, '1'); } catch (error) {}
+        try {
+          document.cookie = seenKey + '=1; Path=/; Max-Age=31536000; SameSite=Lax';
+        } catch (error) {}
+
+        // First visit stays educational. Only a subsequent page load opens Kiwi.
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#385a72">
+    <meta name="msapplication-TileColor" content="#385a72">
+    <meta name="description" content="A welcoming education hub for original lessons across the school subjects.">
+    <title>kіwі</title>
+    <script src="/tab-visibility.js?v=20261110-1" defer></script>
+    <link id="kiwi-shell-favicon" rel="icon" href="/images/kiwi-logo.png">
+    <script id="kiwi-shell-branding">
+      (function () {
+        'use strict';
+        window.kiwiLearningHubShell = true;
+        var key = 'kiwi-homepage-theme';
+        var logos = {
+          '#ff0000': '/images/themes/kiwi-red.png',
+          '#ff5500': '/images/themes/kiwi-orange.png',
+          '#ffea00': '/images/themes/kiwi-yellow.png',
+          '#30ff00': '/images/kiwi-logo.png',
+          '#00fffb': '/images/themes/kiwi-cyan.png',
+          '#001aff': '/images/themes/kiwi-blue.png',
+          '#6f00ff': '/images/themes/kiwi-purple.png',
+          '#ff00f2': '/images/themes/kiwi-pink.png',
+          '#ffffff': '/images/themes/kiwi-white-upload.png'
+        };
+
+        function syncFavicon() {
+          // Both the learning introduction and the embedded app use Kiwi branding.
+          document.title = 'kіwі';
+          var theme = '#30ff00';
+          try { theme = String(localStorage.getItem(key) || theme).toLowerCase(); } catch (_) {}
+          var favicon = document.getElementById('kiwi-shell-favicon');
+          if (favicon) favicon.href = logos[theme] || logos['#30ff00'];
+        }
+
+        syncFavicon();
+        new MutationObserver(syncFavicon).observe(document.documentElement, {
+          attributes: true, attributeFilter: ['class']
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+          var frame = document.getElementById('kiwi-app-frame');
+          syncFavicon();
+          frame.addEventListener('load', syncFavicon);
+        }, { once: true });
+        window.addEventListener('pageshow', syncFavicon);
+        window.addEventListener('storage', function (event) {
+          if (event.key === key) syncFavicon();
+        });
+        window.addEventListener('focus', syncFavicon);
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) syncFavicon();
+        });
+      })();
+    </script>
+    <link rel="stylesheet" href="/eduno/eduno.css?v=academy4">
+  </head>
+  <body>
+    <iframe
+      id="kiwi-app-frame"
+      title="Kiwi"
+      allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad"
+      allowfullscreen
+    ></iframe>
+    <main>
+      <nav class="site-header" aria-label="Education hub">
+        <a class="wordmark" href="/" aria-label="Education hub home">
+          <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>learning hub</span>
+        </a>
+        <div class="nav-actions">
+          <span class="header-note">Original education for curious learners</span>
+          <button class="shelf-link" type="button" data-shelf-open>Saved lessons <span data-saved-count>0</span></button>
+        </div>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow"><span aria-hidden="true">•</span> An education hub for every question</p>
+        <h1 id="page-title">Make room for<br>what you can learn.</h1>
+        <p class="lede">Browse original, student-friendly educational lessons in science, math, language arts, world studies, history, and the skills that help ideas stick.</p>
+
+        <form class="discovery-form" novalidate>
+          <label for="eduno-search">Search the lesson library</label>
+          <div class="search-shell">
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><circle cx="10.7" cy="10.7" r="5.8"></circle><path d="m15.1 15.1 5 5"></path></svg>
+            <input id="eduno-search" type="search" inputmode="text" autocomplete="off" placeholder="Try a subject, skill, or question" aria-describedby="search-help">
+            <button type="submit">Find lessons <span aria-hidden="true">→</span></button>
+          </div>
+          <p id="search-help" class="form-help">Search lessons by subject, skill, or keyword.</p>
+          <p class="form-status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="prompts" aria-labelledby="prompts-title">
+        <div class="section-heading">
+          <p class="kicker">Choose a subject</p>
+          <h2 id="prompts-title">Start with a question worth following.</h2>
+        </div>
+        <div class="topic-grid">
+          <button type="button" class="topic topic-sun" data-article="nature">
+            <span class="topic-icon" aria-hidden="true">SCI</span><span><strong>Science lab</strong><small>Trace energy through a leaf and its ecosystem</small></span><b aria-hidden="true">↗</b>
+          </button>
+          <button type="button" class="topic topic-lilac" data-article="patterns">
+            <span class="topic-icon" aria-hidden="true">MTH</span><span><strong>Math workshop</strong><small>Find patterns, models, and useful rules</small></span><b aria-hidden="true">↗</b>
+          </button>
+          <button type="button" class="topic topic-blue" data-article="stories">
+            <span class="topic-icon" aria-hidden="true">LIT</span><span><strong>Language arts studio</strong><small>Read closely and develop your own point of view</small></span><b aria-hidden="true">↗</b>
+          </button>
+          <button type="button" class="topic topic-peach" data-article="maps">
+            <span class="topic-icon" aria-hidden="true">MAP</span><span><strong>World studies</strong><small>Use maps and evidence to understand place</small></span><b aria-hidden="true">↗</b>
+          </button>
+        </div>
+      </section>
+
+      <section class="learning-paths" aria-labelledby="paths-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">Build a foundation</p>
+            <h2 id="paths-title">Explore a subject, lesson by lesson.</h2>
+          </div>
+          <p class="section-note">Three core subjects, many ways to grow</p>
+        </div>
+        <div class="path-grid">
+          <button class="path-card path-science" type="button" data-learning-path="science">
+            <span class="path-number" aria-hidden="true">01</span>
+            <span class="path-icon" aria-hidden="true">SCI</span>
+            <span class="path-copy"><strong>Science &amp; systems</strong><small>Learn how water, weather, living things, light, and design connect.</small></span>
+            <span class="path-link">Browse science lessons <b aria-hidden="true">→</b></span>
+          </button>
+          <button class="path-card path-math" type="button" data-learning-path="math">
+            <span class="path-number" aria-hidden="true">02</span>
+            <span class="path-icon" aria-hidden="true">MTH</span>
+            <span class="path-copy"><strong>Math &amp; reasoning</strong><small>Build confidence with number sense, shapes, chance, data, and proof.</small></span>
+            <span class="path-link">Browse math lessons <b aria-hidden="true">→</b></span>
+          </button>
+          <button class="path-card path-words" type="button" data-learning-path="writing">
+            <span class="path-number" aria-hidden="true">03</span>
+            <span class="path-icon" aria-hidden="true">ART</span>
+            <span class="path-copy"><strong>Language arts</strong><small>Read closely, shape a point of view, and communicate with care.</small></span>
+            <span class="path-link">Browse language arts <b aria-hidden="true">→</b></span>
+          </button>
+        </div>
+      </section>
+
+      <section class="journal" id="journal" aria-labelledby="journal-title">
+        <div class="section-heading journal-heading">
+          <div>
+            <p class="kicker">The lesson library</p>
+            <h2 id="journal-title">Original lessons for active learners</h2>
+          </div>
+          <p class="section-note" id="article-count" aria-live="polite"></p>
+        </div>
+        <div class="filter-bar" aria-label="Filter articles">
+          <button class="filter-pill is-active" type="button" data-filter="all" aria-pressed="true">All lessons</button>
+          <button class="filter-pill" type="button" data-filter="science" aria-pressed="false">Science</button>
+          <button class="filter-pill" type="button" data-filter="math" aria-pressed="false">Math</button>
+          <button class="filter-pill" type="button" data-filter="writing" aria-pressed="false">Writing</button>
+          <button class="filter-pill" type="button" data-filter="world" aria-pressed="false">World</button>
+          <button class="filter-pill" type="button" data-filter="history" aria-pressed="false">History</button>
+          <button class="filter-pill" type="button" data-filter="skills" aria-pressed="false">Learning skills</button>
+        </div>
+        <div class="article-grid" id="article-grid" aria-live="polite"></div>
+        <p class="empty-results" id="empty-results" hidden>No lessons match that search yet. Try a broader subject or keyword.</p>
+      </section>
+
+      <section class="study-station" aria-labelledby="station-title">
+        <div class="study-copy">
+          <p class="kicker">Study skills practice</p>
+          <h2 id="station-title">A short study routine for today</h2>
+          <p>Choose one manageable learning move. A focused start can make the next lesson feel more possible.</p>
+          <button class="text-button" type="button" data-next-prompt>Show a new study prompt <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="daily-card">
+          <p class="daily-label">Today’s three-minute learning reset</p>
+          <p class="daily-prompt" data-daily-prompt></p>
+          <div class="checklist" aria-label="Today’s learning checklist">
+            <label><input type="checkbox" data-daily-check="notice"> <span>Name one question I want to understand</span></label>
+            <label><input type="checkbox" data-daily-check="read"> <span>Read one lesson idea slowly</span></label>
+            <label><input type="checkbox" data-daily-check="reflect"> <span>Explain one idea in my own words</span></label>
+          </div>
+          <p class="check-progress" data-check-progress aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
+    <footer><span class="footer-orbit" aria-hidden="true"></span><p>A place to return to your questions, strengthen your skills, and keep learning.</p></footer>
+    <dialog class="article-dialog" data-article-dialog aria-labelledby="article-dialog-title">
+      <div class="dialog-topline"><p class="article-label" data-dialog-category></p><button class="icon-button" type="button" data-close-article aria-label="Close lesson">×</button></div>
+      <article>
+        <p class="article-time" data-dialog-time></p>
+        <h2 id="article-dialog-title" data-dialog-title></h2>
+        <div class="article-body" data-dialog-body></div>
+        <aside class="try-box"><p class="try-label">Try it</p><p data-dialog-try></p></aside>
+        <button class="save-article-button" type="button" data-save-article></button>
+      </article>
+    </dialog>
+    <dialog class="shelf-dialog" data-shelf-dialog aria-labelledby="shelf-title">
+       <div class="dialog-topline"><div><p class="article-label">Your saved lessons</p><h2 id="shelf-title">My learning shelf</h2></div><button class="icon-button" type="button" data-close-shelf aria-label="Close my learning shelf">×</button></div>
+       <p class="shelf-empty" data-shelf-empty>Save a lesson and it will be ready when you return.</p>
+      <div class="shelf-list" data-shelf-list></div>
+    </dialog>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <style>
+      #kiwi-reload-alert{box-sizing:border-box;position:relative;width:min(408px,calc(100vw - 32px));margin:auto;padding:13px;border:1px solid rgba(48,255,0,.29);border-radius:15px;background:rgba(6,17,6,.97);color:#d8ffcc;box-shadow:0 18px 52px rgba(0,0,0,.68),0 0 0 1px rgba(48,255,0,.05),0 0 30px rgba(48,255,0,.08);font-family:Inter,system-ui,sans-serif;overflow:hidden}
+      #kiwi-reload-alert::before{content:"";position:absolute;z-index:-1;top:-74px;left:50%;width:260px;height:128px;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(48,255,0,.19),transparent 68%);pointer-events:none}
+      #kiwi-reload-alert::backdrop{background:rgba(0,8,0,.78);backdrop-filter:blur(5px)}
+      #kiwi-reload-alert .kiwi-alert-head{display:flex;align-items:center;gap:9px;min-height:36px;padding:2px 6px 11px;border-bottom:1px solid rgba(48,255,0,.13)}
+      #kiwi-reload-alert .kiwi-alert-logo{display:block;width:31px;height:31px;object-fit:contain;filter:drop-shadow(0 0 7px rgba(48,255,0,.25))}
+      #kiwi-reload-alert .kiwi-alert-message{display:flex;align-items:center;justify-content:center;text-align:center;min-height:101px;margin-top:12px;padding:18px 20px;border:1px solid rgba(48,255,0,.22);border-radius:10px;background:rgba(8,18,8,.84);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+      #kiwi-reload-alert h2{margin:0;color:#d8ffcc;font:500 clamp(18px,4.2vw,21px)/1.34 Inter,system-ui,sans-serif;letter-spacing:-.034em;text-transform:none}
+      #kiwi-reload-alert #kiwi-reload-close{position:absolute;right:16px;top:15px;display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:rgba(216,255,204,.63);cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease}
+      #kiwi-reload-alert #kiwi-reload-close:hover{border-color:rgba(48,255,0,.25);background:rgba(48,255,0,.07);color:#d8ffcc}
+      #kiwi-reload-alert #kiwi-reload-close:focus-visible{outline:2px solid #30ff00;outline-offset:2px}
+      #kiwi-reload-button{display:block;width:100%;min-height:44px;margin-top:12px;padding:10px 16px;border:1px solid #30ff00;border-radius:9px;background:#30ff00;color:#071407;font:600 14px/1.4 Inter,system-ui,sans-serif;cursor:pointer}
+      #kiwi-reload-button:hover{background:#65ff40}
+      #kiwi-reload-button:focus-visible{outline:2px solid #d8ffcc;outline-offset:3px}
+      #kiwi-reload-alert[open]{animation:kiwi-alert-enter .24s cubic-bezier(.16,1,.3,1) both}
+      #kiwi-reload-alert[open]::backdrop{animation:kiwi-alert-backdrop .24s ease-out both}
+      @keyframes kiwi-alert-enter{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+      @keyframes kiwi-alert-backdrop{from{opacity:0}to{opacity:1}}
+      @media (prefers-reduced-motion:reduce){#kiwi-reload-alert[open],#kiwi-reload-alert[open]::backdrop{animation:none}}
+      @media (max-width:420px){#kiwi-reload-alert{width:calc(100vw - 24px);padding:11px}#kiwi-reload-alert .kiwi-alert-message{min-height:92px;padding:18px 16px}}
+    </style>
+    <dialog id="kiwi-reload-alert" aria-labelledby="kiwi-reload-title" aria-modal="true">
+      <button id="kiwi-reload-close" type="button" aria-label="close alert"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+      <div class="kiwi-alert-head">
+        <img class="kiwi-alert-logo" src="/images/kiwi-logo.png" alt="" width="31" height="31">
+      </div>
+      <div class="kiwi-alert-message">
+        <h2 id="kiwi-reload-title">reload to open kiwi</h2>
+      </div>
+      <button id="kiwi-reload-button" type="button">reload</button>
+    </dialog>
+    <script id="kiwi-reload-alert-script">
+      (function () {
+        if (document.documentElement.classList.contains('kiwi-app-open')) return;
+        var alert = document.getElementById('kiwi-reload-alert');
+        document.getElementById('kiwi-reload-button').addEventListener('click', function () {
+          window.location.reload();
+        });
+        document.getElementById('kiwi-reload-close').addEventListener('click', function () {
+          alert.close();
+        });
+        function scheduleAlert() {
+          window.setTimeout(function () {
+            try {
+              if (localStorage.getItem('kiwi-games-only') === '1') return;
+            } catch (_) {}
+            alert.showModal();
+            if (window.kiwiLearningEntry && !window.kiwiStartingPage) window.kiwiLearningEntry('shown');
+          }, 250);
+        }
+        if (document.readyState === 'complete') {
+          scheduleAlert();
+        } else {
+          window.addEventListener('load', scheduleAlert, { once: true });
+        }
+      })();
+    </script>
+    <script src="/eduno/library-content.js?v=academy4"></script>
+    <script src="/eduno/learning-hub.js?v=academy4"></script>
+  </body>
+</html>
