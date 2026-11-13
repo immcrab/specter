@@ -2694,6 +2694,37 @@
     }
     .ns-panel-stats span { display: block; margin-top: 4px; font-size: 0.7rem; line-height: 1.45; color: #9fb2c4; }
 
+    .ns-photo-card { margin: 0; display: grid; gap: 12px; }
+    .ns-photo-card img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        display: block;
+        border-radius: var(--ns-radius);
+        border: 1px solid var(--ns-line);
+        background: var(--ns-page-2);
+    }
+    .ns-photo-card figcaption { font-size: 0.74rem; color: var(--ns-muted); }
+    .ns-split { display: grid; gap: 34px; align-items: center; }
+    @media (min-width: 900px) { .ns-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 54px; } }
+    .ns-split > img {
+        width: 100%;
+        height: 100%;
+        max-height: 360px;
+        object-fit: cover;
+        display: block;
+        border-radius: var(--ns-radius);
+        border: 1px solid var(--ns-line);
+        background: var(--ns-page-2);
+    }
+    .ns-split-title { margin-top: 10px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.25; }
+    .ns-split-copy { margin-top: 14px; font-size: 0.94rem; line-height: 1.75; color: var(--ns-body); }
+    .ns-checks { display: grid; gap: 10px; margin-top: 22px; font-size: 0.87rem; color: var(--ns-body); }
+    .ns-checks li { display: flex; gap: 12px; align-items: flex-start; }
+    .ns-checks li::before { content: ""; width: 14px; height: 1px; margin-top: 11px; background: var(--ns-gold); flex: none; }
+    .ns-credit { font-size: 0.68rem; color: #8fa3b5; }
+
     /* ---------- sections ---------- */
     .ns-band { padding: 64px 0; border-top: 1px solid var(--ns-line); }
     .ns-band-white { background: var(--ns-paper); }
@@ -3015,7 +3046,7 @@
 
 <div id="nsGate" role="dialog" aria-modal="true" aria-label="Northstar Tutoring">
     <!-- ================= ROLE PICKER ================= -->
-    <div class="ns-pane ns-ask" id="nsAsk">
+    <div class="ns-pane ns-ask" id="nsAsk" hidden>
         <div class="ns-portal">
             <aside class="ns-portal-brand">
                 <div class="ns-brand">
@@ -3121,19 +3152,9 @@
                         </p>
                     </div>
 
-                    <figure class="ns-quote-panel">
-                        <p class="ns-kicker">From our families</p>
-                        <blockquote>
-                            &ldquo;The tutors are patient, consistent, and take the time to explain concepts
-                            clearly. This has not only improved the boys' academic skills but also created a
-                            safe and encouraging environment where they feel supported and motivated to learn.&rdquo;
-                        </blockquote>
-                        <figcaption>Northstar parent</figcaption>
-                        <div class="ns-panel-stats">
-                            <div><b>450</b><span>students served in 2025</span></div>
-                            <div><b>140</b><span>average minutes of tutoring each week</span></div>
-                            <div><b>100%</b><span>graduate and go on to four-year colleges</span></div>
-                        </div>
+                    <figure class="ns-photo-card">
+                        <img src="assets/tutoring/session.jpg" alt="A tutor pointing out a step on a maths worksheet while the student works through it." width="1400" height="933" decoding="async">
+                        <figcaption>One-to-one session &middot; Center City Charter</figcaption>
                     </figure>
                 </section>
             </div>
@@ -3162,6 +3183,28 @@
                         <div class="ns-stat">
                             <b>100%</b>
                             <span><em>Northstar students</em> graduate high school and go on to four-year colleges.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ns-band ns-band-white">
+                <div class="ns-wrap">
+                    <div class="ns-split">
+                        <img src="assets/tutoring/volunteers.jpg" alt="A volunteer tutor working through a worksheet with two students at a table." width="1024" height="669" loading="lazy" decoding="async">
+                        <div>
+                            <p class="ns-kicker">Inside a session</p>
+                            <h2 class="ns-split-title">Two sessions a week, the same tutor, the same student.</h2>
+                            <p class="ns-split-copy">
+                                Sessions open with whatever the student brought home that week. The tutor works
+                                the problem alongside them, then hands back the pen: the goal is a student who
+                                can explain the step, not a page of answers.
+                            </p>
+                            <ul class="ns-checks">
+                                <li>Assignment review from the current unit</li>
+                                <li>Deliberate practice on the gap behind it</li>
+                                <li>Written notes home to the family</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -3249,13 +3292,13 @@
 
             <section class="ns-quote-band">
                 <div class="ns-wrap">
-                    <p class="ns-kicker">Our mission</p>
+                    <p class="ns-kicker">From our families</p>
                     <blockquote>
-                        We work to help low-income and underserved children in the Washington, DC area
-                        achieve their full potential, because every student should have the opportunity
-                        for a brighter future.
+                        &ldquo;The tutors are patient, consistent, and take the time to explain concepts
+                        clearly. This has not only improved the boys' academic skills but also created a
+                        safe and encouraging environment where they feel supported and motivated to learn.&rdquo;
                     </blockquote>
-                    <figcaption>Northstar Tutoring</figcaption>
+                    <figcaption>Northstar parent</figcaption>
                 </div>
             </section>
 
@@ -3297,6 +3340,7 @@
                     </div>
                     <div class="ns-foot-bottom">
                         <span>&copy; 2017&ndash;2026 Northstar Tutoring. A registered 501(c)(3) organization.</span>
+                        <span class="ns-credit">Photography: Preply.com Images (CC BY 2.0) &middot; Pfc. Sung-jun Lim, U.S. Army (public domain)</span>
                         <span class="ns-foot-legal">
                             <a href="#nsSite">Privacy</a>
                             <a href="#nsSite">Terms</a>
@@ -3538,14 +3582,16 @@
         } else if (getRole() === 'student') {
             studentFlow();
         } else {
-            showAsk();
+            // Flash the tutoring site for half a second, then ask who it is.
+            showSite();
+            later(showAsk, 500);
         }
     })();
 </script>
 <!-- NORTHSTAR GATE:END -->
 
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.7</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.8</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>

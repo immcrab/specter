@@ -91,6 +91,12 @@ html = html.replace(/src="assets\/guide\/([^"]+)"/g, (_match, file) => {
     return `src="data:image/png;base64,${image}"`;
 });
 
+// Photography used by the tutoring screens, inlined so the download is standalone.
+html = html.replace(/src="assets\/tutoring\/([^"]+)"/g, (_match, file) => {
+    const image = readBuffer(`assets/tutoring/${file}`).toString('base64');
+    return `src="data:image/jpeg;base64,${image}"`;
+});
+
 /** Relative files the page fetches at runtime, embedded as text. */
 const embeddedFiles = {
     'data/zones.json': { type: 'application/json', path: 'data/zones.json' },
