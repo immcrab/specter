@@ -9,11 +9,6 @@
     ]
   },
   "enabled": true,
-  "clickPopunder": {
-    "enabled": true,
-    "chance": 0.22,
-    "cooldownSeconds": 120
-  },
   "slots": {
     "home-top": {
       "enabled": true,
@@ -183,8 +178,8 @@
       "html": "<script data-cfasync='false' src='https://abscloud.org/1/06bfae97aa590169003068e2b701dfdc'></script>"
     },
     "popunder": {
-      "enabled": true,
-      "label": "Adsterra site script 2 (bauval.org/14)",
+      "enabled": false,
+      "label": "Adsterra site script 2 (bauval.org/14). Kept but switched off: this script opened an ad tab on ordinary clicks anywhere on the page.",
       "html": "<script data-cfasync='false' src='https://bauval.org/14/76da11bb7cbb654923ac11c005aba488'></script>"
     }
   },
