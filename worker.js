@@ -142,6 +142,30 @@ function targetFromUrl(url) {
   return target;
 }
 
+/**
+ * A page that builds URLs from its own location (`location.origin + '/x'`)
+ * asks us for `/x` instead of `/p/https/site/x`. The Referer says which proxied
+ * page made the request, so the request can be put back on its site.
+ */
+function targetFromReferer(request, url) {
+  const referer = request.headers.get("referer");
+  if (!referer) return null;
+  let refererUrl;
+  try {
+    refererUrl = new URL(referer);
+  } catch {
+    return null;
+  }
+  if (refererUrl.origin !== url.origin) return null;
+  const page = targetFromUrl(refererUrl);
+  if (!page) return null;
+  try {
+    return new URL(url.pathname + url.search, page.href);
+  } catch {
+    return null;
+  }
+}
+
 const SKIP_SCHEMES = /^(data|blob|javascript|mailto|tel|about|file|magnet|intent|chrome|edge):/i;
 
 /** Rewrite one URL found in HTML/CSS into its proxy address, or null to keep it. */
@@ -156,8 +180,17 @@ function toProxyHref(raw, baseHref, proxyOrigin) {
     return null;
   }
   if (absolute.protocol !== "http:" && absolute.protocol !== "https:") return null;
-  // Already a proxy address (e.g. written by the runtime shim).
-  if (proxyOrigin && absolute.origin === proxyOrigin) return null;
+  if (proxyOrigin && absolute.origin === proxyOrigin) {
+    // Already a proxy address (e.g. written by the runtime shim).
+    if (absolute.pathname.startsWith(PROXY_PREFIX)) return null;
+    // The page built this from its own location (which is us), so treat the
+    // path as belonging to the site being browsed.
+    try {
+      absolute = new URL(absolute.pathname + absolute.search + absolute.hash, baseHref);
+    } catch {
+      return null;
+    }
+  }
   return proxyPathFor(absolute.href);
 }
 
@@ -518,7 +551,11 @@ function runtimeScript(docHref) {
     var resolved;
     try { resolved = new URL(raw, UPSTREAM); } catch (error) { return value; }
     if (resolved.protocol !== 'http:' && resolved.protocol !== 'https:') return value;
-    if (resolved.origin === PROXY_ORIGIN) return value;
+    if (resolved.origin === PROXY_ORIGIN) {
+      if (resolved.pathname.indexOf('/p/') === 0) return value;
+      // Built from location.origin, which is us: point it at the real site.
+      try { resolved = new URL(resolved.pathname + resolved.search + resolved.hash, UPSTREAM); } catch (error) { return value; }
+    }
     return PREFIX + resolved.protocol.slice(0, -1) + '/' + resolved.host + resolved.pathname + resolved.search + resolved.hash;
   }
 
@@ -544,6 +581,17 @@ function runtimeScript(docHref) {
     var nativeBeacon = navigator.sendBeacon.bind(navigator);
     navigator.sendBeacon = function (url, data) {
       try { return nativeBeacon(toProxy(url), data); } catch (error) { return nativeBeacon(url, data); }
+    };
+  }
+
+  var nativeWindowOpen = window.open;
+  if (typeof nativeWindowOpen === 'function') {
+    window.open = function (url) {
+      try {
+        var args = Array.prototype.slice.call(arguments);
+        if (url) args[0] = toProxy(url);
+        return nativeWindowOpen.apply(window, args);
+      } catch (error) { return nativeWindowOpen.apply(window, arguments); }
     };
   }
 
@@ -718,6 +766,9 @@ const DROP_RESPONSE_HEADERS = new Set([
   "alt-svc",
   "public-key-pins",
   "x-permitted-cross-domain-policies",
+  // Sites that send no-referrer would leave requests that fall back to our
+  // origin (see targetFromReferer) without the page they came from.
+  "referrer-policy",
 ]);
 
 function rewriteSetCookie(value) {
@@ -791,7 +842,8 @@ function isHtmlType(contentType) {
 }
 
 async function handleProxy(request, url, env) {
-  const target = targetFromUrl(url);
+  const direct = targetFromUrl(url);
+  const target = direct || targetFromReferer(request, url);
   if (!target) {
     return htmlResponse(
       `<!doctype html><meta charset="utf-8"><title>Not a proxy address</title>
@@ -818,7 +870,8 @@ async function handleProxy(request, url, env) {
   }
 
   if (navigation && !(await passesCookie(request, env))) {
-    const targetPath = url.pathname + url.search;
+    // Always send the visitor through a canonical proxy address afterwards.
+    const targetPath = direct ? url.pathname + url.search : proxyPathFor(target.href);
     const ticket = await makeTicket(env, targetPath);
     const page = gatePage(targetPath, target, ticket);
     return htmlResponse(request.method === "HEAD" ? "" : page);
@@ -1170,7 +1223,8 @@ function shellPage() {
     var frame = document.createElement('iframe');
     frame.className = 'view hidden';
     frame.title = 'Proxied page';
-    frame.setAttribute('referrerpolicy', 'no-referrer');
+    /* Keep the default referrer policy: same-origin requests from a proxied
+       page must carry their own address so targetFromReferer can place them. */
     frame.setAttribute('allow', 'clipboard-read; clipboard-write; fullscreen; autoplay; encrypted-media; picture-in-picture');
     frame.addEventListener('load', function () { syncFromFrame(tab); });
     stage.appendChild(frame);
@@ -1271,13 +1325,20 @@ export default {
           },
         });
       }
-      if (url.pathname === "/" || url.pathname === "/index.html") return htmlResponse(shellPage());
+      if (url.pathname === "/" || url.pathname === "/index.html") {
+        // A proxied page that asks for the bare root (location.origin) wants its
+        // own site, not the shell page rendered inside its frame.
+        if (targetFromReferer(request, url)) return handleProxy(request, url, env);
+        return htmlResponse(shellPage());
+      }
       if (url.pathname === "/robots.txt") {
         return new Response("User-agent: *\nDisallow: /\n", {
           headers: { "content-type": "text/plain; charset=utf-8" },
         });
       }
-      if (url.pathname.startsWith(PROXY_PREFIX)) return handleProxy(request, url, env);
+      if (url.pathname.startsWith(PROXY_PREFIX) || targetFromReferer(request, url)) {
+        return handleProxy(request, url, env);
+      }
 
       return htmlResponse(
         `<!doctype html><meta charset="utf-8"><title>Not found</title>
