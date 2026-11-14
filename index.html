@@ -2215,6 +2215,74 @@
         }
         .worker-browser-bar button:hover { border-color: var(--accent); color: var(--accent); }
         .worker-browser-frame { flex: 1; width: 100%; border: 0; background: #09090b; }
+        /* ── IN-SITE PROXY CHROME ── */
+        /* Tabs, address bar and controls are the site's own; only the proxied
+           documents are loaded from the worker. */
+        .proxy-tabs-bar {
+            display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+            padding: 6px 96px 0 8px; border-bottom: 1px solid var(--border); background: var(--card-bg);
+        }
+        .proxy-tabs { display: flex; align-items: center; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+        .proxy-tabs::-webkit-scrollbar { display: none; }
+        .proxy-tab {
+            display: flex; align-items: center; gap: 6px; max-width: 200px; min-width: 104px;
+            padding: 6px 7px 6px 10px; margin-bottom: -1px; cursor: pointer; font-size: 0.72rem; white-space: nowrap;
+            border: 1px solid transparent; border-bottom: 0; border-radius: 8px 8px 0 0;
+            background: rgba(255, 255, 255, 0.03); color: var(--text-dim);
+        }
+        .proxy-tab:hover { background: rgba(255, 255, 255, 0.07); color: var(--text-primary); }
+        .proxy-tab.active { background: var(--bg); border-color: var(--border); color: var(--text-primary); }
+        .proxy-tab-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+        .proxy-tab-x {
+            flex: 0 0 16px; width: 16px; height: 16px; padding: 0; display: grid; place-items: center;
+            border: 0; border-radius: 5px; background: transparent; color: inherit; opacity: 0.55;
+            font-size: 0.75rem; line-height: 1; cursor: pointer;
+        }
+        .proxy-tab-x:hover { background: rgba(255, 255, 255, 0.14); opacity: 1; }
+        .proxy-newtab {
+            flex: 0 0 26px; width: 26px; height: 26px; padding: 0; margin-bottom: 4px;
+            border: 1px solid transparent; border-radius: 7px; background: transparent;
+            color: var(--text-dim); font-size: 0.95rem; line-height: 1; cursor: pointer;
+        }
+        .proxy-newtab:hover { background: rgba(255, 255, 255, 0.07); color: var(--text-primary); }
+        .proxy-nav {
+            display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+            padding: 7px 96px 7px 8px; border-bottom: 1px solid var(--border); background: var(--card-bg);
+        }
+        .proxy-icon {
+            flex: 0 0 28px; width: 28px; height: 28px; display: grid; place-items: center;
+            border: 1px solid transparent; border-radius: 7px; background: transparent;
+            color: var(--text-dim); text-decoration: none; font-size: 0.85rem; line-height: 1; cursor: pointer; padding: 0;
+        }
+        .proxy-icon:hover { background: rgba(255, 255, 255, 0.07); color: var(--text-primary); }
+        .proxy-nav input {
+            flex: 1; min-width: 0; padding: 7px 11px; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--input-bg); color: var(--text-primary); font: inherit; font-size: 0.75rem; outline: none;
+        }
+        .proxy-nav input:focus { border-color: var(--accent); }
+        .proxy-go {
+            flex: 0 0 auto; padding: 7px 13px; border: 1px solid var(--border); border-radius: 8px;
+            background: var(--accent); color: var(--bg); font: inherit; font-size: 0.72rem; font-weight: bold; cursor: pointer;
+        }
+        .proxy-go:hover { box-shadow: 0 0 10px var(--accent-glow); }
+        .proxy-stage { position: relative; flex: 1; min-height: 0; display: flex; background: var(--bg); }
+        .proxy-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #09090b; }
+        .proxy-frame.hidden { display: none; }
+        .proxy-start {
+            position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center;
+            padding: 24px; overflow: auto; background: var(--bg);
+        }
+        .proxy-start.hidden { display: none; }
+        .proxy-start-in { width: 100%; max-width: 520px; text-align: center; }
+        .proxy-start-in h3 { margin: 0 0 8px; font-size: 1.05rem; letter-spacing: 1px; color: var(--text-primary); }
+        .proxy-start-in p { margin: 0 0 18px; font-size: 0.75rem; line-height: 1.6; color: var(--text-dim); }
+        .proxy-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+        .proxy-chip {
+            padding: 8px 13px; border: 1px solid var(--border); border-radius: 999px; background: var(--input-bg);
+            color: var(--text-primary); font: inherit; font-size: 0.72rem; cursor: pointer;
+        }
+        .proxy-chip:hover { border-color: var(--accent); color: var(--accent); }
+
 
         /* ── REDESIGNED PROXY SETTINGS MODAL ── */
         .proxy-wisp-card {
@@ -3780,7 +3848,7 @@
 <!-- NORTHSTAR GATE:END -->
 
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.16</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.18</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -9025,11 +9093,191 @@
             if (view && view.style.display === 'flex') proxyInit();
         }
 
+        // ── IN-SITE PROXY UI ──
+        // The chrome (tabs, address bar, controls) is the site's own. Only the
+        // proxied documents come from the worker, each in its own frame; the
+        // worker's runtime shim posts the frame's current address and title back
+        // here, because the frame itself is cross-origin.
+        let proxyWorkerBase = '';
+        let proxyWorkerOrigin = '';
+        let proxyTabs = [];
+        let proxyActive = null;
+        let proxyNextId = 1;
+        let proxyMessagesBound = false;
+
+        const PROXY_SHORTCUTS = [
+            ['TikTok', 'https://www.tiktok.com/'],
+            ['YouTube', 'https://www.youtube.com/'],
+            ['Reddit', 'https://www.reddit.com/'],
+            ['Wikipedia', 'https://en.wikipedia.org/'],
+            ['DuckDuckGo', 'https://duckduckgo.com/'],
+            ['Roblox', 'https://www.roblox.com/'],
+            ['GitHub', 'https://github.com/']
+        ];
+
+        function proxyPathFor(href) {
+            const url = new URL(href);
+            return '/p/' + url.protocol.replace(':', '') + '/' + url.host + url.pathname + url.search + url.hash;
+        }
+
+        function proxyTargetFromPath(path) {
+            const match = /^\/p\/(https?)\/([^/]+)(\/.*)?$/.exec(typeof path === 'string' ? path : '');
+            if (!match) return null;
+            return match[1] + '://' + match[2] + (match[3] || '/');
+        }
+
+        function proxyTabById(id) {
+            return proxyTabs.find((tab) => tab.id === id) || null;
+        }
+
+        function proxyTabLabel(tab) {
+            if (tab.title) return tab.title;
+            if (tab.url) { try { return new URL(tab.url).host; } catch (e) { return tab.url; } }
+            return 'New tab';
+        }
+
+        function proxyPaintTabs() {
+            const list = document.getElementById('proxy-tabs');
+            if (!list) return;
+            list.textContent = '';
+            proxyTabs.forEach((tab) => {
+                const chip = document.createElement('div');
+                chip.className = 'proxy-tab' + (tab === proxyActive ? ' active' : '');
+                chip.title = tab.url || 'New tab';
+                chip.setAttribute('role', 'tab');
+                chip.tabIndex = 0;
+                chip.addEventListener('click', () => proxyActivate(tab.id));
+                chip.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); proxyActivate(tab.id); }
+                });
+
+                const label = document.createElement('span');
+                label.className = 'proxy-tab-title';
+                label.textContent = proxyTabLabel(tab);
+
+                const close = document.createElement('button');
+                close.type = 'button';
+                close.className = 'proxy-tab-x';
+                close.title = 'Close tab';
+                close.setAttribute('aria-label', 'Close tab');
+                close.textContent = '×';
+                close.addEventListener('click', (event) => { event.stopPropagation(); proxyCloseTab(tab.id); });
+
+                chip.appendChild(label);
+                chip.appendChild(close);
+                list.appendChild(chip);
+            });
+        }
+
+        function proxyUpdateBar() {
+            const addr = document.getElementById('proxy-addr');
+            const open = document.getElementById('proxy-open');
+            const start = document.getElementById('proxy-start');
+            if (!addr || !open || !start) return;
+            const url = proxyActive && proxyActive.url ? proxyActive.url : '';
+            addr.value = url;
+            if (url && proxyWorkerBase) open.href = proxyWorkerBase + proxyPathFor(url);
+            else open.setAttribute('href', '#');
+            start.classList.toggle('hidden', Boolean(url));
+        }
+
+        function proxyActivate(id) {
+            const tab = proxyTabById(id);
+            if (!tab) return;
+            proxyActive = tab;
+            proxyTabs.forEach((item) => item.frame.classList.toggle('hidden', item !== tab));
+            proxyPaintTabs();
+            proxyUpdateBar();
+        }
+
+        function proxyNavigate(tab, input) {
+            if (!tab || !proxyWorkerBase) return false;
+            const value = String(input || '').trim();
+            if (!value) return false;
+            let href;
+            if (/^https?:\/\//i.test(value)) href = value;
+            else if (/^[\w-]+(\.[\w-]+)+(\/|$)/.test(value)) href = 'https://' + value;
+            else href = 'https://duckduckgo.com/?q=' + encodeURIComponent(value);
+            let target;
+            try { target = new URL(href); } catch (e) { return false; }
+            tab.url = target.href;
+            tab.title = '';
+            tab.frame.src = proxyWorkerBase + proxyPathFor(target.href);
+            if (tab === proxyActive) proxyUpdateBar();
+            proxyPaintTabs();
+            return true;
+        }
+
+        function proxyGo(input) {
+            if (!proxyActive) proxyNewTab();
+            return proxyNavigate(proxyActive, input);
+        }
+
+        function proxyNewTab(url) {
+            const stage = document.getElementById('proxy-stage');
+            if (!stage) return null;
+            const tab = { id: proxyNextId, url: '', title: '', frame: null };
+            proxyNextId += 1;
+            const frame = document.createElement('iframe');
+            frame.className = 'proxy-frame hidden';
+            frame.title = 'Proxied page';
+            frame.referrerPolicy = 'no-referrer';
+            frame.setAttribute('allow', 'clipboard-read; clipboard-write; fullscreen; autoplay; encrypted-media; picture-in-picture');
+            stage.appendChild(frame);
+            tab.frame = frame;
+            proxyTabs.push(tab);
+            if (url) proxyNavigate(tab, url);
+            proxyActivate(tab.id);
+            return tab;
+        }
+
+        function proxyCloseTab(id) {
+            const tab = proxyTabById(id);
+            if (!tab) return;
+            const index = proxyTabs.indexOf(tab);
+            proxyTabs.splice(index, 1);
+            if (tab.frame.parentNode) tab.frame.parentNode.removeChild(tab.frame);
+            if (tab !== proxyActive) { proxyPaintTabs(); return; }
+            proxyActive = null;
+            const next = proxyTabs[index] || proxyTabs[index - 1] || null;
+            if (next) proxyActivate(next.id);
+            else proxyNewTab();
+        }
+
+        function proxyCommand(type) {
+            if (!proxyActive) return;
+            try { proxyActive.frame.contentWindow.postMessage({ source: 'aether-site', type: type }, '*'); }
+            catch (error) { /* frame is not ready yet */ }
+        }
+
+        function proxyHandleMessage(event) {
+            if (!proxyWorkerOrigin || event.origin !== proxyWorkerOrigin) return;
+            const tab = proxyTabs.find((item) => item.frame && item.frame.contentWindow === event.source);
+            if (!tab) return;
+            const data = event.data;
+            if (!data || data.source !== 'aether-proxy' || data.type !== 'state') return;
+            const decoded = proxyTargetFromPath(data.path);
+            if (decoded) tab.url = decoded;
+            if (typeof data.title === 'string' && data.title) tab.title = data.title;
+            if (tab === proxyActive) proxyUpdateBar();
+            proxyPaintTabs();
+        }
+
         function renderWorkerBrowser(workerUrl) {
             const root = document.getElementById('proxy-app');
             if (!root) return;
+            proxyWorkerBase = String(workerUrl || '').replace(/\/+$/, '');
+            try { proxyWorkerOrigin = new URL(proxyWorkerBase).origin; } catch (e) { proxyWorkerOrigin = ''; }
+            proxyTabs = [];
+            proxyActive = null;
             let host = workerUrl;
             try { host = new URL(workerUrl).host; } catch (e) { /* keep the raw address */ }
+
+            if (!proxyMessagesBound) {
+                window.addEventListener('message', proxyHandleMessage);
+                proxyMessagesBound = true;
+            }
+
             root.innerHTML = `
                 <div class="worker-browser">
                     <div class="worker-browser-bar">
@@ -9040,9 +9288,52 @@
                         <button type="button" onclick="openBuildModal()">Change worker</button>
                         <button type="button" onclick="useBuiltinProxy()">Built-in engine</button>
                     </div>
-                    <iframe class="worker-browser-frame" src="${escapeProxyText(workerUrl)}/" title="Worker proxy browser"
-                        allow="clipboard-read; clipboard-write; fullscreen; autoplay; encrypted-media; picture-in-picture"></iframe>
+                    <div class="proxy-tabs-bar">
+                        <div class="proxy-tabs" id="proxy-tabs" role="tablist" aria-label="Open tabs"></div>
+                        <button class="proxy-newtab" id="proxy-newtab" type="button" title="New tab" aria-label="New tab">+</button>
+                    </div>
+                    <form class="proxy-nav" id="proxy-form" autocomplete="off">
+                        <button class="proxy-icon" id="proxy-back" type="button" title="Back" aria-label="Back">←</button>
+                        <button class="proxy-icon" id="proxy-forward" type="button" title="Forward" aria-label="Forward">→</button>
+                        <button class="proxy-icon" id="proxy-reload" type="button" title="Reload" aria-label="Reload">⟳</button>
+                        <input id="proxy-addr" name="q" placeholder="Search or enter an address" spellcheck="false"
+                               autocapitalize="off" autocorrect="off" inputmode="url" aria-label="Address">
+                        <button class="proxy-go" type="submit">Go</button>
+                        <a class="proxy-icon" id="proxy-open" href="#" target="_blank" rel="noreferrer"
+                           title="Open this page in a new tab" aria-label="Open in a new tab">↗</a>
+                    </form>
+                    <div class="proxy-stage" id="proxy-stage">
+                        <div class="proxy-start" id="proxy-start">
+                            <div class="proxy-start-in">
+                                <h3>Where to?</h3>
+                                <p>Pages load through your Cloudflare Worker. The first load shows a two second sponsor break,
+                                   then browsing stays ad-free for 30 minutes. Every tab shares that pass.</p>
+                                <div class="proxy-chips" id="proxy-chips">
+                                    ${PROXY_SHORTCUTS.map(([name, href]) => `<button class="proxy-chip" type="button" data-url="${escapeProxyText(href)}">${escapeProxyText(name)}</button>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>`;
+
+            document.getElementById('proxy-newtab').addEventListener('click', () => {
+                proxyNewTab();
+                document.getElementById('proxy-addr').focus();
+            });
+            document.getElementById('proxy-back').addEventListener('click', () => proxyCommand('back'));
+            document.getElementById('proxy-forward').addEventListener('click', () => proxyCommand('forward'));
+            document.getElementById('proxy-reload').addEventListener('click', () => proxyCommand('reload'));
+            document.getElementById('proxy-form').addEventListener('submit', (event) => {
+                event.preventDefault();
+                proxyGo(document.getElementById('proxy-addr').value);
+            });
+            document.getElementById('proxy-chips').addEventListener('click', (event) => {
+                const chip = event.target.closest('.proxy-chip');
+                if (!chip) return;
+                proxyGo(chip.getAttribute('data-url'));
+            });
+
+            proxyNewTab();
         }
 
         async function getProxyWorkerSource() {

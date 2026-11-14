@@ -7,9 +7,9 @@
  * - Serves a small browser shell at `/` (address bar, back / forward / reload,
  *   tabs, shortcuts) with every proxied page in its own frame, so a visitor can
  *   keep several sites open at once.
- * - Rate limits each visitor by address (page navigations, proxied requests and
- *   sponsor-break passes) so one client cannot hammer the worker or refresh its
- *   way through the gate.
+ * - Rate limits each address: a tight cap on page navigations (the anti-refresh
+ *   guard) and loose caps on proxied requests and sponsor-break passes, so a
+ *   shared network does not block everyone behind it.
  * - Proxies any http(s) page at `/p/<scheme>/<host>/<path>` and rewrites HTML,
  *   CSS, redirects and cookies so the site works from your own origin.
  * - Puts a short sponsor break in front of page loads: a 2-second minimum ad
@@ -60,9 +60,11 @@ const DEFAULT_SECRET = "aether-gate-proxy-change-me";
 const NAV_WINDOW_MS = 60 * 1000;
 const NAV_LIMIT = 40; // page navigations per visitor per minute
 const REQUEST_WINDOW_MS = 60 * 1000;
-const REQUEST_LIMIT = 1200; // every proxied request, assets included
+// Deliberately generous: a school or office NAT shares one address, and every
+// visitor behind it draws from the same bucket.
+const REQUEST_LIMIT = 6000; // every proxied request, assets included
 const PASS_WINDOW_MS = 10 * 60 * 1000;
-const PASS_LIMIT = 8; // sponsor breaks completed per visitor per 10 minutes
+const PASS_LIMIT = 60; // sponsor breaks completed per address per 10 minutes
 
 /* -------------------------------------------------------------------------- */
 /* Small helpers                                                              */
@@ -552,6 +554,39 @@ function runtimeScript(docHref) {
       };
     } catch (error) {}
   }
+
+  // The site draws the proxy chrome itself and frames these documents, so it
+  // cannot read our address. Report it, and take back / forward / reload.
+  function reportState() {
+    try {
+      parent.postMessage({
+        source: 'aether-proxy',
+        type: 'state',
+        path: location.pathname + location.search,
+        title: document.title
+      }, '*');
+    } catch (error) {}
+  }
+  ['pushState', 'replaceState'].forEach(function (name) {
+    var original = history[name];
+    if (typeof original !== 'function') return;
+    history[name] = function () {
+      var result = original.apply(this, arguments);
+      reportState();
+      return result;
+    };
+  });
+  addEventListener('popstate', reportState);
+  addEventListener('DOMContentLoaded', reportState);
+  addEventListener('load', reportState);
+  addEventListener('message', function (event) {
+    if (event.source !== parent) return;
+    var data = event.data;
+    if (!data || data.source !== 'aether-site') return;
+    if (data.type === 'back') history.back();
+    else if (data.type === 'forward') history.forward();
+    else if (data.type === 'reload') location.reload();
+  });
 
   window.__aetherProxy = { upstream: UPSTREAM, toProxy: toProxy };
 })();</script>`;
