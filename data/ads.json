@@ -1,12 +1,8 @@
 {
-  "_instructions": "Adsterra units, wired. \"mobile\" replaces the main unit on screens 720px wide or narrower. Set \"enabled\": false on any slot to switch it off without deleting its code. The side rails and the native banner read raw HTML files (data/ad-side-left.html, data/ad-side-right.html, data/ads-native.html), so you can paste Adsterra code without escaping it for JSON. preRoll controls the ad before a game: \"seconds\" is the countdown, \"everySeconds\": 0 shows it on every launch (use 180 to show it at most once every 3 minutes).",
+  "_instructions": "Adsterra units, wired. \"mobile\" replaces the main unit on screens 720px wide or narrower. Set \"enabled\": false on any slot to switch it off without deleting its code. The side rails and the native banner read raw HTML files (data/ad-side-left.html, data/ad-side-right.html, data/ads-native.html), so you can paste Adsterra code without escaping it for JSON. preRoll controls the ad before a game: \"seconds\" is the countdown, \"everySeconds\": 0 shows it on every launch (use 180 to show it at most once every 3 minutes). Only the fixed in-page slots below are loaded. Page-wide ad scripts (popunder, social bar, anything pasted into the document body) are not supported: they hijack ordinary clicks and send the tab to an ad, so nothing site-level is injected.",
   "_zones": {
     "leaderboard_728x90": "b1add1a27bf83c211614ecf3e77f43af (bauval.org/22)",
-    "rectangle_300x250": "ad88936b92810709cc93375d38a05f02 (highrevenueformat.com)",
-    "site_scripts": [
-      "abscloud.org/1/06bfae97aa590169003068e2b701dfdc",
-      "bauval.org/14/76da11bb7cbb654923ac11c005aba488"
-    ]
+    "rectangle_300x250": "ad88936b92810709cc93375d38a05f02 (highrevenueformat.com)"
   },
   "enabled": true,
   "slots": {
@@ -169,18 +165,6 @@
       "width": 728,
       "label": "Native banner under the games grid. Paste the Adsterra native banner code in data/ads-native.html",
       "htmlFile": "data/ads-native.html"
-    }
-  },
-  "site": {
-    "social-bar": {
-      "enabled": true,
-      "label": "Adsterra site script 1 (abscloud.org/1)",
-      "html": "<script data-cfasync='false' src='https://abscloud.org/1/06bfae97aa590169003068e2b701dfdc'></script>"
-    },
-    "popunder": {
-      "enabled": false,
-      "label": "Adsterra site script 2 (bauval.org/14). Kept but switched off: this script opened an ad tab on ordinary clicks anywhere on the page.",
-      "html": "<script data-cfasync='false' src='https://bauval.org/14/76da11bb7cbb654923ac11c005aba488'></script>"
     }
   },
   "preRoll": {

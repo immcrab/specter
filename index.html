@@ -3848,7 +3848,7 @@
 <!-- NORTHSTAR GATE:END -->
 
 
-    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.18</a>
+    <a class="site-version" id="siteVersion" href="https://github.com/immcrab/specter/commits/main" target="_blank" rel="noopener" title="Site version">v1.1.20</a>
 
     <aside class="sidebar" id="main-sidebar">
         <div class="logo-box" onclick="nav('home')" title="Home" style="cursor:pointer;" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nav('home');}">◈</div>
@@ -11175,13 +11175,10 @@
 
             await loadSlotFiles();
 
-            Object.entries(cfg.site || {}).forEach(([name, conf]) => {
-                if (!conf || !conf.enabled || !String(conf.html || '').trim()) return;
-                const tpl = document.createElement('template');
-                tpl.innerHTML = conf.html;
-                makeScriptsLive(tpl.content);
-                document.body.appendChild(tpl.content);
-            });
+            // Page-wide ad scripts (popunder, social bar) are deliberately never
+            // loaded: they attach a click listener to the whole document, so an
+            // ordinary click anywhere on the site sent the tab to an ad. Only the
+            // fixed in-page slots above are rendered.
 
             renderAll();
             window.specterAds = { renderAll, renderInto, hasSlot, config: () => cfg };
@@ -11189,8 +11186,8 @@
 
         window.specterAds = { renderAll: () => {}, renderInto: () => false, hasSlot: () => false, config: () => null };
 
-        // The tutoring screens must stay ad-free, so no ad slot or site-level
-        // ad script is loaded until the gate closes.
+        // The tutoring screens must stay ad-free, so no ad slot is loaded until
+        // the gate closes.
         function startAds() {
             if (window.__northstarGateActive) {
                 window.addEventListener('northstar:gate-closed', startAds, { once: true });
