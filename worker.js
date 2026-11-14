@@ -37,6 +37,12 @@ const PROXY_PREFIX = "/p/";
 const PASS_ROUTE = "/__pass";
 const AD_ROUTE = "/__ad";
 const PASS_COOKIE = "__aether_pass";
+// The site's Proxy tab frames this worker on another origin, which makes every
+// request here third-party. A Lax cookie is never sent in that context, so the
+// gate would repeat on every navigation; the embedded case uses a partitioned
+// cookie instead, and either one satisfies the gate.
+const PASS_COOKIE_EMBED = "__aether_pass_embed";
+const GATE_COOKIES = [PASS_COOKIE, PASS_COOKIE_EMBED];
 
 const MIN_AD_MS = 2000; // the ad must be on screen at least this long
 const AD_CAP_MS = 8000; // stop waiting for a slow ad after this long
@@ -192,7 +198,7 @@ function stripGateCookie(header) {
     .split(";")
     .map((part) => part.trim())
     .filter(Boolean)
-    .filter((part) => !part.toLowerCase().startsWith(PASS_COOKIE + "="))
+    .filter((part) => !GATE_COOKIES.some((name) => part.toLowerCase().startsWith(name + "=")))
     .join("; ");
 }
 
@@ -224,28 +230,35 @@ async function makeTicket(env, targetPath) {
   return issuedAt + "." + signature;
 }
 
-function passesCookie(request, env) {
-  const raw = readCookie(request, PASS_COOKIE);
-  if (!raw) return Promise.resolve(false);
+async function passTokenValid(raw, env) {
+  if (!raw) return false;
   const [issuedRaw, signature] = raw.split(".");
   const issuedAt = Number(issuedRaw);
-  if (!Number.isFinite(issuedAt) || !signature) return Promise.resolve(false);
+  if (!Number.isFinite(issuedAt) || !signature) return false;
   const age = Date.now() - issuedAt;
-  if (age < 0 || age > PASS_TTL_MS) return Promise.resolve(false);
-  return hmacHex(gateSecret(env), "pass:" + issuedAt).then((expected) => expected === signature);
+  if (age < 0 || age > PASS_TTL_MS) return false;
+  const expected = await hmacHex(gateSecret(env), "pass:" + issuedAt);
+  return expected === signature;
 }
 
-function passCookieHeader(issuedAt, signature) {
-  return (
-    PASS_COOKIE +
-    "=" +
-    issuedAt +
-    "." +
-    signature +
-    "; Path=/; Max-Age=" +
-    Math.round(PASS_TTL_MS / 1000) +
-    "; HttpOnly; Secure; SameSite=Lax"
-  );
+async function passesCookie(request, env) {
+  for (const name of GATE_COOKIES) {
+    if (await passTokenValid(readCookie(request, name), env)) return true;
+  }
+  return false;
+}
+
+function passCookieHeaders(issuedAt, signature) {
+  const value = issuedAt + "." + signature;
+  const tail =
+    "; Path=/; Max-Age=" + Math.round(PASS_TTL_MS / 1000) + "; HttpOnly; Secure";
+  return [
+    // Shell opened on its own address: a plain first-party cookie.
+    PASS_COOKIE + "=" + value + "; SameSite=Lax" + tail,
+    // Shell framed by the site: partitioned, because a Lax cookie is never sent
+    // inside a cross-site frame and the gate would then repeat on every page.
+    PASS_COOKIE_EMBED + "=" + value + "; SameSite=None; Partitioned" + tail,
+  ];
 }
 
 /** Only real page navigations get the gate. Assets, XHR and media never do. */
@@ -1055,17 +1068,16 @@ async function handlePass(request, url, env) {
 
   const passIssuedAt = Date.now();
   const passSignature = await hmacHex(gateSecret(env), "pass:" + passIssuedAt);
-  const cookie = passCookieHeader(passIssuedAt, passSignature);
-
-  return new Response(null, {
-    status: 302,
-    headers: {
-      location: targetPath,
-      "set-cookie": cookie,
-      "cache-control": "no-store",
-      "referrer-policy": "no-referrer",
-    },
+  const headers = new Headers({
+    location: targetPath,
+    "cache-control": "no-store",
+    "referrer-policy": "no-referrer",
   });
+  for (const cookie of passCookieHeaders(passIssuedAt, passSignature)) {
+    headers.append("set-cookie", cookie);
+  }
+
+  return new Response(null, { status: 302, headers });
 }
 
 export { proxyPathFor, targetFromUrl, toProxyHref, rewriteCssText, rewriteSrcset };
