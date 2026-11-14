@@ -5,7 +5,11 @@
  * What it does
  * ------------
  * - Serves a small browser shell at `/` (address bar, back / forward / reload,
- *   shortcuts) with the proxied page in a frame.
+ *   tabs, shortcuts) with every proxied page in its own frame, so a visitor can
+ *   keep several sites open at once.
+ * - Rate limits each visitor by address (page navigations, proxied requests and
+ *   sponsor-break passes) so one client cannot hammer the worker or refresh its
+ *   way through the gate.
  * - Proxies any http(s) page at `/p/<scheme>/<host>/<path>` and rewrites HTML,
  *   CSS, redirects and cookies so the site works from your own origin.
  * - Puts a short sponsor break in front of page loads: a 2-second minimum ad
@@ -31,6 +35,8 @@
  *   own WebSocket, or is behind a bot challenge may not fully load.
  * - Service workers are disabled inside proxied pages on purpose, because they
  *   would take over this origin.
+ * - Rate-limit counters live in one isolate's memory: Cloudflare runs several
+ *   isolates, so the numbers are approximate and reset on deploy.
  */
 
 const PROXY_PREFIX = "/p/";
@@ -50,6 +56,13 @@ const PASS_TTL_MS = 30 * 60 * 1000; // how long one break buys
 const TICKET_TTL_MS = 5 * 60 * 1000; // how long a gate ticket stays usable
 
 const DEFAULT_SECRET = "aether-gate-proxy-change-me";
+
+const NAV_WINDOW_MS = 60 * 1000;
+const NAV_LIMIT = 40; // page navigations per visitor per minute
+const REQUEST_WINDOW_MS = 60 * 1000;
+const REQUEST_LIMIT = 1200; // every proxied request, assets included
+const PASS_WINDOW_MS = 10 * 60 * 1000;
+const PASS_LIMIT = 8; // sponsor breaks completed per visitor per 10 minutes
 
 /* -------------------------------------------------------------------------- */
 /* Small helpers                                                              */
@@ -200,6 +213,52 @@ function stripGateCookie(header) {
     .filter(Boolean)
     .filter((part) => !GATE_COOKIES.some((name) => part.toLowerCase().startsWith(name + "=")))
     .join("; ");
+}
+
+/* -------------------------------------------------------------------------- */
+/* Rate limiting                                                              */
+/* -------------------------------------------------------------------------- */
+
+// Per-isolate counters. They are cheap and need no KV or Durable Object, but
+// they are not shared between Cloudflare's isolates and reset when the worker
+// redeploys, so treat them as a blunt guard rather than an exact quota.
+const rateBuckets = new Map();
+
+function rateLimit(key, limit, windowMs) {
+  const now = Date.now();
+  let bucket = rateBuckets.get(key);
+  if (!bucket || bucket.resetAt <= now) {
+    bucket = { count: 0, resetAt: now + windowMs };
+    rateBuckets.set(key, bucket);
+  }
+  bucket.count += 1;
+  if (rateBuckets.size > 5000) {
+    for (const [name, value] of rateBuckets) {
+      if (value.resetAt <= now) rateBuckets.delete(name);
+    }
+  }
+  return {
+    allowed: bucket.count <= limit,
+    retryAfter: Math.max(1, Math.ceil((bucket.resetAt - now) / 1000)),
+  };
+}
+
+/** Cloudflare always sends cf-connecting-ip; without it we do not limit. */
+function clientKey(request) {
+  return request.headers.get("cf-connecting-ip") || "";
+}
+
+function tooManyResponse(retryAfter) {
+  return htmlResponse(
+    `<!doctype html><meta charset="utf-8"><title>Slow down</title>
+     <body style="font:14px/1.6 system-ui,sans-serif;background:#09090b;color:#f4f4f5;display:grid;place-items:center;height:100vh;margin:0;padding:24px;text-align:center">
+     <div><h1 style="font-size:18px">Too many requests.</h1>
+     <p style="color:#8d8d96">This visitor is over the proxy limit. Try again in ${htmlEscape(String(retryAfter))} second${retryAfter === 1 ? "" : "s"}.</p>
+     <p style="color:#5f5f68;font-size:12px">Limits keep the proxy running for everyone.</p>
+     <p><a style="color:#fff" href="/">Back to the shell</a></p></div>`,
+    429,
+    { "retry-after": String(retryAfter) }
+  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -712,7 +771,18 @@ async function handleProxy(request, url, env) {
     return textResponse("WebSocket connections are not proxied by this worker.", 501);
   }
 
-  if (isPageNavigation(request) && !(await passesCookie(request, env))) {
+  const navigation = isPageNavigation(request);
+  const address = clientKey(request);
+  if (address) {
+    const requestBudget = rateLimit(address + ":request", REQUEST_LIMIT, REQUEST_WINDOW_MS);
+    if (!requestBudget.allowed) return tooManyResponse(requestBudget.retryAfter);
+    if (navigation) {
+      const navBudget = rateLimit(address + ":navigation", NAV_LIMIT, NAV_WINDOW_MS);
+      if (!navBudget.allowed) return tooManyResponse(navBudget.retryAfter);
+    }
+  }
+
+  if (navigation && !(await passesCookie(request, env))) {
     const targetPath = url.pathname + url.search;
     const ticket = await makeTicket(env, targetPath);
     const page = gatePage(targetPath, target, ticket);
@@ -859,6 +929,22 @@ function shellPage() {
     color:#6f6f78;font-size:10.5px;background:rgba(9,9,11,.92)}
   footer b{color:#a1a1aa;font-weight:600}
   .spacer{flex:1}
+  .tabbar{display:flex;align-items:center;gap:6px;padding:6px 8px 0;border-bottom:1px solid var(--line);background:rgba(9,9,11,.92)}
+  .tabs{display:flex;align-items:center;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{display:flex;align-items:center;gap:6px;max-width:190px;min-width:92px;padding:7px 8px 7px 11px;margin-bottom:-1px;
+    border:1px solid transparent;border-bottom:0;border-radius:10px 10px 0 0;background:rgba(255,255,255,.03);
+    color:var(--muted);cursor:pointer;font-size:11.5px;white-space:nowrap}
+  .tab:hover{background:rgba(255,255,255,.07);color:var(--text)}
+  .tab.active{background:var(--panel);border-color:var(--line);color:var(--text)}
+  .tab-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:left}
+  .tab-x{flex:0 0 16px;width:16px;height:16px;display:grid;place-items:center;padding:0;border:0;border-radius:5px;
+    background:transparent;color:inherit;opacity:.55;font-size:12px;line-height:1;cursor:pointer}
+  .tab-x:hover{background:rgba(255,255,255,.14);opacity:1}
+  .newtab{flex:0 0 28px;width:28px;height:28px;padding:0;border:1px solid transparent;border-radius:9px;
+    background:transparent;color:var(--muted);font-size:15px;line-height:1;cursor:pointer}
+  .newtab:hover{background:rgba(255,255,255,.07);color:var(--text)}
+  .view.hidden{display:none}
   @media (max-width:680px){
     .brand small{display:none}
     header{gap:7px;padding:8px}
@@ -882,13 +968,16 @@ function shellPage() {
   </div>
 </header>
 
-<div class="stage">
-  <iframe id="view" class="view" title="Proxied page" referrerpolicy="no-referrer"
-          allow="clipboard-read; clipboard-write; fullscreen; autoplay; encrypted-media; picture-in-picture"></iframe>
+<div class="tabbar">
+  <div class="tabs" id="tabs" role="tablist" aria-label="Open tabs"></div>
+  <button class="newtab" id="newtab" type="button" title="New tab" aria-label="New tab">+</button>
+</div>
+
+<div class="stage" id="stage">
   <div class="start" id="start">
     <div class="start-in">
       <h1>Where to?</h1>
-      <p>Type any address, or start with one of these. The first page load shows a two second sponsor break, then you browse ad-free for 30 minutes.</p>
+      <p>Type any address, or start with one of these. The first page load shows a two second sponsor break, then you browse ad-free for 30 minutes. Open as many tabs as you like — they share the same pass.</p>
       <div class="chips" id="chips">
         <button class="chip" data-url="https://www.tiktok.com/">TikTok</button>
         <button class="chip" data-url="https://www.youtube.com/">YouTube</button>
@@ -910,7 +999,8 @@ function shellPage() {
 
 <script>
 (function () {
-  var frame = document.getElementById('view');
+  var tabsEl = document.getElementById('tabs');
+  var stage = document.getElementById('stage');
   var addr = document.getElementById('addr');
   var form = document.getElementById('bar-form');
   var openLink = document.getElementById('open');
@@ -918,6 +1008,10 @@ function shellPage() {
   var back = document.getElementById('back');
   var forward = document.getElementById('forward');
   var reload = document.getElementById('reload');
+
+  var tabs = [];
+  var active = null;
+  var nextId = 1;
 
   function decodeProxyPath(path) {
     var match = /^\\/p\\/(https?)\\/([^/]+)(\\/.*)?$/.exec(path || '');
@@ -934,35 +1028,152 @@ function shellPage() {
     try { history.replaceState(null, '', '#!' + encodeURIComponent(href)); } catch (error) {}
   }
 
-  function go(input) {
+  function tabById(id) {
+    for (var i = 0; i < tabs.length; i += 1) if (tabs[i].id === id) return tabs[i];
+    return null;
+  }
+
+  function tabTitle(tab) {
+    var title = '';
+    try {
+      var doc = tab.frame.contentDocument;
+      if (doc && doc.title) title = doc.title;
+    } catch (error) {}
+    if (!title && tab.url) {
+      try { title = new URL(tab.url).host; } catch (error) { title = tab.url; }
+    }
+    return title || 'New tab';
+  }
+
+  function paintTabs() {
+    tabsEl.textContent = '';
+    tabs.forEach(function (tab) {
+      var chip = document.createElement('div');
+      chip.className = 'tab' + (tab === active ? ' active' : '');
+      chip.setAttribute('role', 'tab');
+      chip.tabIndex = 0;
+      chip.title = tab.url || 'New tab';
+
+      var label = document.createElement('span');
+      label.className = 'tab-title';
+      label.textContent = tabTitle(tab);
+
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.className = 'tab-x';
+      close.title = 'Close tab';
+      close.setAttribute('aria-label', 'Close tab');
+      close.textContent = '×';
+      close.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeTab(tab.id);
+      });
+
+      chip.appendChild(label);
+      chip.appendChild(close);
+      chip.addEventListener('click', function () { activate(tab.id); });
+      chip.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          activate(tab.id);
+        }
+      });
+      tabsEl.appendChild(chip);
+    });
+  }
+
+  function updateBar() {
+    if (!active) return;
+    addr.value = active.url || '';
+    if (active.url) openLink.href = encodeTarget(active.url);
+    else openLink.setAttribute('href', '#');
+  }
+
+  function activate(id) {
+    var tab = tabById(id);
+    if (!tab) return;
+    active = tab;
+    tabs.forEach(function (item) {
+      item.frame.classList.toggle('hidden', item !== tab);
+    });
+    start.classList.toggle('hidden', Boolean(tab.url));
+    paintTabs();
+    updateBar();
+    if (tab.url) remember(tab.url);
+    addr.blur();
+  }
+
+  function navigate(tab, input) {
     var value = String(input || '').trim();
-    if (!value) return;
+    if (!value) return false;
     var href;
     if (/^https?:\\/\\//i.test(value)) href = value;
     else if (/^[\\w-]+(\\.[\\w-]+)+(\\/|$)/.test(value)) href = 'https://' + value;
     else href = 'https://duckduckgo.com/?q=' + encodeURIComponent(value);
     var target;
-    try { target = new URL(href); } catch (error) { return; }
-    var proxied = encodeTarget(target.href);
-    addr.value = target.href;
-    openLink.href = proxied;
-    start.classList.add('hidden');
-    frame.src = proxied;
-    remember(target.href);
-    addr.blur();
+    try { target = new URL(href); } catch (error) { return false; }
+    tab.url = target.href;
+    tab.frame.src = encodeTarget(target.href);
+    if (tab === active) {
+      start.classList.add('hidden');
+      updateBar();
+      remember(target.href);
+      addr.blur();
+    }
+    paintTabs();
+    return true;
   }
 
-  function syncFromFrame() {
+  function go(input) {
+    if (!active) createTab();
+    return navigate(active, input);
+  }
+
+  function createTab(url) {
+    var tab = { id: nextId, url: '', frame: null };
+    nextId += 1;
+    var frame = document.createElement('iframe');
+    frame.className = 'view hidden';
+    frame.title = 'Proxied page';
+    frame.setAttribute('referrerpolicy', 'no-referrer');
+    frame.setAttribute('allow', 'clipboard-read; clipboard-write; fullscreen; autoplay; encrypted-media; picture-in-picture');
+    frame.addEventListener('load', function () { syncFromFrame(tab); });
+    stage.appendChild(frame);
+    tab.frame = frame;
+    tabs.push(tab);
+    if (url) navigate(tab, url);
+    activate(tab.id);
+    return tab;
+  }
+
+  function closeTab(id) {
+    var tab = tabById(id);
+    if (!tab) return;
+    var index = tabs.indexOf(tab);
+    tabs.splice(index, 1);
+    if (tab.frame.parentNode) tab.frame.parentNode.removeChild(tab.frame);
+    if (tab !== active) { paintTabs(); return; }
+    active = null;
+    var next = tabs[index] || tabs[index - 1] || null;
+    if (next) activate(next.id);
+    else createTab();
+  }
+
+  function syncFromFrame(tab) {
     var win;
-    try { win = frame.contentWindow; } catch (error) { return; }
+    try { win = tab.frame.contentWindow; } catch (error) { return; }
     if (!win) return;
-    var upstream = decodeProxyPath(win.location.pathname);
+    var upstream;
+    try { upstream = decodeProxyPath(win.location.pathname); } catch (error) { return; }
     if (!upstream) return;
-    upstream += win.location.search || '';
-    addr.value = upstream;
-    var proxied = encodeTarget(upstream);
-    openLink.href = proxied;
-    remember(upstream);
+    try { upstream += win.location.search || ''; } catch (error) {}
+    tab.url = upstream;
+    if (tab === active) {
+      updateBar();
+      start.classList.add('hidden');
+      remember(upstream);
+    }
+    paintTabs();
   }
 
   form.addEventListener('submit', function (event) {
@@ -976,19 +1187,31 @@ function shellPage() {
     go(chip.getAttribute('data-url'));
   });
 
-  frame.addEventListener('load', syncFromFrame);
-
-  back.addEventListener('click', function () { try { frame.contentWindow.history.back(); } catch (error) {} });
-  forward.addEventListener('click', function () { try { frame.contentWindow.history.forward(); } catch (error) {} });
-  reload.addEventListener('click', function () {
-    if (!frame.src || frame.src === 'about:blank') return;
-    try { frame.contentWindow.location.reload(); } catch (error) { frame.src = frame.src; }
+  document.getElementById('newtab').addEventListener('click', function () {
+    createTab();
+    addr.focus();
   });
 
+  back.addEventListener('click', function () {
+    if (!active) return;
+    try { active.frame.contentWindow.history.back(); } catch (error) {}
+  });
+  forward.addEventListener('click', function () {
+    if (!active) return;
+    try { active.frame.contentWindow.history.forward(); } catch (error) {}
+  });
+  reload.addEventListener('click', function () {
+    if (!active) return;
+    var src = active.frame.src;
+    if (!src || src === 'about:blank') return;
+    try { active.frame.contentWindow.location.reload(); } catch (error) { active.frame.src = src; }
+  });
+
+  var initial = '';
   if (location.hash.indexOf('#!') === 0) {
-    var initial = decodeURIComponent(location.hash.slice(2));
-    if (initial) go(initial);
+    try { initial = decodeURIComponent(location.hash.slice(2)); } catch (error) { initial = ''; }
   }
+  createTab(initial || '');
 })();
 </script>
 </body>
@@ -1042,6 +1265,12 @@ export default {
 };
 
 async function handlePass(request, url, env) {
+  const address = clientKey(request);
+  if (address) {
+    const passBudget = rateLimit(address + ":pass", PASS_LIMIT, PASS_WINDOW_MS);
+    if (!passBudget.allowed) return tooManyResponse(passBudget.retryAfter);
+  }
+
   const targetPath = url.searchParams.get("to") || "";
   const ticket = url.searchParams.get("ticket") || "";
   const [issuedRaw, signature] = ticket.split(".");
